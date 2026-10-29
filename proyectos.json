@@ -63,9 +63,9 @@
       "nombre": "Tamagotchi",
       "tipo": "juego",
       "estado": "en pruebas",
-      "que": "Videojuego de mascota virtual hecho con Gemini, publicado en Vercel para probarlo.",
-      "ia": ["Gemini"],
-      "url": null
+      "que": "Videojuego de mascota virtual y armario en un solo HTML, cuidado autónomamente con bucle de IA, visión multimodal y publicado en Vercel.",
+      "ia": ["Gemini", "Antigravity"],
+      "url": "https://el-juego-del-pipi.vercel.app"
     },
     {
       "id": "portafolio",

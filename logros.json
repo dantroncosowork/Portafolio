@@ -1,5 +1,20 @@
 [
   {
+    "id": "2026-10-29-bucle-autonomo-con-vision-ia-pociones-y",
+    "fecha": "2026-10-29",
+    "proyecto": "tamagotchi",
+    "titulo": "Bucle autónomo con visión IA, pociones y artesanía táctil 3D",
+    "texto": "El juego incorpora un bucle autónomo con subagentes nativos que investigan mecánicas retro y auditan el diseño con Gemini Vision. Incluye poción quemagrasas instantánea contra el empacho, el colgante coleccionable Tamagotchi Gen 1 y botones con relieve táctil 3D. Publicado y verificado en Vercel con 12 pruebas automatizadas en verde.",
+    "ia": [
+      "Antigravity",
+      "Gemini"
+    ],
+    "capturas": [
+      "capturas/tamagotchi/2026-10-29-bucle-autonomo-con-vision-ia-pociones-y-1440.png",
+      "capturas/tamagotchi/2026-10-29-bucle-autonomo-con-vision-ia-pociones-y-390.png"
+    ]
+  },
+  {
     "id": "2026-10-29-life-os-publicado-en-vercel-para",
     "fecha": "2026-10-29",
     "proyecto": "life-os",

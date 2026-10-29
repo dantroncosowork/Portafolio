@@ -3,6 +3,7 @@
   "finance-os": { "desde": "C:/Users/dantr/Finance-OS/qa/capturas-<fase>" },
   "life-os": { "url": "https://life-os-app-roan.vercel.app" },
   "trading-os": { "url": "C:/Users/dantr/Trading-OS/app/trading-os.html" },
+  "tamagotchi": { "url": "https://el-juego-del-pipi.vercel.app" },
   "buscador-empleo": { "nunca": true },
   "trello-gemini": { "nunca": true }
 }
