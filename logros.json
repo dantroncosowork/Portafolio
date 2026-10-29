@@ -1,5 +1,54 @@
 [
   {
+    "id": "2026-10-28-el-plan-del-bucle-nocturno-antes-de",
+    "fecha": "2026-10-28",
+    "proyecto": "tamagotchi",
+    "titulo": "El plan del bucle nocturno, antes de construirlo",
+    "texto": "Cada noche, una automatización de Antigravity lanza tres agentes: uno prueba el juego en móvil y escritorio, otro elige la mejora del día y el tercero la construye, le añade su prueba y la publica en Vercel si todo pasa.",
+    "hito": false,
+    "etapa": "Plano",
+    "ia": [
+      "Antigravity",
+      "Gemini"
+    ],
+    "capturas": [
+      "capturas/tamagotchi/2026-10-28-el-plan-del-bucle-nocturno-antes-de-1-el-flujo-de-cada-noche.png",
+      "capturas/tamagotchi/2026-10-28-el-plan-del-bucle-nocturno-antes-de-2-el-plan.png"
+    ]
+  },
+  {
+    "id": "2026-10-13-antes-de-construir-el-plano",
+    "fecha": "2026-10-13",
+    "proyecto": "finance-os",
+    "titulo": "Antes de construir, el plano",
+    "texto": "Cada tanda de fases empieza en un plano: qué pestañas escriben movimientos y cuáles los leen, por qué capas pasa el dinero (entra, significa, se ve, se decide) y qué parte del plan cubría ya la app.",
+    "hito": false,
+    "etapa": "Plano",
+    "ia": [
+      "Claude Code"
+    ],
+    "capturas": [
+      "capturas/finance-os/2026-10-13-antes-de-construir-el-plano-1-pestanas-que-escriben-y-leen.png",
+      "capturas/finance-os/2026-10-13-antes-de-construir-el-plano-2-las-capas-del-dinero.png",
+      "capturas/finance-os/2026-10-13-antes-de-construir-el-plano-3-el-plan-contra-la-app.png"
+    ]
+  },
+  {
+    "id": "2026-10-12-modo-escritura-velocidad-y-precision-con",
+    "fecha": "2026-10-12",
+    "proyecto": "teleoperador",
+    "titulo": "Modo Escritura: velocidad y precisión con frases reales del oficio",
+    "texto": "Una prueba de palabras por minuto y precisión con frases que dice de verdad un teleoperador, y un teclado que marca la tecla siguiente. Es una de las ocho partes de la app, junto a la rutina diaria, el simulador de llamadas, la locución y tu progreso.",
+    "hito": true,
+    "etapa": "Nueva función",
+    "ia": [
+      "Antigravity"
+    ],
+    "capturas": [
+      "capturas/teleoperador/2026-10-12-modo-escritura-velocidad-y-precision-con-modo-escritura-1440.png"
+    ]
+  },
+  {
     "id": "2026-10-26-planificar-cuanto-se-lleva-cada-sobre-y",
     "fecha": "2026-10-26",
     "proyecto": "finance-os",

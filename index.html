@@ -342,13 +342,16 @@
       '<h2 class="seccion">Su historia, paso a paso</h2>' +
       (pasos ? '<ol class="camino">' + pasos + '</ol>' : '<p class="vacio">Este proyecto todavía no tiene avances apuntados. El primero saldrá aquí.</p>') +
       (menores > 0 ? '<button class="boton" type="button" data-todos style="margin-top:24px">' +
-        (verTodos ? 'Ver sólo los pasos grandes' : 'Ver también los ' + menores + ' avances pequeños') + '</button>' : '');
+        (verTodos ? 'Ver sólo los pasos grandes' : menores === 1 ? 'Ver también el avance pequeño' : 'Ver también los ' + menores + ' avances pequeños') + '</button>' : '');
   }
 
   /* ---------- las rutas: #/<proyecto> es la página de ese proyecto, y se puede compartir ---------- */
+  var fichaAbierta = null;
   function ruta() {
     var m = /^#\/(.+)$/.exec(location.hash);
     var id = m && decodeURIComponent(m[1]);
+    // Cada proyecto se abre con sus pasos grandes, llegue uno por la tarjeta, por un enlace o con «atrás».
+    if (id !== fichaAbierta) { verTodos = false; fichaAbierta = id; }
     document.getElementById('inicio').hidden = !!id;
     document.getElementById('ficha').hidden = !id;
     if (id) { pintarFicha(id); window.scrollTo(0, 0); }
@@ -374,7 +377,7 @@
       return;
     }
     var p = e.target.closest('[data-proyecto]');
-    if (p) { verTodos = false; location.hash = '#/' + encodeURIComponent(p.getAttribute('data-proyecto')); }
+    if (p) { location.hash = '#/' + encodeURIComponent(p.getAttribute('data-proyecto')); }
   });
   window.addEventListener('hashchange', ruta);
   /* ---------- el visor ---------- */

@@ -42,8 +42,8 @@
       "nombre": "Teleoperador",
       "tipo": "app",
       "estado": "en desarrollo",
-      "que": "App educativa para aprender locución y a ser mejor teleoperador.",
-      "ia": [],
+      "que": "App educativa para aprender locución y a ser mejor teleoperador: rutina diaria, escritura rápida, simulador de llamadas, lección guiada, ortografía y tu progreso.",
+      "ia": ["Antigravity"],
       "url": null
     },
     {
