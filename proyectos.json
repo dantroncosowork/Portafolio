@@ -1,0 +1,80 @@
+{
+  "perfil": {
+    "nombre": "Daniel",
+    "lema": "Proyectos que construyo con IA: Claude Code, Gemini y Antigravity. Esta página se actualiza sola cada vez que uno avanza."
+  },
+  "proyectos": [
+    {
+      "id": "finance-os",
+      "nombre": "Finance OS",
+      "tipo": "app",
+      "estado": "en desarrollo",
+      "que": "App de finanzas personales en un solo archivo HTML, sin dependencias ni servidor: cuentas, patrimonio, presupuesto, metas e importación de extractos.",
+      "ia": ["Claude Code"],
+      "url": null
+    },
+    {
+      "id": "life-os",
+      "nombre": "Life OS",
+      "tipo": "app",
+      "estado": "en desarrollo",
+      "que": "Bitácora de vida personal en un solo archivo HTML, con el mismo método que Finance OS y Trading OS.",
+      "ia": ["Claude Code"],
+      "url": "https://life-os-app-roan.vercel.app"
+    },
+    {
+      "id": "trading-os",
+      "nombre": "Trading OS",
+      "tipo": "app",
+      "estado": "en desarrollo",
+      "que": "Sistema personal de inversión en un solo archivo HTML, con indicadores de TradingView en Pine Script.",
+      "ia": ["Claude Code"],
+      "url": null
+    },
+    {
+      "id": "teleoperador",
+      "nombre": "Teleoperador",
+      "tipo": "app",
+      "estado": "en desarrollo",
+      "que": "App educativa para aprender locución y a ser mejor teleoperador.",
+      "ia": [],
+      "url": null
+    },
+    {
+      "id": "buscador-empleo",
+      "nombre": "Buscador de empleo",
+      "tipo": "automatizacion",
+      "estado": "en uso",
+      "que": "Busca ofertas de empleo de forma automática y prepara lo necesario para postular.",
+      "ia": [],
+      "url": null
+    },
+    {
+      "id": "trello-gemini",
+      "nombre": "Trello + Gemini",
+      "tipo": "automatizacion",
+      "estado": "en pruebas",
+      "que": "Automatizaciones de Trello conectadas a la API de Gemini.",
+      "ia": ["Gemini"],
+      "url": null
+    },
+    {
+      "id": "tamagotchi",
+      "nombre": "Tamagotchi",
+      "tipo": "juego",
+      "estado": "en pruebas",
+      "que": "Videojuego de mascota virtual hecho con Gemini, publicado en Vercel para probarlo.",
+      "ia": ["Gemini"],
+      "url": null
+    },
+    {
+      "id": "portafolio",
+      "nombre": "Este portafolio",
+      "tipo": "flujo",
+      "estado": "en uso",
+      "que": "El flujo que lo mantiene: al lograr algo, Claude Code o Antigravity sacan la captura, escriben la entrada y la dejan lista para publicar.",
+      "ia": ["Claude Code"],
+      "url": null
+    }
+  ]
+}

@@ -1,0 +1,8 @@
+{
+  "_que_es": "De dónde saca logro.js las capturas de cada proyecto. No lo lee la web. 'url' se abre y se fotografía; 'desde' copia las capturas que el proyecto ya dejó en esa carpeta (<fase> lo rellena quien llama). 'nunca': true prohíbe capturar por url, porque la pantalla enseña datos reales; ahí sólo entra una carpeta revisada a mano.",
+  "finance-os": { "desde": "C:/Users/dantr/Finance-OS/qa/capturas-<fase>" },
+  "life-os": { "url": "https://life-os-app-roan.vercel.app" },
+  "trading-os": { "url": "C:/Users/dantr/Trading-OS/app/trading-os.html" },
+  "buscador-empleo": { "nunca": true },
+  "trello-gemini": { "nunca": true }
+}

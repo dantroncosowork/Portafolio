@@ -1,0 +1,34 @@
+[
+  {
+    "id": "2026-10-29-life-os-publicado-en-vercel-para",
+    "fecha": "2026-10-29",
+    "proyecto": "life-os",
+    "titulo": "Life OS, publicado en Vercel para probarlo",
+    "texto": "La bitácora de vida ya se abre desde cualquier navegador, sin instalar nada: un solo archivo HTML servido por Vercel.",
+    "ia": [
+      "Claude Code"
+    ],
+    "capturas": [
+      "capturas/life-os/2026-10-29-life-os-publicado-en-vercel-para-1440.png",
+      "capturas/life-os/2026-10-29-life-os-publicado-en-vercel-para-390.png"
+    ]
+  },
+  {
+    "id": "2026-10-29-distribucion-y-cuentas-redisenadas",
+    "fecha": "2026-10-29",
+    "proyecto": "finance-os",
+    "titulo": "Distribución y Cuentas, rediseñadas",
+    "texto": "Distribución enseña el mes en curso y si tu nivel de vida sube o baja de antes a ahora; Cuentas, de dónde sale el saldo de cada una. Se eligió el diseño entre varias maquetas y se construyó con Claude Code, con pruebas automáticas que vigilan que ninguna cifra cambie.",
+    "ia": [
+      "Claude Code"
+    ],
+    "capturas": [
+      "capturas/finance-os/2026-10-29-distribucion-y-cuentas-redisenadas-51b-cuentas-1440.png",
+      "capturas/finance-os/2026-10-29-distribucion-y-cuentas-redisenadas-51b-distribucion-1440.png",
+      "capturas/finance-os/2026-10-29-distribucion-y-cuentas-redisenadas-51b-movimientos-todos-1440.png",
+      "capturas/finance-os/2026-10-29-distribucion-y-cuentas-redisenadas-51b-tabla-i-abierto-1440.png",
+      "capturas/finance-os/2026-10-29-distribucion-y-cuentas-redisenadas-51b-cuentas-390.png",
+      "capturas/finance-os/2026-10-29-distribucion-y-cuentas-redisenadas-51b-distribucion-390.png"
+    ]
+  }
+]

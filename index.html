@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Portafolio de Daniel</title>
+<meta name="description" content="Proyectos, automatizaciones y flujos de trabajo construidos con IA.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fondo: #08080A;
+    --tarjeta: #131315;
+    --elevada: #1A1A1D;
+    --borde: #26262B;
+    --texto: #F2F2F3;
+    --texto-2: #B4BAC1;
+    --texto-3: #8E949C;
+    --acento: #A594FF;
+    --app: #6CB4FF;
+    --juego: #FF8FC7;
+    --automatizacion: #F5B94A;
+    --flujo: #5FD39A;
+    --radio: 12px;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; background: var(--fondo); color: var(--texto);
+    font: 400 16px/1.5 Inter, system-ui, sans-serif;
+  }
+  a { color: var(--acento); }
+  .pagina { max-width: 1120px; margin: 0 auto; padding: 48px 16px 64px; }
+
+  header h1 { font-size: 32px; font-weight: 600; margin: 0 0 8px; letter-spacing: -0.01em; }
+  header p { color: var(--texto-2); margin: 0; max-width: 640px; }
+  .cifras { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 20px; color: var(--texto-3); font-size: 14px; }
+  .cifras b { color: var(--texto); font-weight: 600; font-variant-numeric: tabular-nums; }
+
+  h2 { font-size: 20px; font-weight: 600; margin: 48px 0 16px; }
+  .filtros { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 0; }
+  .filtro {
+    font: inherit; font-size: 14px; color: var(--texto-2); background: var(--tarjeta);
+    border: 1px solid var(--borde); border-radius: 999px; padding: 6px 14px; cursor: pointer;
+  }
+  .filtro[aria-pressed="true"] { color: var(--fondo); background: var(--texto); border-color: var(--texto); }
+
+  .rejilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
+  .proyecto {
+    background: var(--tarjeta); border: 1px solid var(--borde); border-radius: var(--radio);
+    overflow: hidden; display: flex; flex-direction: column; cursor: pointer; text-align: left;
+    font: inherit; color: inherit; padding: 0;
+  }
+  .proyecto:hover, .proyecto:focus-visible { border-color: var(--texto-3); outline: none; }
+  .proyecto[aria-pressed="true"] { border-color: var(--acento); }
+  .portada { aspect-ratio: 16 / 10; background: var(--elevada); position: relative; overflow: hidden; }
+  .portada.sin { aspect-ratio: 16 / 5; }
+  .portada img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; }
+  .portada .inicial {
+    position: absolute; inset: 0; display: grid; place-items: center;
+    font-size: 48px; font-weight: 600; color: var(--c); opacity: 0.55;
+  }
+  .cuerpo { padding: 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
+  .fila { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+  .proyecto h3 { font-size: 16px; font-weight: 600; margin: 0; }
+  .que { color: var(--texto-2); font-size: 14px; margin: 0; }
+  .pie { margin-top: auto; padding-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12px; color: var(--texto-3); }
+  .chip { border: 1px solid var(--borde); border-radius: 999px; padding: 2px 8px; font-size: 12px; color: var(--texto-2); }
+  .tipo { color: var(--c); border-color: color-mix(in srgb, var(--c) 40%, transparent); }
+  .estado { font-size: 12px; color: var(--texto-3); white-space: nowrap; }
+  .vivo { font-size: 14px; text-decoration: none; }
+  .vivo:hover { text-decoration: underline; }
+
+  .linea { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
+  .logro { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: var(--radio); padding: 20px; }
+  .logro .meta { font-size: 12px; color: var(--texto-3); display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; }
+  .logro h3 { font-size: 16px; font-weight: 600; margin: 8px 0 4px; }
+  .logro p { color: var(--texto-2); margin: 0; white-space: pre-line; }
+  .tiras { display: flex; gap: 8px; margin-top: 16px; overflow-x: auto; padding-bottom: 4px; }
+  .tira { flex: 0 0 auto; border: 1px solid var(--borde); border-radius: 8px; padding: 0; background: var(--elevada); cursor: zoom-in; overflow: hidden; }
+  /* Las capturas suelen ser de página entera: la miniatura enseña su parte de arriba. */
+  .tira img { display: block; width: 240px; height: 150px; object-fit: cover; object-position: top left; }
+  .tira.estrecha img { width: 96px; }
+  .vacio { color: var(--texto-3); border: 1px dashed var(--borde); border-radius: var(--radio); padding: 32px; text-align: center; }
+
+  dialog { border: 0; padding: 0; background: transparent; max-width: 96vw; max-height: 94vh; }
+  dialog::backdrop { background: rgba(0, 0, 0, 0.85); }
+  dialog img { display: block; max-width: 96vw; max-height: 90vh; border-radius: 8px; }
+  dialog button { position: fixed; top: 12px; right: 12px; font: inherit; font-size: 14px; color: var(--texto); background: var(--elevada); border: 1px solid var(--borde); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+
+  footer { margin-top: 64px; color: var(--texto-3); font-size: 12px; }
+
+  @media (max-width: 480px) {
+    .pagina { padding-top: 32px; }
+    header h1 { font-size: 26px; }
+    .rejilla { grid-template-columns: 1fr; }
+    .tira img { width: 200px; height: 125px; }
+    .tira.estrecha img { width: 80px; }
+  }
+</style>
+</head>
+<body>
+<div class="pagina">
+  <header>
+    <h1 id="nombre">Portafolio</h1>
+    <p id="lema"></p>
+    <div class="cifras" id="cifras"></div>
+  </header>
+
+  <div class="filtros" id="filtros" role="group" aria-label="Filtrar por tipo"></div>
+
+  <h2>Proyectos</h2>
+  <div class="rejilla" id="proyectos"></div>
+
+  <h2 id="tituloLogros">Últimos logros</h2>
+  <ol class="linea" id="logros"></ol>
+
+  <footer>Cada entrada la escribe el flujo de este mismo portafolio al terminar un avance, y se publica al subirla.</footer>
+</div>
+
+<dialog id="visor"><button type="button" id="cerrarVisor">Cerrar</button><img id="visorImg" alt=""></dialog>
+
+<script>
+(function () {
+  var TIPOS = { app: 'App', juego: 'Juego', automatizacion: 'Automatización', flujo: 'Flujo de trabajo' };
+  var MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
+  var estado = { tipo: 'todos', proyecto: null };
+  var datos = { perfil: {}, proyectos: [], logros: [] };
+
+  function esc(s) {
+    return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
+      return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
+    });
+  }
+  function fecha(iso) {
+    var p = String(iso).split('-');
+    return p.length === 3 ? (+p[2]) + ' ' + MESES[+p[1] - 1] + ' ' + p[0] : esc(iso);
+  }
+  function color(tipo) { return 'var(--' + (TIPOS[tipo] ? tipo : 'app') + ')'; }
+  function logrosDe(id) { return datos.logros.filter(function (l) { return l.proyecto === id; }); }
+  function portadaDe(id) {
+    var ls = logrosDe(id);
+    for (var i = 0; i < ls.length; i++) {
+      var cs = ls[i].capturas || [];
+      var ancha = cs.filter(function (c) { return /1440/.test(c); })[0] || cs[0];
+      if (ancha) return ancha;
+    }
+    return null;
+  }
+  function proyecto(id) { return datos.proyectos.filter(function (p) { return p.id === id; })[0]; }
+
+  function pintarCabecera() {
+    var perfil = datos.perfil || {};
+    if (perfil.nombre) {
+      document.getElementById('nombre').textContent = perfil.nombre;
+      document.title = 'Portafolio de ' + perfil.nombre;
+    }
+    document.getElementById('lema').textContent = perfil.lema || '';
+    var ultimo = datos.logros[0];
+    document.getElementById('cifras').innerHTML =
+      '<span><b>' + datos.proyectos.length + '</b> proyectos</span>' +
+      '<span><b>' + datos.logros.length + '</b> logros apuntados</span>' +
+      (ultimo ? '<span>último, el <b>' + fecha(ultimo.fecha) + '</b></span>' : '');
+  }
+
+  function pintarFiltros() {
+    var usados = {};
+    datos.proyectos.forEach(function (p) { usados[p.tipo] = true; });
+    var html = '<button class="filtro" data-tipo="todos" aria-pressed="' + (estado.tipo === 'todos') + '">Todo</button>';
+    Object.keys(TIPOS).forEach(function (t) {
+      if (usados[t]) html += '<button class="filtro" data-tipo="' + t + '" aria-pressed="' + (estado.tipo === t) + '">' + TIPOS[t] + '</button>';
+    });
+    document.getElementById('filtros').innerHTML = html;
+  }
+
+  function pintarProyectos() {
+    var lista = datos.proyectos.filter(function (p) { return estado.tipo === 'todos' || p.tipo === estado.tipo; });
+    document.getElementById('proyectos').innerHTML = lista.map(function (p) {
+      var img = portadaDe(p.id);
+      var n = logrosDe(p.id).length;
+      var ias = (p.ia || []).map(function (x) { return '<span class="chip">' + esc(x) + '</span>'; }).join('');
+      return '<button class="proyecto" type="button" data-proyecto="' + esc(p.id) + '" aria-pressed="' + (estado.proyecto === p.id) + '" style="--c:' + color(p.tipo) + '">' +
+        '<div class="portada' + (img ? '' : ' sin') + '">' + (img
+          ? '<img src="' + esc(img) + '" alt="Captura de ' + esc(p.nombre) + '" loading="lazy">'
+          : '<div class="inicial" aria-hidden="true">' + esc(p.nombre.charAt(0)) + '</div>') + '</div>' +
+        '<div class="cuerpo">' +
+          '<div class="fila"><h3>' + esc(p.nombre) + '</h3><span class="estado">' + esc(p.estado || '') + '</span></div>' +
+          '<p class="que">' + esc(p.que || '') + '</p>' +
+          '<div class="pie"><span class="chip tipo">' + (TIPOS[p.tipo] || esc(p.tipo)) + '</span>' + ias +
+            '<span>' + (n ? n + (n === 1 ? ' logro' : ' logros') : 'sin logros aún') + '</span></div>' +
+          (p.url ? '<a class="vivo" href="' + esc(p.url) + '" target="_blank" rel="noopener">Verlo en vivo →</a>' : '') +
+        '</div></button>';
+    }).join('');
+  }
+
+  function pintarLogros() {
+    var lista = datos.logros.filter(function (l) {
+      if (estado.proyecto) return l.proyecto === estado.proyecto;
+      if (estado.tipo === 'todos') return true;
+      var p = proyecto(l.proyecto);
+      return p && p.tipo === estado.tipo;
+    });
+    var p = estado.proyecto && proyecto(estado.proyecto);
+    document.getElementById('tituloLogros').textContent = p ? 'Logros de ' + p.nombre : 'Últimos logros';
+    var caja = document.getElementById('logros');
+    if (!lista.length) {
+      caja.innerHTML = '<li class="vacio">Todavía no hay logros aquí.</li>';
+      return;
+    }
+    caja.innerHTML = lista.map(function (l) {
+      var pr = proyecto(l.proyecto) || { nombre: l.proyecto, tipo: 'app' };
+      var ias = (l.ia || []).map(function (x) { return '<span class="chip">' + esc(x) + '</span>'; }).join('');
+      var tiras = (l.capturas || []).map(function (c) {
+        return '<button class="tira' + (/-390\.png$/.test(c) ? ' estrecha' : '') + '" type="button" data-ver="' + esc(c) + '"><img src="' + esc(c) + '" alt="Captura: ' + esc(l.titulo) + '" loading="lazy"></button>';
+      }).join('');
+      return '<li class="logro" style="--c:' + color(pr.tipo) + '">' +
+        '<div class="meta"><span>' + fecha(l.fecha) + '</span><span class="chip tipo">' + esc(pr.nombre) + '</span>' + ias + '</div>' +
+        '<h3>' + esc(l.titulo) + '</h3>' +
+        (l.texto ? '<p>' + esc(l.texto) + '</p>' : '') +
+        (tiras ? '<div class="tiras">' + tiras + '</div>' : '') +
+        '</li>';
+    }).join('');
+  }
+
+  function pintar() { pintarCabecera(); pintarFiltros(); pintarProyectos(); pintarLogros(); }
+
+  document.addEventListener('click', function (e) {
+    var f = e.target.closest('[data-tipo]');
+    if (f) { estado.tipo = f.getAttribute('data-tipo'); estado.proyecto = null; pintar(); return; }
+    var v = e.target.closest('[data-ver]');
+    if (v) {
+      document.getElementById('visorImg').src = v.getAttribute('data-ver');
+      document.getElementById('visor').showModal();
+      return;
+    }
+    if (e.target.closest('a')) return;
+    var p = e.target.closest('[data-proyecto]');
+    if (p) {
+      var id = p.getAttribute('data-proyecto');
+      estado.proyecto = estado.proyecto === id ? null : id;
+      pintarProyectos(); pintarLogros();
+      if (estado.proyecto) document.getElementById('tituloLogros').scrollIntoView({ behavior: 'smooth' });
+    }
+  });
+  document.getElementById('cerrarVisor').addEventListener('click', function () { document.getElementById('visor').close(); });
+  document.getElementById('visor').addEventListener('click', function (e) { if (e.target === this) this.close(); });
+
+  function leer(f) {
+    return fetch(f, { cache: 'no-cache' }).then(function (r) {
+      if (!r.ok) throw new Error(f + ': ' + r.status);
+      return r.json();
+    });
+  }
+  Promise.all([leer('proyectos.json'), leer('logros.json')]).then(function (r) {
+    datos.perfil = r[0].perfil || {};
+    datos.proyectos = r[0].proyectos || [];
+    datos.logros = (r[1] || []).slice().sort(function (a, b) { return a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : 0; });
+    pintar();
+  }).catch(function (err) {
+    document.getElementById('logros').innerHTML = '<li class="vacio">No se pudieron leer los datos (' + esc(err.message) + ').</li>';
+  });
+})();
+</script>
+</body>
+</html>

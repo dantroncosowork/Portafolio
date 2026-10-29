@@ -1,0 +1,12 @@
+{
+  "name": "portafolio-herramientas",
+  "private": true,
+  "description": "Lo que apunta los logros del portafolio. No lo usa la web publicada.",
+  "scripts": {
+    "ver": "node logro.js ver",
+    "proyectos": "node logro.js proyectos"
+  },
+  "dependencies": {
+    "playwright": "1.63.0"
+  }
+}
