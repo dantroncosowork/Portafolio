@@ -121,12 +121,22 @@
   .paso:last-child { padding-bottom: 0; }
   .paso .tarjeta-paso { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: var(--radio); padding: 16px 20px; }
 
-  /* Muchas capturas son de página entera (1440 × 3500): se abren al ancho de la
-     pantalla y se recorren hacia abajo, en vez de encogerlas hasta que quepan. */
-  dialog { border: 0; padding: 0; background: transparent; width: min(1440px, 96vw); max-width: 96vw; max-height: 94vh; overflow: auto; }
-  dialog::backdrop { background: rgba(0, 0, 0, 0.85); }
-  dialog img { display: block; width: 100%; height: auto; border-radius: 8px; }
-  dialog button { position: fixed; top: 12px; right: 12px; font-size: 14px; background: var(--elevada); border: 1px solid var(--borde); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+  .tiras { scrollbar-color: var(--borde) transparent; scrollbar-width: thin; }
+
+  /* El visor. Muchas capturas son de página entera (1440 × 3500): se abren al
+     ancho de la pantalla y se bajan con la rueda; pulsando, a tamaño real. */
+  dialog#visor {
+    border: 0; padding: 0; margin: 0; width: 100vw; height: 100vh; max-width: none; max-height: none;
+    background: rgba(8, 8, 10, 0.96); color: var(--texto);
+  }
+  dialog#visor[open] { display: flex; flex-direction: column; }
+  dialog#visor::backdrop { background: rgba(0, 0, 0, 0.6); }
+  .barra-visor { display: flex; align-items: center; gap: 8px; padding: 12px 16px; flex-wrap: wrap; border-bottom: 1px solid var(--borde); }
+  .barra-visor .titulo-visor { flex: 1; min-width: 0; font-size: 14px; color: var(--texto-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .lienzo { flex: 1; overflow: auto; padding: 16px; display: flex; justify-content: center; align-items: flex-start; }
+  .lienzo img { display: block; max-width: 100%; height: auto; border-radius: 8px; cursor: zoom-in; }
+  .lienzo.real { justify-content: flex-start; }
+  .lienzo.real img { max-width: none; cursor: zoom-out; }
 
   footer { margin-top: 64px; color: var(--texto-3); font-size: 12px; }
 
@@ -143,6 +153,8 @@
     .tira img { width: 200px; height: 125px; }
     .tira.estrecha img { width: 80px; }
     .cabeza h1 { font-size: 26px; }
+    .barra-visor .titulo-visor { flex-basis: 100%; }
+    #visorAbrir { display: none; }
   }
 </style>
 </head>
@@ -174,7 +186,17 @@
   <footer>Esta página se mantiene sola: cada avance lo apunta el flujo del propio portafolio, con su captura, y se publica al subirlo.</footer>
 </div>
 
-<dialog id="visor"><button type="button" id="cerrarVisor">Cerrar</button><img id="visorImg" alt=""></dialog>
+<dialog id="visor" aria-label="Captura">
+  <div class="barra-visor">
+    <span class="titulo-visor" id="visorTitulo"></span>
+    <button class="boton" type="button" id="visorAnt" aria-label="Captura anterior">←</button>
+    <button class="boton" type="button" id="visorSig" aria-label="Captura siguiente">→</button>
+    <button class="boton" type="button" id="visorZoom">Tamaño real</button>
+    <a class="boton" id="visorAbrir" target="_blank" rel="noopener">Abrir aparte</a>
+    <button class="boton" type="button" id="cerrarVisor">Cerrar</button>
+  </div>
+  <div class="lienzo" id="visorLienzo"><img id="visorImg" alt=""></div>
+</dialog>
 
 <script>
 (function () {
@@ -336,7 +358,10 @@
   document.addEventListener('click', function (e) {
     var v = e.target.closest('[data-ver]');
     if (v) {
-      document.getElementById('visorImg').src = v.getAttribute('data-ver');
+      // Las flechas recorren las capturas del mismo avance.
+      var hermanas = [].slice.call(v.parentNode.querySelectorAll('[data-ver]'));
+      visor.lista = hermanas.map(function (b) { return { src: b.getAttribute('data-ver'), alt: b.querySelector('img').alt }; });
+      mostrar(hermanas.indexOf(v));
       document.getElementById('visor').showModal();
       return;
     }
@@ -352,8 +377,36 @@
     if (p) { verTodos = false; location.hash = '#/' + encodeURIComponent(p.getAttribute('data-proyecto')); }
   });
   window.addEventListener('hashchange', ruta);
+  /* ---------- el visor ---------- */
+  var visor = { lista: [], i: 0 };
+  function mostrar(i) {
+    var n = visor.lista.length;
+    visor.i = (i + n) % n;
+    var c = visor.lista[visor.i];
+    var img = document.getElementById('visorImg');
+    img.src = c.src; img.alt = c.alt;
+    document.getElementById('visorTitulo').textContent = c.alt.replace(/^Captura: /, '') + (n > 1 ? ' · ' + (visor.i + 1) + ' de ' + n : '');
+    document.getElementById('visorAbrir').href = c.src;
+    document.getElementById('visorAnt').hidden = document.getElementById('visorSig').hidden = n < 2;
+    zoom(false);
+  }
+  function zoom(real) {
+    var l = document.getElementById('visorLienzo');
+    l.classList.toggle('real', real);
+    l.scrollTop = 0; l.scrollLeft = 0;
+    document.getElementById('visorZoom').textContent = real ? 'Ajustar a la pantalla' : 'Tamaño real';
+  }
+  function enReal() { return document.getElementById('visorLienzo').classList.contains('real'); }
+  document.getElementById('visorImg').addEventListener('click', function () { zoom(!enReal()); });
+  document.getElementById('visorZoom').addEventListener('click', function () { zoom(!enReal()); });
+  document.getElementById('visorAnt').addEventListener('click', function () { mostrar(visor.i - 1); });
+  document.getElementById('visorSig').addEventListener('click', function () { mostrar(visor.i + 1); });
   document.getElementById('cerrarVisor').addEventListener('click', function () { document.getElementById('visor').close(); });
-  document.getElementById('visor').addEventListener('click', function (e) { if (e.target === this) this.close(); });
+  document.addEventListener('keydown', function (e) {
+    if (!document.getElementById('visor').open || visor.lista.length < 2) return;
+    if (e.key === 'ArrowLeft') mostrar(visor.i - 1);
+    if (e.key === 'ArrowRight') mostrar(visor.i + 1);
+  });
 
   function leer(f) {
     return fetch(f, { cache: 'no-cache' }).then(function (r) {
