@@ -10,6 +10,9 @@
 // y los demás tras un botón). --etapa es una etiqueta corta del paso.
 //   node herramientas/logro.js ver          sirve la web en http://localhost:4321
 //   node herramientas/logro.js proyectos    lista los ids y de dónde se captura cada uno
+//   node herramientas/logro.js bandeja [--desde AAAA-MM-DD]
+//        las capturas de la bandeja de Greenshot que aún no se han usado, en una
+//        sola hoja de miniaturas numeradas, para elegir sin abrirlas una a una
 //
 // Sin --url ni --desde, la fuente sale de herramientas/capturar.json.
 // Lo usan igual la skill /logro de Claude Code y el workflow de Antigravity.
@@ -172,8 +175,42 @@ function listar() {
   }
 }
 
+// La bandeja es la carpeta donde Greenshot guarda las capturas. Lo que está suelto
+// en ella está por mirar; lo usado va a usadas/<proyecto>/ y lo que no sirve, a no-va/.
+async function bandeja(a) {
+  const fuentes = fs.existsSync(path.join(__dirname, 'capturar.json')) ? leerJSON('herramientas/capturar.json') : {};
+  const dir = typeof a.carpeta === 'string' ? a.carpeta : fuentes._bandeja;
+  if (!dir || !fs.existsSync(dir)) salir('No encuentro la bandeja. Ponla en herramientas/capturar.json como "_bandeja", o pásala con --carpeta.');
+  // Greenshot nombra «2026-10-16 18_17_57-Título.png» o «2026_10_05_23_37_09_.png».
+  const fechaDe = f => { const m = /^(\d{4})[-_](\d{2})[-_](\d{2})/.exec(f); return m ? m[1] + '-' + m[2] + '-' + m[3] : ''; };
+  const desde = typeof a.desde === 'string' ? a.desde : '';
+  const sueltas = fs.readdirSync(dir).filter(f => /\.(png|jpe?g)$/i.test(f) && fs.statSync(path.join(dir, f)).isFile())
+    .filter(f => !desde || fechaDe(f) >= desde).sort();
+  if (!sueltas.length) { console.log('· La bandeja no tiene nada por mirar' + (desde ? ' desde el ' + desde : '') + '.'); return; }
+  sueltas.forEach((f, i) => console.log(String(i + 1).padStart(3) + '. ' + f));
+
+  let playwright;
+  try { playwright = require('playwright'); }
+  catch (e) { salir('Falta Playwright. Una vez: cd herramientas && npm install'); }
+  const salida = path.join(require('os').tmpdir(), 'portafolio-bandeja.png');
+  const html = '<!doctype html><meta charset="utf-8"><style>body{margin:0;background:#111;color:#ddd;font:13px system-ui}' +
+    '.g{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;padding:8px}.c{background:#222;padding:4px}' +
+    '.c img{width:100%;height:220px;object-fit:contain;background:#000;display:block}.c b{display:block;margin-top:4px;word-break:break-all}</style><div class="g">' +
+    sueltas.map((f, i) => '<div class="c"><img src="' + pathToFileURL(path.join(dir, f)).href + '"><b>' + (i + 1) + '. ' + f.replace(/[<&]/g, '') + '</b></div>').join('') + '</div>';
+  const tmp = salida.replace(/\.png$/, '.html');
+  fs.writeFileSync(tmp, html);
+  const navegador = await playwright.chromium.launch();
+  try {
+    const pagina = await navegador.newPage({ viewport: { width: 1600, height: 900 } });
+    await pagina.goto(pathToFileURL(tmp).href, { waitUntil: 'load' });
+    await pagina.screenshot({ path: salida, fullPage: true });
+  } finally { await navegador.close(); fs.unlinkSync(tmp); }
+  console.log('✓ ' + sueltas.length + ' por mirar. La hoja: ' + salida);
+}
+
 const a = argumentos(process.argv.slice(2));
 if (a._[0] === 'ver') ver();
 else if (a._[0] === 'proyectos') listar();
+else if (a._[0] === 'bandeja') bandeja(a).catch(e => salir(e.message));
 else if (!a._[0]) salir('Uso: node herramientas/logro.js <proyecto> --titulo "…" --texto "…"   ·   ver   ·   proyectos');
 else apuntar(a).catch(e => salir(e.message));
