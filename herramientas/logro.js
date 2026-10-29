@@ -4,7 +4,10 @@
 //
 //   node herramientas/logro.js <proyecto> --titulo "…" --texto "…" [--ia "Claude Code"]
 //        [--url <url o ruta de un .html>] [--desde <carpeta con .png>] [--sin-captura]
-//        [--fecha AAAA-MM-DD] [--sin-commit] [--coautor "Nombre <correo>"]
+//        [--hito] [--etapa "Rediseño"] [--fecha AAAA-MM-DD] [--sin-commit] [--coautor "Nombre <correo>"]
+//
+// --hito marca un paso de la historia del proyecto (su página enseña sólo ésos,
+// y los demás tras un botón). --etapa es una etiqueta corta del paso.
 //   node herramientas/logro.js ver          sirve la web en http://localhost:4321
 //   node herramientas/logro.js proyectos    lista los ids y de dónde se captura cada uno
 //
@@ -124,6 +127,8 @@ async function apuntar(a) {
     proyecto: id,
     titulo: a.titulo,
     texto: typeof a.texto === 'string' ? a.texto : '',
+    hito: !!a.hito,
+    etapa: typeof a.etapa === 'string' ? a.etapa : '',
     ia: typeof a.ia === 'string' ? a.ia.split(',').map(s => s.trim()).filter(Boolean) : (proyecto.ia || []),
     capturas: nombres.map(n => 'capturas/' + id + '/' + n)
   };

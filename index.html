@@ -31,52 +31,69 @@
     font: 400 16px/1.5 Inter, system-ui, sans-serif;
   }
   a { color: var(--acento); }
+  button { font: inherit; color: inherit; }
   .pagina { max-width: 1120px; margin: 0 auto; padding: 48px 16px 64px; }
+  [hidden] { display: none !important; }
 
-  header h1 { font-size: 32px; font-weight: 600; margin: 0 0 8px; letter-spacing: -0.01em; }
-  header p { color: var(--texto-2); margin: 0; max-width: 640px; }
-  .cifras { display: flex; flex-wrap: wrap; gap: 8px 24px; margin-top: 20px; color: var(--texto-3); font-size: 14px; }
-  .cifras b { color: var(--texto); font-weight: 600; font-variant-numeric: tabular-nums; }
-
-  h2 { font-size: 20px; font-weight: 600; margin: 48px 0 16px; }
-  .filtros { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 0; }
-  .filtro {
-    font: inherit; font-size: 14px; color: var(--texto-2); background: var(--tarjeta);
-    border: 1px solid var(--borde); border-radius: 999px; padding: 6px 14px; cursor: pointer;
+  /* Arriba: quién es */
+  .portada-sitio {
+    background: radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--acento) 16%, transparent), transparent 60%), var(--tarjeta);
+    border: 1px solid var(--borde); border-radius: 16px; padding: 32px;
   }
-  .filtro[aria-pressed="true"] { color: var(--fondo); background: var(--texto); border-color: var(--texto); }
+  .sello { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--acento); margin: 0 0 12px; }
+  .portada-sitio h1 { font-size: 40px; line-height: 1.15; font-weight: 600; margin: 0 0 8px; letter-spacing: -0.02em; }
+  .rol { font-size: 20px; color: var(--texto-2); margin: 0; max-width: 720px; }
+  .tres { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
+  .tres div { border-top: 1px solid var(--borde); padding-top: 12px; }
+  .tres h2 { font-size: 14px; font-weight: 600; margin: 0 0 4px; color: var(--texto); }
+  .tres p { font-size: 14px; color: var(--texto-2); margin: 0; }
+  .bajo { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px; margin-top: 28px; }
+  .cifras { display: flex; flex-wrap: wrap; gap: 8px 24px; color: var(--texto-3); font-size: 14px; }
+  .cifras b { color: var(--texto); font-weight: 600; font-variant-numeric: tabular-nums; }
+  .enlaces { display: flex; gap: 8px; flex-wrap: wrap; }
+  .boton {
+    display: inline-flex; align-items: center; gap: 6px; font-size: 14px; text-decoration: none;
+    color: var(--texto); background: var(--elevada); border: 1px solid var(--borde); border-radius: 999px; padding: 6px 14px; cursor: pointer;
+  }
+  .boton:hover { border-color: var(--texto-3); }
+  .boton.principal { color: var(--fondo); background: var(--acento); border-color: var(--acento); font-weight: 600; }
+
+  h2.seccion { font-size: 20px; font-weight: 600; margin: 48px 0 16px; }
+  .saltos { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 0; }
+  .grupo h3.titulo-grupo { font-size: 16px; font-weight: 600; margin: 32px 0 12px; display: flex; align-items: center; gap: 8px; }
+  .grupo h3.titulo-grupo::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+  .grupo h3 small { font-size: 14px; font-weight: 400; color: var(--texto-3); }
 
   .rejilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
   .proyecto {
     background: var(--tarjeta); border: 1px solid var(--borde); border-radius: var(--radio);
-    overflow: hidden; display: flex; flex-direction: column; cursor: pointer; text-align: left;
-    font: inherit; color: inherit; padding: 0;
+    overflow: hidden; display: flex; flex-direction: column; cursor: pointer; text-align: left; padding: 0;
   }
   .proyecto:hover, .proyecto:focus-visible { border-color: var(--texto-3); outline: none; }
-  .proyecto[aria-pressed="true"] { border-color: var(--acento); }
-  .portada { aspect-ratio: 16 / 10; background: var(--elevada); position: relative; overflow: hidden; }
-  .portada.sin { aspect-ratio: 16 / 5; }
-  .portada img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; }
-  .portada .inicial {
+  .foto { aspect-ratio: 16 / 10; background: var(--elevada); position: relative; overflow: hidden; }
+  .foto.sin { aspect-ratio: 16 / 5; }
+  .foto img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; }
+  .foto .inicial {
     position: absolute; inset: 0; display: grid; place-items: center;
-    font-size: 48px; font-weight: 600; color: var(--c); opacity: 0.55;
+    font-size: 40px; font-weight: 600; color: var(--c); opacity: 0.55;
   }
   .cuerpo { padding: 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
   .fila { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-  .proyecto h3 { font-size: 16px; font-weight: 600; margin: 0; }
+  .proyecto h4 { font-size: 16px; font-weight: 600; margin: 0; }
   .que { color: var(--texto-2); font-size: 14px; margin: 0; }
   .pie { margin-top: auto; padding-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12px; color: var(--texto-3); }
   .chip { border: 1px solid var(--borde); border-radius: 999px; padding: 2px 8px; font-size: 12px; color: var(--texto-2); }
   .tipo { color: var(--c); border-color: color-mix(in srgb, var(--c) 40%, transparent); }
   .estado { font-size: 12px; color: var(--texto-3); white-space: nowrap; }
-  .vivo { font-size: 14px; text-decoration: none; }
-  .vivo:hover { text-decoration: underline; }
+  .historia { font-size: 14px; color: var(--acento); }
 
+  /* Los logros de la portada */
   .linea { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
   .logro { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: var(--radio); padding: 20px; }
-  .logro .meta { font-size: 12px; color: var(--texto-3); display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; }
-  .logro h3 { font-size: 16px; font-weight: 600; margin: 8px 0 4px; }
-  .logro p { color: var(--texto-2); margin: 0; white-space: pre-line; }
+  .meta { font-size: 12px; color: var(--texto-3); display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; }
+  .logro h4, .paso h4 { font-size: 16px; font-weight: 600; margin: 8px 0 4px; }
+  .logro p, .paso p { color: var(--texto-2); margin: 0; white-space: pre-line; }
+  .ir { display: inline-block; margin-top: 12px; font-size: 14px; background: none; border: 0; padding: 0; color: var(--acento); cursor: pointer; }
   .tiras { display: flex; gap: 8px; margin-top: 16px; overflow-x: auto; padding-bottom: 4px; }
   .tira { flex: 0 0 auto; border: 1px solid var(--borde); border-radius: 8px; padding: 0; background: var(--elevada); cursor: zoom-in; overflow: hidden; }
   /* Las capturas suelen ser de página entera: la miniatura enseña su parte de arriba. */
@@ -84,49 +101,89 @@
   .tira.estrecha img { width: 96px; }
   .vacio { color: var(--texto-3); border: 1px dashed var(--borde); border-radius: var(--radio); padding: 32px; text-align: center; }
 
-  dialog { border: 0; padding: 0; background: transparent; max-width: 96vw; max-height: 94vh; }
+  /* La página de un proyecto */
+  .volver { margin-bottom: 24px; }
+  .cabeza { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; align-items: start; }
+  .cabeza .foto { border: 1px solid var(--borde); border-radius: var(--radio); }
+  .cabeza h1 { font-size: 32px; font-weight: 600; margin: 8px 0; letter-spacing: -0.01em; }
+  .cabeza .que { font-size: 16px; }
+  .cabeza .acciones { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+  .camino { list-style: none; margin: 0; padding: 0; position: relative; }
+  .camino::before { content: ''; position: absolute; left: 15px; top: 8px; bottom: 8px; width: 2px; background: var(--borde); }
+  .paso { position: relative; padding: 0 0 32px 52px; }
+  .paso .num {
+    position: absolute; left: 0; top: 0; width: 32px; height: 32px; border-radius: 50%;
+    display: grid; place-items: center; font-size: 14px; font-weight: 600;
+    background: var(--tarjeta); border: 2px solid var(--c); color: var(--texto);
+  }
+  .paso.menor .num { width: 14px; height: 14px; left: 9px; top: 6px; border-width: 2px; font-size: 0; }
+  .paso.menor h4 { font-size: 14px; }
+  .paso:last-child { padding-bottom: 0; }
+  .paso .tarjeta-paso { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: var(--radio); padding: 16px 20px; }
+
+  /* Muchas capturas son de página entera (1440 × 3500): se abren al ancho de la
+     pantalla y se recorren hacia abajo, en vez de encogerlas hasta que quepan. */
+  dialog { border: 0; padding: 0; background: transparent; width: min(1440px, 96vw); max-width: 96vw; max-height: 94vh; overflow: auto; }
   dialog::backdrop { background: rgba(0, 0, 0, 0.85); }
-  dialog img { display: block; max-width: 96vw; max-height: 90vh; border-radius: 8px; }
-  dialog button { position: fixed; top: 12px; right: 12px; font: inherit; font-size: 14px; color: var(--texto); background: var(--elevada); border: 1px solid var(--borde); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
+  dialog img { display: block; width: 100%; height: auto; border-radius: 8px; }
+  dialog button { position: fixed; top: 12px; right: 12px; font-size: 14px; background: var(--elevada); border: 1px solid var(--borde); border-radius: 999px; padding: 6px 14px; cursor: pointer; }
 
   footer { margin-top: 64px; color: var(--texto-3); font-size: 12px; }
 
+  @media (max-width: 760px) {
+    .tres { grid-template-columns: 1fr; }
+    .cabeza { grid-template-columns: 1fr; }
+  }
   @media (max-width: 480px) {
-    .pagina { padding-top: 32px; }
-    header h1 { font-size: 26px; }
+    .pagina { padding-top: 16px; }
+    .portada-sitio { padding: 24px 20px; }
+    .portada-sitio h1 { font-size: 32px; }
+    .rol { font-size: 16px; }
     .rejilla { grid-template-columns: 1fr; }
     .tira img { width: 200px; height: 125px; }
     .tira.estrecha img { width: 80px; }
+    .cabeza h1 { font-size: 26px; }
   }
 </style>
 </head>
 <body>
 <div class="pagina">
-  <header>
-    <h1 id="nombre">Portafolio</h1>
-    <p id="lema"></p>
-    <div class="cifras" id="cifras"></div>
-  </header>
+  <main id="inicio">
+    <section class="portada-sitio">
+      <p class="sello">Portafolio · proyectos hechos con IA</p>
+      <h1 id="nombre">Portafolio</h1>
+      <p class="rol" id="rol"></p>
+      <div class="tres" id="tres"></div>
+      <div class="bajo">
+        <div class="cifras" id="cifras"></div>
+        <div class="enlaces" id="enlaces"></div>
+      </div>
+    </section>
 
-  <div class="filtros" id="filtros" role="group" aria-label="Filtrar por tipo"></div>
+    <div class="saltos" id="saltos" role="group" aria-label="Ir a una categoría"></div>
 
-  <h2>Proyectos</h2>
-  <div class="rejilla" id="proyectos"></div>
+    <h2 class="seccion">Proyectos</h2>
+    <div id="grupos"></div>
 
-  <h2 id="tituloLogros">Últimos logros</h2>
-  <ol class="linea" id="logros"></ol>
+    <h2 class="seccion">Últimos avances</h2>
+    <ol class="linea" id="ultimos"></ol>
+  </main>
 
-  <footer>Cada entrada la escribe el flujo de este mismo portafolio al terminar un avance, y se publica al subirla.</footer>
+  <main id="ficha" hidden></main>
+
+  <footer>Esta página se mantiene sola: cada avance lo apunta el flujo del propio portafolio, con su captura, y se publica al subirlo.</footer>
 </div>
 
 <dialog id="visor"><button type="button" id="cerrarVisor">Cerrar</button><img id="visorImg" alt=""></dialog>
 
 <script>
 (function () {
-  var TIPOS = { app: 'App', juego: 'Juego', automatizacion: 'Automatización', flujo: 'Flujo de trabajo' };
+  var TIPOS = { app: 'Apps', juego: 'Juegos', automatizacion: 'Automatizaciones', flujo: 'Flujos de trabajo' };
+  var TIPO_UNO = { app: 'App', juego: 'Juego', automatizacion: 'Automatización', flujo: 'Flujo de trabajo' };
   var MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
-  var estado = { tipo: 'todos', proyecto: null };
+  var ULTIMOS = 6;
   var datos = { perfil: {}, proyectos: [], logros: [] };
+  var verTodos = false;
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
@@ -138,9 +195,16 @@
     return p.length === 3 ? (+p[2]) + ' ' + MESES[+p[1] - 1] + ' ' + p[0] : esc(iso);
   }
   function color(tipo) { return 'var(--' + (TIPOS[tipo] ? tipo : 'app') + ')'; }
+  function proyecto(id) { return datos.proyectos.filter(function (p) { return p.id === id; })[0]; }
+  // De más nuevo a más viejo; la página de un proyecto le da la vuelta.
   function logrosDe(id) { return datos.logros.filter(function (l) { return l.proyecto === id; }); }
-  function portadaDe(id) {
-    var ls = logrosDe(id);
+  // Si un proyecto no marcó ningún hito, su historia son todos sus logros: nunca sale vacía.
+  function hitosDe(id) {
+    var ls = logrosDe(id), h = ls.filter(function (l) { return l.hito; });
+    return h.length ? h : ls;
+  }
+  function fotoDe(id) {
+    var ls = hitosDe(id).concat(logrosDe(id));
     for (var i = 0; i < ls.length; i++) {
       var cs = ls[i].capturas || [];
       var ancha = cs.filter(function (c) { return /1440/.test(c); })[0] || cs[0];
@@ -148,101 +212,146 @@
     }
     return null;
   }
-  function proyecto(id) { return datos.proyectos.filter(function (p) { return p.id === id; })[0]; }
+  function chipsIA(lista) { return (lista || []).map(function (x) { return '<span class="chip">' + esc(x) + '</span>'; }).join(''); }
+  function tiras(l) {
+    return (l.capturas || []).map(function (c) {
+      return '<button class="tira' + (/-390[.-]/.test(c) ? ' estrecha' : '') + '" type="button" data-ver="' + esc(c) + '">' +
+        '<img src="' + esc(c) + '" alt="Captura: ' + esc(l.titulo) + '" loading="lazy"></button>';
+    }).join('');
+  }
+  function foto(p, img) {
+    return '<div class="foto' + (img ? '' : ' sin') + '" style="--c:' + color(p.tipo) + '">' + (img
+      ? '<img src="' + esc(img) + '" alt="Captura de ' + esc(p.nombre) + '" loading="lazy">'
+      : '<div class="inicial" aria-hidden="true">' + esc(p.nombre.charAt(0)) + '</div>') + '</div>';
+  }
 
-  function pintarCabecera() {
+  /* ---------- la portada ---------- */
+  function pintarInicio() {
     var perfil = datos.perfil || {};
-    if (perfil.nombre) {
-      document.getElementById('nombre').textContent = perfil.nombre;
-      document.title = 'Portafolio de ' + perfil.nombre;
-    }
-    document.getElementById('lema').textContent = perfil.lema || '';
+    document.getElementById('nombre').textContent = perfil.nombre || 'Portafolio';
+    document.getElementById('rol').textContent = perfil.rol || '';
+    var tres = [['Quién soy', perfil.quien], ['Por qué lo hago', perfil.porque], ['Qué busco', perfil.busca]]
+      .filter(function (x) { return x[1]; });
+    document.getElementById('tres').innerHTML = tres.map(function (x) {
+      return '<div><h2>' + x[0] + '</h2><p>' + esc(x[1]) + '</p></div>';
+    }).join('');
     var ultimo = datos.logros[0];
     document.getElementById('cifras').innerHTML =
       '<span><b>' + datos.proyectos.length + '</b> proyectos</span>' +
-      '<span><b>' + datos.logros.length + '</b> logros apuntados</span>' +
-      (ultimo ? '<span>último, el <b>' + fecha(ultimo.fecha) + '</b></span>' : '');
-  }
-
-  function pintarFiltros() {
-    var usados = {};
-    datos.proyectos.forEach(function (p) { usados[p.tipo] = true; });
-    var html = '<button class="filtro" data-tipo="todos" aria-pressed="' + (estado.tipo === 'todos') + '">Todo</button>';
-    Object.keys(TIPOS).forEach(function (t) {
-      if (usados[t]) html += '<button class="filtro" data-tipo="' + t + '" aria-pressed="' + (estado.tipo === t) + '">' + TIPOS[t] + '</button>';
-    });
-    document.getElementById('filtros').innerHTML = html;
-  }
-
-  function pintarProyectos() {
-    var lista = datos.proyectos.filter(function (p) { return estado.tipo === 'todos' || p.tipo === estado.tipo; });
-    document.getElementById('proyectos').innerHTML = lista.map(function (p) {
-      var img = portadaDe(p.id);
-      var n = logrosDe(p.id).length;
-      var ias = (p.ia || []).map(function (x) { return '<span class="chip">' + esc(x) + '</span>'; }).join('');
-      return '<button class="proyecto" type="button" data-proyecto="' + esc(p.id) + '" aria-pressed="' + (estado.proyecto === p.id) + '" style="--c:' + color(p.tipo) + '">' +
-        '<div class="portada' + (img ? '' : ' sin') + '">' + (img
-          ? '<img src="' + esc(img) + '" alt="Captura de ' + esc(p.nombre) + '" loading="lazy">'
-          : '<div class="inicial" aria-hidden="true">' + esc(p.nombre.charAt(0)) + '</div>') + '</div>' +
-        '<div class="cuerpo">' +
-          '<div class="fila"><h3>' + esc(p.nombre) + '</h3><span class="estado">' + esc(p.estado || '') + '</span></div>' +
-          '<p class="que">' + esc(p.que || '') + '</p>' +
-          '<div class="pie"><span class="chip tipo">' + (TIPOS[p.tipo] || esc(p.tipo)) + '</span>' + ias +
-            '<span>' + (n ? n + (n === 1 ? ' logro' : ' logros') : 'sin logros aún') + '</span></div>' +
-          (p.url ? '<a class="vivo" href="' + esc(p.url) + '" target="_blank" rel="noopener">Verlo en vivo →</a>' : '') +
-        '</div></button>';
+      '<span><b>' + datos.logros.length + '</b> avances apuntados</span>' +
+      (ultimo ? '<span>el último, el <b>' + fecha(ultimo.fecha) + '</b></span>' : '');
+    document.getElementById('enlaces').innerHTML = (perfil.enlaces || []).map(function (e) {
+      return '<a class="boton" href="' + esc(e.url) + '" target="_blank" rel="noopener">' + esc(e.nombre) + '</a>';
     }).join('');
-  }
 
-  function pintarLogros() {
-    var lista = datos.logros.filter(function (l) {
-      if (estado.proyecto) return l.proyecto === estado.proyecto;
-      if (estado.tipo === 'todos') return true;
-      var p = proyecto(l.proyecto);
-      return p && p.tipo === estado.tipo;
-    });
-    var p = estado.proyecto && proyecto(estado.proyecto);
-    document.getElementById('tituloLogros').textContent = p ? 'Logros de ' + p.nombre : 'Últimos logros';
-    var caja = document.getElementById('logros');
-    if (!lista.length) {
-      caja.innerHTML = '<li class="vacio">Todavía no hay logros aquí.</li>';
-      return;
-    }
-    caja.innerHTML = lista.map(function (l) {
-      var pr = proyecto(l.proyecto) || { nombre: l.proyecto, tipo: 'app' };
-      var ias = (l.ia || []).map(function (x) { return '<span class="chip">' + esc(x) + '</span>'; }).join('');
-      var tiras = (l.capturas || []).map(function (c) {
-        return '<button class="tira' + (/-390\.png$/.test(c) ? ' estrecha' : '') + '" type="button" data-ver="' + esc(c) + '"><img src="' + esc(c) + '" alt="Captura: ' + esc(l.titulo) + '" loading="lazy"></button>';
-      }).join('');
+    var orden = Object.keys(TIPOS).filter(function (t) { return datos.proyectos.some(function (p) { return p.tipo === t; }); });
+    document.getElementById('saltos').innerHTML = orden.map(function (t) {
+      return '<button class="boton" type="button" data-salto="' + t + '">' + TIPOS[t] + '</button>';
+    }).join('');
+    document.getElementById('grupos').innerHTML = orden.map(function (t) {
+      var lista = datos.proyectos.filter(function (p) { return p.tipo === t; });
+      return '<section class="grupo" id="grupo-' + t + '" style="--c:' + color(t) + '">' +
+        '<h3 class="titulo-grupo">' + TIPOS[t] + ' <small>' + lista.length + '</small></h3>' +
+        '<div class="rejilla">' + lista.map(tarjeta).join('') + '</div></section>';
+    }).join('');
+
+    var ultimos = datos.logros.slice(0, ULTIMOS);
+    document.getElementById('ultimos').innerHTML = ultimos.length ? ultimos.map(function (l) {
+      var pr = proyecto(l.proyecto) || { id: l.proyecto, nombre: l.proyecto, tipo: 'app' };
       return '<li class="logro" style="--c:' + color(pr.tipo) + '">' +
-        '<div class="meta"><span>' + fecha(l.fecha) + '</span><span class="chip tipo">' + esc(pr.nombre) + '</span>' + ias + '</div>' +
-        '<h3>' + esc(l.titulo) + '</h3>' +
-        (l.texto ? '<p>' + esc(l.texto) + '</p>' : '') +
-        (tiras ? '<div class="tiras">' + tiras + '</div>' : '') +
+        '<div class="meta"><span>' + fecha(l.fecha) + '</span><span class="chip tipo">' + esc(pr.nombre) + '</span>' + chipsIA(l.ia) + '</div>' +
+        '<h4>' + esc(l.titulo) + '</h4>' + (l.texto ? '<p>' + esc(l.texto) + '</p>' : '') +
+        (l.capturas && l.capturas.length ? '<div class="tiras">' + tiras(l) + '</div>' : '') +
+        '<button class="ir" type="button" data-proyecto="' + esc(pr.id) + '">Ver la historia de ' + esc(pr.nombre) + ' →</button>' +
         '</li>';
-    }).join('');
+    }).join('') : '<li class="vacio">Todavía no hay avances apuntados.</li>';
   }
 
-  function pintar() { pintarCabecera(); pintarFiltros(); pintarProyectos(); pintarLogros(); }
+  function tarjeta(p) {
+    var n = hitosDe(p.id).length;
+    return '<button class="proyecto" type="button" data-proyecto="' + esc(p.id) + '" style="--c:' + color(p.tipo) + '">' +
+      foto(p, fotoDe(p.id)) +
+      '<div class="cuerpo">' +
+        '<div class="fila"><h4>' + esc(p.nombre) + '</h4><span class="estado">' + esc(p.estado || '') + '</span></div>' +
+        '<p class="que">' + esc(p.que || '') + '</p>' +
+        '<div class="pie"><span class="chip tipo">' + (TIPO_UNO[p.tipo] || esc(p.tipo)) + '</span>' + chipsIA(p.ia) + '</div>' +
+        '<span class="historia">' + (n ? 'Su historia: ' + n + (n === 1 ? ' paso' : ' pasos') + ' →' : 'Ver el proyecto →') + '</span>' +
+      '</div></button>';
+  }
+
+  /* ---------- la página de un proyecto ---------- */
+  function pintarFicha(id) {
+    var p = proyecto(id);
+    var caja = document.getElementById('ficha');
+    if (!p) { location.hash = ''; return; }
+    var hitos = hitosDe(id).slice().reverse();
+    var todos = logrosDe(id).slice().reverse();
+    var menores = todos.length - hitos.length;
+    var lista = verTodos ? todos : hitos;
+    document.title = p.nombre + ' · ' + ((datos.perfil && datos.perfil.nombre) || 'Portafolio');
+
+    var pasos = lista.length ? lista.map(function (l) {
+      var esHito = hitos.indexOf(l) >= 0;
+      var num = esHito ? hitos.indexOf(l) + 1 : '';
+      return '<li class="paso' + (esHito ? '' : ' menor') + '" style="--c:' + color(p.tipo) + '">' +
+        '<span class="num" aria-hidden="true">' + num + '</span>' +
+        '<div class="tarjeta-paso">' +
+          '<div class="meta"><span>' + fecha(l.fecha) + '</span>' + (l.etapa ? '<span class="chip tipo">' + esc(l.etapa) + '</span>' : '') + chipsIA(l.ia) + '</div>' +
+          '<h4>' + esc(l.titulo) + '</h4>' + (l.texto ? '<p>' + esc(l.texto) + '</p>' : '') +
+          (l.capturas && l.capturas.length ? '<div class="tiras">' + tiras(l) + '</div>' : '') +
+        '</div></li>';
+    }).join('') : '';
+
+    caja.innerHTML =
+      '<button class="boton volver" type="button" data-volver>← Todos los proyectos</button>' +
+      '<div class="cabeza" style="--c:' + color(p.tipo) + '">' +
+        '<div>' +
+          '<div class="meta"><span class="chip tipo">' + (TIPO_UNO[p.tipo] || esc(p.tipo)) + '</span>' + chipsIA(p.ia) + '<span>' + esc(p.estado || '') + '</span></div>' +
+          '<h1>' + esc(p.nombre) + '</h1>' +
+          '<p class="que">' + esc(p.que || '') + '</p>' +
+          (p.historia ? '<p class="que" style="margin-top:12px">' + esc(p.historia) + '</p>' : '') +
+          '<div class="acciones">' +
+            (p.url ? '<a class="boton principal" href="' + esc(p.url) + '" target="_blank" rel="noopener">Verlo en vivo →</a>' : '') +
+            (p.repo ? '<a class="boton" href="' + esc(p.repo) + '" target="_blank" rel="noopener">El código</a>' : '') +
+          '</div>' +
+        '</div>' +
+        foto(p, fotoDe(id)) +
+      '</div>' +
+      '<h2 class="seccion">Su historia, paso a paso</h2>' +
+      (pasos ? '<ol class="camino">' + pasos + '</ol>' : '<p class="vacio">Este proyecto todavía no tiene avances apuntados. El primero saldrá aquí.</p>') +
+      (menores > 0 ? '<button class="boton" type="button" data-todos style="margin-top:24px">' +
+        (verTodos ? 'Ver sólo los pasos grandes' : 'Ver también los ' + menores + ' avances pequeños') + '</button>' : '');
+  }
+
+  /* ---------- las rutas: #/<proyecto> es la página de ese proyecto, y se puede compartir ---------- */
+  function ruta() {
+    var m = /^#\/(.+)$/.exec(location.hash);
+    var id = m && decodeURIComponent(m[1]);
+    document.getElementById('inicio').hidden = !!id;
+    document.getElementById('ficha').hidden = !id;
+    if (id) { pintarFicha(id); window.scrollTo(0, 0); }
+    else { document.title = 'Portafolio de ' + ((datos.perfil && datos.perfil.nombre) || 'Daniel'); }
+  }
 
   document.addEventListener('click', function (e) {
-    var f = e.target.closest('[data-tipo]');
-    if (f) { estado.tipo = f.getAttribute('data-tipo'); estado.proyecto = null; pintar(); return; }
     var v = e.target.closest('[data-ver]');
     if (v) {
       document.getElementById('visorImg').src = v.getAttribute('data-ver');
       document.getElementById('visor').showModal();
       return;
     }
-    if (e.target.closest('a')) return;
-    var p = e.target.closest('[data-proyecto]');
-    if (p) {
-      var id = p.getAttribute('data-proyecto');
-      estado.proyecto = estado.proyecto === id ? null : id;
-      pintarProyectos(); pintarLogros();
-      if (estado.proyecto) document.getElementById('tituloLogros').scrollIntoView({ behavior: 'smooth' });
+    var s = e.target.closest('[data-salto]');
+    if (s) { document.getElementById('grupo-' + s.getAttribute('data-salto')).scrollIntoView({ behavior: 'smooth' }); return; }
+    if (e.target.closest('[data-volver]')) { location.hash = ''; return; }
+    if (e.target.closest('[data-todos]')) {
+      verTodos = !verTodos;
+      pintarFicha(decodeURIComponent(location.hash.slice(2)));
+      return;
     }
+    var p = e.target.closest('[data-proyecto]');
+    if (p) { verTodos = false; location.hash = '#/' + encodeURIComponent(p.getAttribute('data-proyecto')); }
   });
+  window.addEventListener('hashchange', ruta);
   document.getElementById('cerrarVisor').addEventListener('click', function () { document.getElementById('visor').close(); });
   document.getElementById('visor').addEventListener('click', function (e) { if (e.target === this) this.close(); });
 
@@ -256,9 +365,10 @@
     datos.perfil = r[0].perfil || {};
     datos.proyectos = r[0].proyectos || [];
     datos.logros = (r[1] || []).slice().sort(function (a, b) { return a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : 0; });
-    pintar();
+    pintarInicio();
+    ruta();
   }).catch(function (err) {
-    document.getElementById('logros').innerHTML = '<li class="vacio">No se pudieron leer los datos (' + esc(err.message) + ').</li>';
+    document.getElementById('ultimos').innerHTML = '<li class="vacio">No se pudieron leer los datos (' + esc(err.message) + ').</li>';
   });
 })();
 </script>

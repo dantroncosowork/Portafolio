@@ -15,13 +15,17 @@ que entra en un commit queda para siempre en el historial. Todo lo hace
 2. Escribe el texto para alguien que no conoce el proyecto:
    - un título de 70 caracteres como mucho, con lo que ahora se puede hacer;
    - de una a tres frases con qué hace y cómo se hizo;
-   - sin datos reales de Daniel.
+   - sin datos reales de Daniel;
+   - `--hito` si alguien de fuera lo notaría (una función o pantalla nueva, un
+     rediseño, la primera vez que se publica), con `--etapa` en una o dos
+     palabras: «Nueva función», «Rediseño», «Publicado». Los arreglos pequeños
+     van sin `--hito`.
 
 3. Corre el script sin commit. Con `--url` va la dirección de Vercel o la ruta
    del `.html`; si no lo pones, usa la fuente de `herramientas/capturar.json`:
 
    ```
-   node C:/Users/dantr/Portafolio/herramientas/logro.js <id> --titulo "…" --texto "…" --ia "Antigravity" --url <url> --sin-commit
+   node C:/Users/dantr/Portafolio/herramientas/logro.js <id> --titulo "…" --texto "…" --ia "Antigravity" --url <url> [--hito --etapa "…"] --sin-commit
    ```
 
 4. Abre cada captura que imprimió. Si alguna enseña un nombre, un correo, un

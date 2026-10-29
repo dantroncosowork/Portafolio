@@ -1,5 +1,66 @@
 [
   {
+    "id": "2026-10-26-planificar-cuanto-se-lleva-cada-sobre-y",
+    "fecha": "2026-10-26",
+    "proyecto": "finance-os",
+    "titulo": "Planificar: cuánto se lleva cada sobre y cuándo llega cada meta",
+    "texto": "Lo que quieres conseguir, convertido en un reparto: qué parte de lo que entra va a cada sobre, si cubre su colchón y cuándo llega cada meta.",
+    "hito": true,
+    "etapa": "Nueva pestaña",
+    "ia": [
+      "Claude Code"
+    ],
+    "capturas": [
+      "capturas/finance-os/2026-10-26-planificar-cuanto-se-lleva-cada-sobre-y-49-planificar-1440.png"
+    ]
+  },
+  {
+    "id": "2026-10-13-simulaciones-tus-proximos-doce-meses",
+    "fecha": "2026-10-13",
+    "proyecto": "finance-os",
+    "titulo": "Simulaciones: tus próximos doce meses",
+    "texto": "Lo que tiene fecha y lo que se estima, en un gráfico y mes a mes, con tu patrimonio a un año vista.",
+    "hito": true,
+    "etapa": "Rediseño",
+    "ia": [
+      "Claude Code"
+    ],
+    "capturas": [
+      "capturas/finance-os/2026-10-13-simulaciones-tus-proximos-doce-meses-sim-1440-despues.png"
+    ]
+  },
+  {
+    "id": "2026-10-12-simular-una-compra-que-te-genera-dinero",
+    "fecha": "2026-10-12",
+    "proyecto": "finance-os",
+    "titulo": "Simular una compra que te genera dinero",
+    "texto": "Dices cuánto cuesta algo y cuánto te deja al mes, y la app calcula cuándo puedes comprarlo, en cuántos meses lo recuperas y cómo cambia tu patrimonio.",
+    "hito": true,
+    "etapa": "Nueva función",
+    "ia": [
+      "Claude Code"
+    ],
+    "capturas": [
+      "capturas/finance-os/2026-10-12-simular-una-compra-que-te-genera-dinero-tarjeta-1440.png"
+    ]
+  },
+  {
+    "id": "2026-10-10-gastos-fijos-cada-cargo-en-una-linea",
+    "fecha": "2026-10-10",
+    "proyecto": "finance-os",
+    "titulo": "Gastos Fijos: cada cargo en una línea",
+    "texto": "Lo que ya se cobró, lo que falta por salir y lo que parece cancelado, en grupos y con una fila por cargo; lo que queda por pagar del mes, bien grande. La primera captura es el antes; la segunda, el después.",
+    "hito": true,
+    "etapa": "Rediseño",
+    "ia": [
+      "Claude Code"
+    ],
+    "capturas": [
+      "capturas/finance-os/2026-10-10-gastos-fijos-cada-cargo-en-una-linea-gastos-1440-antes.png",
+      "capturas/finance-os/2026-10-10-gastos-fijos-cada-cargo-en-una-linea-gastos-1440-despues.png"
+    ]
+  },
+  {
     "id": "2026-10-29-bucle-autonomo-con-vision-ia-pociones-y",
     "fecha": "2026-10-29",
     "proyecto": "tamagotchi",
@@ -12,7 +73,9 @@
     "capturas": [
       "capturas/tamagotchi/2026-10-29-bucle-autonomo-con-vision-ia-pociones-y-1440.png",
       "capturas/tamagotchi/2026-10-29-bucle-autonomo-con-vision-ia-pociones-y-390.png"
-    ]
+    ],
+    "hito": true,
+    "etapa": "Nuevas funciones"
   },
   {
     "id": "2026-10-29-life-os-publicado-en-vercel-para",
@@ -26,7 +89,9 @@
     "capturas": [
       "capturas/life-os/2026-10-29-life-os-publicado-en-vercel-para-1440.png",
       "capturas/life-os/2026-10-29-life-os-publicado-en-vercel-para-390.png"
-    ]
+    ],
+    "hito": true,
+    "etapa": "Publicado"
   },
   {
     "id": "2026-10-29-distribucion-y-cuentas-redisenadas",
@@ -44,6 +109,8 @@
       "capturas/finance-os/2026-10-29-distribucion-y-cuentas-redisenadas-51b-tabla-i-abierto-1440.png",
       "capturas/finance-os/2026-10-29-distribucion-y-cuentas-redisenadas-51b-cuentas-390.png",
       "capturas/finance-os/2026-10-29-distribucion-y-cuentas-redisenadas-51b-distribucion-390.png"
-    ]
+    ],
+    "hito": true,
+    "etapa": "Rediseño"
   }
 ]

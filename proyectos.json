@@ -1,7 +1,13 @@
 {
   "perfil": {
     "nombre": "Daniel",
-    "lema": "Proyectos que construyo con IA: Claude Code, Gemini y Antigravity. Esta página se actualiza sola cada vez que uno avanza."
+    "rol": "Construyo con IA las herramientas que uso cada día, y aquí enseño cómo avanzan.",
+    "quien": "Soy Daniel. Trabajo con Claude Code, Gemini y Antigravity para convertir problemas míos en apps que funcionan: mis finanzas, mi bitácora de vida, mi búsqueda de empleo, un juego.",
+    "porque": "Porque a trabajar con IA se aprende usándola en algo real. Cada proyecto me obliga a decidir, probar y corregir, y cada uno me enseña algo que el anterior no.",
+    "busca": "Dejar a la vista lo que soy capaz de construir, paso a paso, y llevar este modo de trabajar a proyectos más grandes y a equipos que lo necesiten.",
+    "enlaces": [
+      { "nombre": "GitHub", "url": "https://github.com/dantroncosowork" }
+    ]
   },
   "proyectos": [
     {
@@ -73,8 +79,9 @@
       "tipo": "flujo",
       "estado": "en uso",
       "que": "El flujo que lo mantiene: al lograr algo, Claude Code o Antigravity sacan la captura, escriben la entrada y la dejan lista para publicar.",
-      "ia": ["Claude Code"],
-      "url": null
+      "ia": ["Claude Code", "Antigravity"],
+      "url": null,
+      "repo": "https://github.com/dantroncosowork/Portafolio"
     }
   ]
 }
