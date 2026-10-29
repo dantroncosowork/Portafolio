@@ -28,11 +28,11 @@ que entra en un commit queda para siempre en el historial. Todo lo hace
    teléfono, una cuenta o un tablero real, bórrala y quítala de su entrada en
    `logros.json`.
 
-5. Haz el commit:
+5. **No hagas commit ni push.** En Antigravity, git es de Daniel. Dile qué entró,
+   qué ficheros cambiaste y estos comandos, por si los quiere correr él (o
+   dejárselos a Claude Code, que hace el commit y revisa las capturas):
 
    ```
-   git -C C:/Users/dantr/Portafolio add logros.json capturas/<id>
+   git -C C:/Users/dantr/Portafolio add proyectos.json herramientas/capturar.json logros.json capturas/<id>
    git -C C:/Users/dantr/Portafolio commit -m "Logro · <Nombre>: <título>"
    ```
-
-6. Dile a Daniel qué entró y que falta el push. **No hagas push.**
