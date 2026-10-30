@@ -1,6 +1,7 @@
 {
   "perfil": {
-    "nombre": "Daniel",
+    "nombre": "Daniel Troncoso",
+    "foto": "perfil.jpg",
     "rol": "Construyo con IA las herramientas que uso cada día, y aquí enseño cómo avanzan.",
     "quien": "Soy Daniel. Trabajo con Claude Code, Gemini y Antigravity para convertir problemas míos en apps que funcionan: mis finanzas, mi bitácora de vida, mi búsqueda de empleo, un juego.",
     "porque": "Porque a trabajar con IA se aprende usándola en algo real. Cada proyecto me obliga a decidir, probar y corregir, y cada uno me enseña algo que el anterior no.",

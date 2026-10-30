@@ -43,6 +43,11 @@
   .sello { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--acento); margin: 0 0 12px; }
   .portada-sitio h1 { font-size: 40px; line-height: 1.15; font-weight: 600; margin: 0 0 8px; letter-spacing: -0.02em; }
   .rol { font-size: 20px; color: var(--texto-2); margin: 0; max-width: 720px; }
+  .presentacion { display: flex; align-items: center; gap: 28px; }
+  .foto-perfil {
+    width: 120px; height: 120px; border-radius: 50%; object-fit: cover; flex: 0 0 auto;
+    border: 2px solid color-mix(in srgb, var(--acento) 45%, transparent);
+  }
   .tres { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
   .tres div { border-top: 1px solid var(--borde); padding-top: 12px; }
   .tres h2 { font-size: 14px; font-weight: 600; margin: 0 0 4px; color: var(--texto); }
@@ -156,6 +161,8 @@
     .pagina { padding-top: 16px; }
     .portada-sitio { padding: 24px 20px; }
     .portada-sitio h1 { font-size: 32px; }
+    .presentacion { flex-direction: column; align-items: flex-start; gap: 16px; }
+    .foto-perfil { width: 88px; height: 88px; }
     .rol { font-size: 16px; }
     .rejilla { grid-template-columns: 1fr; }
     .tira img { width: 200px; height: 125px; }
@@ -170,9 +177,14 @@
 <div class="pagina">
   <main id="inicio">
     <section class="portada-sitio">
-      <p class="sello">Portafolio · proyectos hechos con IA</p>
-      <h1 id="nombre">Portafolio</h1>
-      <p class="rol" id="rol"></p>
+      <div class="presentacion">
+        <img id="foto" class="foto-perfil" alt="" hidden>
+        <div>
+          <p class="sello">Portafolio · proyectos hechos con IA</p>
+          <h1 id="nombre">Portafolio</h1>
+          <p class="rol" id="rol"></p>
+        </div>
+      </div>
       <div class="tres" id="tres"></div>
       <div class="bajo">
         <div class="cifras" id="cifras"></div>
@@ -264,6 +276,8 @@
   function pintarInicio() {
     var perfil = datos.perfil || {};
     document.getElementById('nombre').textContent = perfil.nombre || 'Portafolio';
+    var f = document.getElementById('foto');
+    if (perfil.foto) { f.src = perfil.foto; f.alt = 'Foto de ' + (perfil.nombre || ''); f.hidden = false; }
     document.getElementById('rol').textContent = perfil.rol || '';
     var tres = [['Quién soy', perfil.quien], ['Por qué lo hago', perfil.porque], ['Qué busco', perfil.busca]]
       .filter(function (x) { return x[1]; });
