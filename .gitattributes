@@ -1,0 +1,2 @@
+# cmd.exe lee mal un .bat con saltos LF: trocea las líneas y ejecuta pedazos.
+*.bat text eol=crlf

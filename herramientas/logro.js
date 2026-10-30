@@ -208,8 +208,52 @@ async function bandeja(a) {
   console.log('✓ ' + sueltas.length + ' por mirar. La hoja: ' + salida);
 }
 
+// Lo que mira publicar.bat antes de subir nada: el repo es público y lo subido se
+// queda en el historial. Sale con 1 y la lista si algo no cuadra.
+function revisar() {
+  const MAX_MB = 10;
+  const problemas = [];
+  const logros = leerJSON('logros.json');
+  const { proyectos } = leerJSON('proyectos.json');
+  const fuentes = fs.existsSync(path.join(__dirname, 'capturar.json')) ? leerJSON('herramientas/capturar.json') : {};
+  const usadas = new Map();
+  for (const l of logros) for (const c of l.capturas || []) usadas.set(c, l);
+  for (const p of proyectos) if (p.video) usadas.set(p.video, { revisadoPorDaniel: true });
+
+  const enDisco = [];
+  const recorrer = d => { for (const e of fs.readdirSync(path.join(RAIZ, d), { withFileTypes: true })) {
+    const r = d + '/' + e.name;
+    if (e.isDirectory()) recorrer(r); else enDisco.push(r);
+  } };
+  if (fs.existsSync(path.join(RAIZ, 'capturas'))) recorrer('capturas');
+
+  for (const f of enDisco) {
+    const id = f.split('/')[1];
+    const l = usadas.get(f);
+    if (!l) problemas.push(f + ': no sale en la web, así que «Ver» no la enseña, pero se subiría igual');
+    else if (fuentes[id] && fuentes[id].nunca && !l.revisadoPorDaniel)
+      problemas.push(f + ': «' + id + '» enseña datos reales (capturar.json, "nunca"); sólo entra con "revisadoPorDaniel": true en su logro');
+    const mb = fs.statSync(path.join(RAIZ, f)).size / 1048576;
+    if (mb > MAX_MB) problemas.push(f + ': ' + mb.toFixed(1) + ' MB, más de ' + MAX_MB);
+  }
+  for (const c of usadas.keys()) if (!fs.existsSync(path.join(RAIZ, c))) problemas.push(c + ': la web la enseña y no existe');
+
+  // Lo que lee la web no lleva rutas del disco ni direcciones que sólo existen en este ordenador.
+  for (const f of ['index.html', 'proyectos.json', 'logros.json']) {
+    const texto = fs.readFileSync(path.join(RAIZ, f), 'utf8');
+    for (const m of texto.match(/[A-Za-z]:[\\/]{1,2}Users[\\/][^"'\s<]*/g) || []) problemas.push(f + ': ruta del disco «' + m + '»');
+    for (const m of texto.match(/https?:\/\/(?:localhost|127\.0\.0\.1)[^"'\s<]*/g) || []) problemas.push(f + ': dirección de este ordenador «' + m + '»');
+  }
+
+  if (!problemas.length) { console.log('✓ Revisado: ' + usadas.size + ' capturas, todas en la web, nada privado a la vista.'); return; }
+  console.log('✗ No se publica: ' + problemas.length + (problemas.length === 1 ? ' cosa' : ' cosas') + ' que mirar.');
+  problemas.forEach(p => console.log('  · ' + p));
+  process.exit(1);
+}
+
 const a = argumentos(process.argv.slice(2));
 if (a._[0] === 'ver') ver();
+else if (a._[0] === 'revisar') revisar();
 else if (a._[0] === 'proyectos') listar();
 else if (a._[0] === 'bandeja') bandeja(a).catch(e => salir(e.message));
 else if (!a._[0]) salir('Uso: node herramientas/logro.js <proyecto> --titulo "…" --texto "…"   ·   ver   ·   proyectos');

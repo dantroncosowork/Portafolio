@@ -45,7 +45,16 @@ que entra en un commit queda para siempre en el historial. Todo lo hace
    teléfono, una cuenta o un tablero real, bórrala y quítala de su entrada en
    `logros.json`.
 
-6. **No hagas commit ni push.** En Antigravity, git es de Daniel. Dile qué entró,
+   Los proyectos con `"nunca": true` en `herramientas/capturar.json` (Buscador,
+   Trello, Agent Monitor) no llevan capturas. Solo entra una si Daniel la ha
+   mirado y lo dice: entonces su logro lleva `"revisadoPorDaniel": true`. No
+   quites un `"nunca"` para que entre una captura.
+
+6. Comprueba que se puede publicar con
+   `node C:/Users/dantr/Portafolio/herramientas/logro.js revisar`. Si dice
+   «No se publica», arréglalo antes de decirle a Daniel que está listo.
+
+7. **No hagas commit ni push.** En Antigravity, git es de Daniel. Dile qué entró,
    qué ficheros cambiaste y estos comandos, por si los quiere correr él (o
    dejárselos a Claude Code, que hace el commit y revisa las capturas):
 
