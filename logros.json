@@ -1,5 +1,24 @@
 [
   {
+    "id": "2026-10-30-simulaciones-ves-mes-a-mes-si-tu-dinero",
+    "fecha": "2026-10-30",
+    "proyecto": "finance-os",
+    "titulo": "Simulaciones: ves mes a mes si tu dinero crece o baja",
+    "texto": "La pestaña de simulaciones dice de un vistazo si con tus planes tu dinero crece o baja, cómo queda tu patrimonio de hoy a dentro de un año y qué pasaría con una meta en cada uno de tus sobres. Se eligió entre varias rondas de maquetas y se construyó con Claude Code, con pruebas automáticas que vigilan que ninguna cifra cambie.",
+    "hito": true,
+    "etapa": "Rediseño",
+    "ia": [
+      "Claude Code"
+    ],
+    "capturas": [
+      "capturas/finance-os/2026-10-30-simulaciones-ves-mes-a-mes-si-tu-dinero-54-simulaciones-1440.png",
+      "capturas/finance-os/2026-10-30-simulaciones-ves-mes-a-mes-si-tu-dinero-54-panel-meta-1440.png",
+      "capturas/finance-os/2026-10-30-simulaciones-ves-mes-a-mes-si-tu-dinero-54-mes-a-mes-baja-1440.png",
+      "capturas/finance-os/2026-10-30-simulaciones-ves-mes-a-mes-si-tu-dinero-54-simulaciones-390.png",
+      "capturas/finance-os/2026-10-30-simulaciones-ves-mes-a-mes-si-tu-dinero-54-zantes-1440.png"
+    ]
+  },
+  {
     "id": "2026-10-30-inversion-con-los-colores-del-resto-de",
     "fecha": "2026-10-30",
     "proyecto": "finance-os",
