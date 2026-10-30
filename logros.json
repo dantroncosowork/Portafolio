@@ -1,5 +1,23 @@
 [
   {
+    "id": "2026-10-30-inversion-con-los-colores-del-resto-de",
+    "fecha": "2026-10-30",
+    "proyecto": "finance-os",
+    "titulo": "Inversión, con los colores del resto de la app",
+    "texto": "La pestaña de Inversión, que aún se está construyendo, lo dice con una pastilla y deja a la vista sólo el resumen y tus cuentas; el resto queda plegado. Sus colores pasan a ser los del resto de la app, elegidos entre tres maquetas y medidos con pruebas automáticas que comprueban que ninguna cifra cambia.",
+    "hito": false,
+    "etapa": "",
+    "ia": [
+      "Claude Code"
+    ],
+    "capturas": [
+      "capturas/finance-os/2026-10-30-inversion-con-los-colores-del-resto-de-53-inversion-1440.png",
+      "capturas/finance-os/2026-10-30-inversion-con-los-colores-del-resto-de-53-inversion-abierto-1440.png",
+      "capturas/finance-os/2026-10-30-inversion-con-los-colores-del-resto-de-53-inversion-390.png",
+      "capturas/finance-os/2026-10-30-inversion-con-los-colores-del-resto-de-53-antes-1440.png"
+    ]
+  },
+  {
     "id": "2026-10-30-cuotas-de-gemini-4-argon-y-conmutacion",
     "fecha": "2026-10-30",
     "proyecto": "agent-monitor",
