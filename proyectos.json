@@ -6,7 +6,10 @@
     "porque": "Porque a trabajar con IA se aprende usándola en algo real. Cada proyecto me obliga a decidir, probar y corregir, y cada uno me enseña algo que el anterior no.",
     "busca": "Dejar a la vista lo que soy capaz de construir, paso a paso, y llevar este modo de trabajar a proyectos más grandes y a equipos que lo necesiten.",
     "enlaces": [
-      { "nombre": "GitHub", "url": "https://github.com/dantroncosowork" }
+      {
+        "nombre": "GitHub",
+        "url": "https://github.com/dantroncosowork"
+      }
     ]
   },
   "proyectos": [
@@ -16,7 +19,9 @@
       "tipo": "app",
       "estado": "en desarrollo",
       "que": "App de finanzas personales en un solo archivo HTML, sin dependencias ni servidor: cuentas, patrimonio, presupuesto, metas e importación de extractos.",
-      "ia": ["Claude Code"],
+      "ia": [
+        "Claude Code"
+      ],
       "url": null
     },
     {
@@ -25,7 +30,9 @@
       "tipo": "app",
       "estado": "en desarrollo",
       "que": "Bitácora de vida personal en un solo archivo HTML, con el mismo método que Finance OS y Trading OS.",
-      "ia": ["Claude Code"],
+      "ia": [
+        "Claude Code"
+      ],
       "url": "https://life-os-app-roan.vercel.app"
     },
     {
@@ -34,7 +41,9 @@
       "tipo": "app",
       "estado": "en desarrollo",
       "que": "Sistema personal de inversión en un solo archivo HTML, con indicadores de TradingView en Pine Script.",
-      "ia": ["Claude Code"],
+      "ia": [
+        "Claude Code"
+      ],
       "url": null
     },
     {
@@ -43,7 +52,9 @@
       "tipo": "app",
       "estado": "en desarrollo",
       "que": "App educativa para aprender locución y a ser mejor teleoperador: rutina diaria, escritura rápida, simulador de llamadas, lección guiada, ortografía y tu progreso.",
-      "ia": ["Antigravity"],
+      "ia": [
+        "Antigravity"
+      ],
       "url": null
     },
     {
@@ -61,7 +72,9 @@
       "tipo": "automatizacion",
       "estado": "en pruebas",
       "que": "Automatizaciones de Trello conectadas a la API de Gemini.",
-      "ia": ["Gemini"],
+      "ia": [
+        "Gemini"
+      ],
       "url": null
     },
     {
@@ -70,8 +83,23 @@
       "tipo": "juego",
       "estado": "en pruebas",
       "que": "Videojuego de mascota virtual y armario en un solo HTML, cuidado autónomamente con bucle de IA, visión multimodal y publicado en Vercel.",
-      "ia": ["Gemini", "Antigravity"],
+      "ia": [
+        "Gemini",
+        "Antigravity"
+      ],
       "url": "https://el-juego-del-pipi.vercel.app"
+    },
+    {
+      "id": "agent-monitor",
+      "nombre": "Agente Monitor",
+      "tipo": "flujo",
+      "estado": "en desarrollo",
+      "que": "Extensión y centro de operaciones para Antigravity: supervisa en tiempo real combustible de modelos, consumo de cuotas y árbol de subagentes.",
+      "ia": [
+        "Antigravity",
+        "Gemini"
+      ],
+      "url": null
     },
     {
       "id": "portafolio",
@@ -79,7 +107,10 @@
       "tipo": "flujo",
       "estado": "en uso",
       "que": "El flujo que lo mantiene: al lograr algo, Claude Code o Antigravity sacan la captura, escriben la entrada y la dejan lista para publicar.",
-      "ia": ["Claude Code", "Antigravity"],
+      "ia": [
+        "Claude Code",
+        "Antigravity"
+      ],
       "url": null,
       "repo": "https://github.com/dantroncosowork/Portafolio"
     }

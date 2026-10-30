@@ -1,5 +1,60 @@
 [
   {
+    "id": "2026-10-30-cuotas-de-gemini-4-argon-y-conmutacion",
+    "fecha": "2026-10-30",
+    "proyecto": "agent-monitor",
+    "titulo": "Cuotas de Gemini 4 Argon y conmutación entre splits",
+    "texto": "Suma los límites de Gemini 4 Argon, reconoce los chats acoplados en split (A, B, C…) con un color para cada grupo y salta de uno a otro con un clic.",
+    "hito": true,
+    "etapa": "Nueva función",
+    "ia": [
+      "Antigravity",
+      "Gemini"
+    ],
+    "capturas": []
+  },
+  {
+    "id": "2026-10-29-estrategias-e-indicadores-avanzados-en",
+    "fecha": "2026-10-29",
+    "proyecto": "trading-os",
+    "titulo": "Claude Code aprende Pine Script",
+    "texto": "Dos habilidades nuevas para escribir y depurar indicadores de TradingView en Pine Script v6 desde el asistente.",
+    "hito": false,
+    "etapa": "Herramientas",
+    "ia": [
+      "Claude Code"
+    ],
+    "capturas": []
+  },
+  {
+    "id": "2026-10-29-centro-de-operaciones-y-telemetria-de",
+    "fecha": "2026-10-29",
+    "proyecto": "agent-monitor",
+    "titulo": "Centro de operaciones: cuotas y agentes en tiempo real",
+    "texto": "Un panel dentro de Antigravity que enseña cuánto queda de cada modelo, el consumo de cuotas y el árbol de subagentes de cada chat.",
+    "hito": true,
+    "etapa": "Nueva función",
+    "ia": [
+      "Antigravity",
+      "Gemini"
+    ],
+    "capturas": []
+  },
+  {
+    "id": "2026-10-29-dashboard-semanal-de-ofertas-y-generador",
+    "fecha": "2026-10-29",
+    "proyecto": "buscador-empleo",
+    "titulo": "Dashboard semanal de ofertas y generador de cartas",
+    "texto": "Una vista nueva de las ofertas de la semana y un generador que redacta la carta de presentación a partir de cada oferta activa.",
+    "hito": true,
+    "etapa": "Rediseño",
+    "ia": [
+      "Claude",
+      "Gemini"
+    ],
+    "capturas": []
+  },
+  {
     "id": "2026-10-28-el-plan-del-bucle-nocturno-antes-de",
     "fecha": "2026-10-28",
     "proyecto": "tamagotchi",

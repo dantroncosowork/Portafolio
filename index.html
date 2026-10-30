@@ -98,7 +98,15 @@
   .tira { flex: 0 0 auto; border: 1px solid var(--borde); border-radius: 8px; padding: 0; background: var(--elevada); cursor: zoom-in; overflow: hidden; }
   /* Las capturas suelen ser de página entera: la miniatura enseña su parte de arriba. */
   .tira img { display: block; width: 240px; height: 150px; object-fit: cover; object-position: top left; }
-  .tira.estrecha img { width: 96px; }
+  .tira video { display: block; width: 240px; height: 150px; object-fit: cover; object-position: top left; pointer-events: none; }
+  .tira.estrecha img, .tira.estrecha video { width: 96px; }
+  .tira-video { position: relative; }
+  .play-badge {
+    position: absolute; bottom: 8px; left: 8px; background: rgba(0, 0, 0, 0.75); color: #fff;
+    font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; pointer-events: none;
+    display: inline-flex; align-items: center; gap: 4px; border: 1px solid rgba(255, 255, 255, 0.2);
+  }
+  .cabeza video.foto { border: 1px solid var(--borde); border-radius: var(--radio); max-height: 320px; width: 100%; object-fit: cover; background: #000; }
   .vacio { color: var(--texto-3); border: 1px dashed var(--borde); border-radius: var(--radio); padding: 32px; text-align: center; }
 
   /* La página de un proyecto */
@@ -195,7 +203,7 @@
     <a class="boton" id="visorAbrir" target="_blank" rel="noopener">Abrir aparte</a>
     <button class="boton" type="button" id="cerrarVisor">Cerrar</button>
   </div>
-  <div class="lienzo" id="visorLienzo"><img id="visorImg" alt=""></div>
+  <div class="lienzo" id="visorLienzo"><img id="visorImg" alt=""><video id="visorVid" controls playsinline hidden style="max-width:100%;max-height:85vh;border-radius:8px;outline:none;"></video></div>
 </dialog>
 
 <script>
@@ -228,7 +236,7 @@
   function fotoDe(id) {
     var ls = hitosDe(id).concat(logrosDe(id));
     for (var i = 0; i < ls.length; i++) {
-      var cs = ls[i].capturas || [];
+      var cs = (ls[i].capturas || []).filter(function (c) { return !/\.mp4$/i.test(c); });
       var ancha = cs.filter(function (c) { return /1440/.test(c); })[0] || cs[0];
       if (ancha) return ancha;
     }
@@ -237,6 +245,11 @@
   function chipsIA(lista) { return (lista || []).map(function (x) { return '<span class="chip">' + esc(x) + '</span>'; }).join(''); }
   function tiras(l) {
     return (l.capturas || []).map(function (c) {
+      if (/\.mp4$/i.test(c)) {
+        return '<button class="tira tira-video" type="button" data-ver="' + esc(c) + '">' +
+          '<video src="' + esc(c) + '" muted playsinline preload="metadata"></video>' +
+          '<span class="play-badge">▶ Video Demo</span></button>';
+      }
       return '<button class="tira' + (/-390[.-]/.test(c) ? ' estrecha' : '') + '" type="button" data-ver="' + esc(c) + '">' +
         '<img src="' + esc(c) + '" alt="Captura: ' + esc(l.titulo) + '" loading="lazy"></button>';
     }).join('');
@@ -324,6 +337,10 @@
         '</div></li>';
     }).join('') : '';
 
+    var mediaPrincipal = p.video
+      ? '<video class="foto video-demo" src="' + esc(p.video) + '" controls playsinline preload="metadata" poster="' + esc(fotoDe(id) || '') + '"></video>'
+      : foto(p, fotoDe(id));
+
     caja.innerHTML =
       '<button class="boton volver" type="button" data-volver>← Todos los proyectos</button>' +
       '<div class="cabeza" style="--c:' + color(p.tipo) + '">' +
@@ -337,7 +354,7 @@
             (p.repo ? '<a class="boton" href="' + esc(p.repo) + '" target="_blank" rel="noopener">El código</a>' : '') +
           '</div>' +
         '</div>' +
-        foto(p, fotoDe(id)) +
+        mediaPrincipal +
       '</div>' +
       '<h2 class="seccion">Su historia, paso a paso</h2>' +
       (pasos ? '<ol class="camino">' + pasos + '</ol>' : '<p class="vacio">Este proyecto todavía no tiene avances apuntados. El primero saldrá aquí.</p>') +
@@ -363,7 +380,11 @@
     if (v) {
       // Las flechas recorren las capturas del mismo avance.
       var hermanas = [].slice.call(v.parentNode.querySelectorAll('[data-ver]'));
-      visor.lista = hermanas.map(function (b) { return { src: b.getAttribute('data-ver'), alt: b.querySelector('img').alt }; });
+      visor.lista = hermanas.map(function (b) {
+        var im = b.querySelector('img');
+        var altText = im ? im.alt : 'Video Demo';
+        return { src: b.getAttribute('data-ver'), alt: altText };
+      });
       mostrar(hermanas.indexOf(v));
       document.getElementById('visor').showModal();
       return;
@@ -387,8 +408,20 @@
     visor.i = (i + n) % n;
     var c = visor.lista[visor.i];
     var img = document.getElementById('visorImg');
-    img.src = c.src; img.alt = c.alt;
-    document.getElementById('visorTitulo').textContent = c.alt.replace(/^Captura: /, '') + (n > 1 ? ' · ' + (visor.i + 1) + ' de ' + n : '');
+    var vid = document.getElementById('visorVid');
+    if (/\.mp4$/i.test(c.src)) {
+      img.hidden = true;
+      if (vid) {
+        vid.hidden = false;
+        vid.src = c.src;
+        vid.play().catch(function () {});
+      }
+    } else {
+      if (vid) { vid.pause(); vid.hidden = true; }
+      img.hidden = false;
+      img.src = c.src; img.alt = c.alt;
+    }
+    document.getElementById('visorTitulo').textContent = (c.alt || 'Video').replace(/^Captura: /, '') + (n > 1 ? ' · ' + (visor.i + 1) + ' de ' + n : '');
     document.getElementById('visorAbrir').href = c.src;
     document.getElementById('visorAnt').hidden = document.getElementById('visorSig').hidden = n < 2;
     zoom(false);
@@ -405,6 +438,11 @@
   document.getElementById('visorAnt').addEventListener('click', function () { mostrar(visor.i - 1); });
   document.getElementById('visorSig').addEventListener('click', function () { mostrar(visor.i + 1); });
   document.getElementById('cerrarVisor').addEventListener('click', function () { document.getElementById('visor').close(); });
+  // Se cierre con el botón o con Esc, el vídeo se para.
+  document.getElementById('visor').addEventListener('close', function () {
+    var vid = document.getElementById('visorVid');
+    if (vid) vid.pause();
+  });
   document.addEventListener('keydown', function (e) {
     if (!document.getElementById('visor').open || visor.lista.length < 2) return;
     if (e.key === 'ArrowLeft') mostrar(visor.i - 1);
