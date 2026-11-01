@@ -1,5 +1,20 @@
 [
   {
+    "id": "2026-11-01-life-os-te-dice-cada-semana-si-vas-bien",
+    "fecha": "2026-11-01",
+    "proyecto": "life-os",
+    "titulo": "Life OS te dice cada semana si vas bien y dónde se caen tus metas",
+    "texto": "Una pestaña nueva para el recuento de la semana: marcas cada meta como hecha, a medias o no, con su causa, y un tablero semanal y mensual te dice si vas bien y en qué parte de la app trabajar lo que falla. Hecho con Claude Code, con pruebas que se rompen a propósito para demostrar que miden algo.",
+    "hito": true,
+    "etapa": "Nueva función",
+    "ia": [
+      "Claude Code"
+    ],
+    "capturas": [
+      "capturas/life-os/2026-11-01-life-os-te-dice-cada-semana-si-vas-bien-semana-1280.png"
+    ]
+  },
+  {
     "id": "2026-10-30-simulaciones-ves-mes-a-mes-si-tu-dinero",
     "fecha": "2026-10-30",
     "proyecto": "finance-os",
