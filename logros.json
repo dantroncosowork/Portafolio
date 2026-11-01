@@ -1,5 +1,24 @@
 [
   {
+    "id": "2026-11-01-cada-ayuda-de-finance-os-se-ve-y-sale-al",
+    "fecha": "2026-11-01",
+    "proyecto": "finance-os",
+    "titulo": "Cada ayuda de Finance OS se ve y sale al instante",
+    "texto": "Lo que lleva información extra se reconoce antes de tocarlo: el cursor cambia a una interrogación y el texto va subrayado con puntos. Al pasar el ratón, la ayuda sale en dos décimas de segundo en vez de esperar al navegador, y en un iPad o un móvil se abre con un toque. Hecho con Claude Code y comprobado en un navegador real.",
+    "hito": false,
+    "etapa": "",
+    "ia": [
+      "Claude Code"
+    ],
+    "capturas": [
+      "capturas/finance-os/2026-11-01-cada-ayuda-de-finance-os-se-ve-y-sale-al-55-distribucion-grafico-1440.png",
+      "capturas/finance-os/2026-11-01-cada-ayuda-de-finance-os-se-ve-y-sale-al-55-habitos-casilla-1440.png",
+      "capturas/finance-os/2026-11-01-cada-ayuda-de-finance-os-se-ve-y-sale-al-55-inicio-cifra-1440.png",
+      "capturas/finance-os/2026-11-01-cada-ayuda-de-finance-os-se-ve-y-sale-al-55-patrimonio-divisa-1440.png",
+      "capturas/finance-os/2026-11-01-cada-ayuda-de-finance-os-se-ve-y-sale-al-55-toque-390.png"
+    ]
+  },
+  {
     "id": "2026-11-01-life-os-te-dice-cada-semana-si-vas-bien",
     "fecha": "2026-11-01",
     "proyecto": "life-os",
