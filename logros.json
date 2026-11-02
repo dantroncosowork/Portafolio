@@ -1,5 +1,24 @@
 [
   {
+    "id": "2026-11-02-las-metas-de-cada-mes-de-finance-os",
+    "fecha": "2026-11-02",
+    "proyecto": "finance-os",
+    "titulo": "Las metas de cada mes de Finance OS saben cuándo empiezan y acaban",
+    "texto": "Un gasto de cada mes con fecha de fin, como un tratamiento de cuatro meses o el gimnasio, ya no le resta al sobre para siempre: cuenta sólo en sus meses, y el plazo de las demás metas se calcula mes a mes con lo que sobra de verdad. Hecho con Claude Code, con pruebas que se rompen a propósito para comprobar que lo cazan.",
+    "hito": true,
+    "etapa": "Nueva función",
+    "ia": [
+      "Claude Code"
+    ],
+    "capturas": [
+      "capturas/finance-os/2026-11-02-las-metas-de-cada-mes-de-finance-os-56-cuenta-personal-1440.png",
+      "capturas/finance-os/2026-11-02-las-metas-de-cada-mes-de-finance-os-56-formulario-1440.png",
+      "capturas/finance-os/2026-11-02-las-metas-de-cada-mes-de-finance-os-56-transporte-1440.png",
+      "capturas/finance-os/2026-11-02-las-metas-de-cada-mes-de-finance-os-56-cuenta-personal-390.png",
+      "capturas/finance-os/2026-11-02-las-metas-de-cada-mes-de-finance-os-56-formulario-390.png"
+    ]
+  },
+  {
     "id": "2026-11-02-life-os-lee-tu-google-calendar-y-te",
     "fecha": "2026-11-02",
     "proyecto": "life-os",
