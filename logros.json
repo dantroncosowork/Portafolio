@@ -1,5 +1,21 @@
 [
   {
+    "id": "2026-11-02-life-os-lee-tu-google-calendar-y-te",
+    "fecha": "2026-11-02",
+    "proyecto": "life-os",
+    "titulo": "Life OS lee tu Google Calendar y te enseña la semana que viene",
+    "texto": "En la pestaña Semana, lo que tenías agendado al lado de las metas que te pusiste, y lo que viene en la siguiente, con tu rutina marcada y las horas ocupadas de cada día. Solo lectura: el permiso de Google vive en tu navegador y nunca entra en la copia de tus datos. La demo trae una agenda inventada y no toca la red.",
+    "hito": true,
+    "etapa": "Nueva función",
+    "ia": [
+      "Claude Code"
+    ],
+    "capturas": [
+      "capturas/life-os/2026-11-02-life-os-lee-tu-google-calendar-y-te-1-agendado-1280.png",
+      "capturas/life-os/2026-11-02-life-os-lee-tu-google-calendar-y-te-2-lo-que-viene-1280.png"
+    ]
+  },
+  {
     "id": "2026-11-01-cada-ayuda-de-finance-os-se-ve-y-sale-al",
     "fecha": "2026-11-01",
     "proyecto": "finance-os",
