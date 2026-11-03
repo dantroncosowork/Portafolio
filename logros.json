@@ -1,5 +1,25 @@
 [
   {
+    "id": "2026-11-03-el-plan-reparte-lo-que-sobra-por",
+    "fecha": "2026-11-03",
+    "proyecto": "finance-os",
+    "titulo": "El plan reparte lo que sobra por prioridades y dice lo que falta",
+    "texto": "El planificador reparte lo que sobra cada mes por orden: primero las metas con fecha, después el colchón de cada sobre y al final el resto. Si no llega, dice cuánto falta al mes y qué se queda esperando, sin quitarle a nadie lo que necesita. Construido con Claude Code, con pruebas que miran cada mes por delante y no sólo el de hoy.",
+    "hito": true,
+    "etapa": "Nueva función",
+    "ia": [
+      "Claude Code"
+    ],
+    "capturas": [
+      "capturas/finance-os/2026-11-03-el-plan-reparte-lo-que-sobra-por-57-camino-1440.png",
+      "capturas/finance-os/2026-11-03-el-plan-reparte-lo-que-sobra-por-57-cifras-1440.png",
+      "capturas/finance-os/2026-11-03-el-plan-reparte-lo-que-sobra-por-57-detalle-1440.png",
+      "capturas/finance-os/2026-11-03-el-plan-reparte-lo-que-sobra-por-57-no-cabe-1440.png",
+      "capturas/finance-os/2026-11-03-el-plan-reparte-lo-que-sobra-por-57-no-llega-1440.png",
+      "capturas/finance-os/2026-11-03-el-plan-reparte-lo-que-sobra-por-57-cifras-390.png"
+    ]
+  },
+  {
     "id": "2026-11-02-las-metas-de-cada-mes-de-finance-os",
     "fecha": "2026-11-02",
     "proyecto": "finance-os",
