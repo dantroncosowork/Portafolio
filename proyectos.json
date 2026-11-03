@@ -60,12 +60,15 @@
     },
     {
       "id": "buscador-empleo",
-      "nombre": "Buscador de empleo",
+      "nombre": "Radar de empleo",
       "tipo": "automatizacion",
       "estado": "en uso",
-      "que": "Busca ofertas de empleo de forma automática y prepara lo necesario para postular.",
-      "ia": [],
-      "url": null
+      "que": "Sistema autónomo de exploración laboral: criba algorítmica, evaluación de encaje con Gemini y dashboard interactivo en un solo HTML con cartas de presentación.",
+      "ia": [
+        "Gemini",
+        "Antigravity"
+      ],
+      "url": "https://dantroncosowork.github.io/radar-empleo/"
     },
     {
       "id": "trello-gemini",

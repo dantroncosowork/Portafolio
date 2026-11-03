@@ -1,5 +1,25 @@
 [
   {
+    "id": "2026-11-03-publicada-la-demo-interactiva-en-github",
+    "fecha": "2026-11-03",
+    "proyecto": "buscador-empleo",
+    "titulo": "Publicada la demo interactiva del Radar de Empleo en GitHub Pages",
+    "texto": "La interfaz del Radar de Empleo ya se puede probar en GitHub Pages con un candidato y unas empresas inventados: el embudo de la semana, las ofertas con su encaje, el comparador de cinco rutas de carrera y la carta de presentación de cada oferta, que en el panel real redacta la IA.",
+    "hito": true,
+    "etapa": "Publicado",
+    "ia": [
+      "Gemini",
+      "Antigravity",
+      "Claude Code"
+    ],
+    "capturas": [
+      "capturas/buscador-empleo/radar-empleo-1440.png",
+      "capturas/buscador-empleo/radar-empleo-390.png",
+      "capturas/buscador-empleo/radar-empleo-carta-1440.png"
+    ],
+    "revisadoPorDaniel": false
+  },
+  {
     "id": "2026-11-03-el-plan-reparte-lo-que-sobra-por",
     "fecha": "2026-11-03",
     "proyecto": "finance-os",
