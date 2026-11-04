@@ -1,5 +1,25 @@
 [
   {
+    "id": "2026-11-04-el-colchon-va-primero-y-la-app-explica",
+    "fecha": "2026-11-04",
+    "proyecto": "finance-os",
+    "titulo": "El colchón va primero, y la app explica de dónde sale cada euro",
+    "texto": "El plan del mes llena antes el mínimo de cada cuenta que las metas con fecha. Donde se escribe el colchón, la app sugiere una cifra y la desglosa: un mes de gasto, cada pago fijo con su nombre y lo que ya toca tener de los anuales. Construido con Claude Code, con pruebas que se rompen a propósito antes de darlas por buenas.",
+    "hito": true,
+    "etapa": "Nueva función",
+    "ia": [
+      "Claude Code"
+    ],
+    "capturas": [
+      "capturas/finance-os/2026-11-04-el-colchon-va-primero-y-la-app-explica-58-barra-1440.png",
+      "capturas/finance-os/2026-11-04-el-colchon-va-primero-y-la-app-explica-58-camino-le-llega-justo-1440.png",
+      "capturas/finance-os/2026-11-04-el-colchon-va-primero-y-la-app-explica-58-editar-reparto-sugerido-1440.png",
+      "capturas/finance-os/2026-11-04-el-colchon-va-primero-y-la-app-explica-58-espera-colchones-primero-1440.png",
+      "capturas/finance-os/2026-11-04-el-colchon-va-primero-y-la-app-explica-58-metas-origen-colchon-1440.png",
+      "capturas/finance-os/2026-11-04-el-colchon-va-primero-y-la-app-explica-58-editar-reparto-sugerido-390.png"
+    ]
+  },
+  {
     "id": "2026-11-03-publicada-la-demo-interactiva-en-github",
     "fecha": "2026-11-03",
     "proyecto": "buscador-empleo",
