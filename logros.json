@@ -1,5 +1,22 @@
 [
   {
+    "id": "2026-11-08-life-os-te-hace-el-recuento-de-la-semana",
+    "fecha": "2026-11-08",
+    "proyecto": "life-os",
+    "titulo": "Life OS te hace el recuento de la semana hablando con una IA",
+    "texto": "Le cuentas tu semana escribiendo o dictando y una IA te pregunta una cosa cada vez, mira tu agenda y te avisa si una meta no cabe. Al final rellena el recuento, y nada se guarda hasta que lo revisas tú. Hecho con Claude Code, con pruebas que se rompen a propósito para demostrar que miden algo.",
+    "hito": true,
+    "etapa": "Nueva función",
+    "ia": [
+      "Claude Code"
+    ],
+    "capturas": [
+      "capturas/life-os/2026-11-08-life-os-te-hace-el-recuento-de-la-semana-1-la-conversacion-avisa-del-medico-1280.png",
+      "capturas/life-os/2026-11-08-life-os-te-hace-el-recuento-de-la-semana-2-lo-que-vio-la-ia-1280.png",
+      "capturas/life-os/2026-11-08-life-os-te-hace-el-recuento-de-la-semana-3-la-conversacion-en-el-movil-390.png"
+    ]
+  },
+  {
     "id": "2026-11-04-el-colchon-va-primero-y-la-app-explica",
     "fecha": "2026-11-04",
     "proyecto": "finance-os",
