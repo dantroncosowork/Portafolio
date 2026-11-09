@@ -1,5 +1,25 @@
 [
   {
+    "id": "2026-11-09-cuanto-ganaste-con-tu-trabajo-este-ano-y",
+    "fecha": "2026-11-09",
+    "proyecto": "finance-os",
+    "titulo": "Cuánto ganaste con tu trabajo este año, y lo que te quedó",
+    "texto": "Una tarjeta nueva suma lo que entra por nómina y como autónomo cada año, deja aparte los intereses y los pagos sueltos, descuenta los impuestos que escribes tú y lo enseña mes a mes. Hecho con Claude Code, con pruebas automáticas que comprueban que cada cifra cuadra y que el patrimonio no se mueve.",
+    "hito": true,
+    "etapa": "Nueva función",
+    "ia": [
+      "Claude Code"
+    ],
+    "capturas": [
+      "capturas/finance-os/2026-11-09-cuanto-ganaste-con-tu-trabajo-este-ano-y-60-con-impuestos-1440.png",
+      "capturas/finance-os/2026-11-09-cuanto-ganaste-con-tu-trabajo-este-ano-y-60-lo-de-fuera-1440.png",
+      "capturas/finance-os/2026-11-09-cuanto-ganaste-con-tu-trabajo-este-ano-y-60-tarjeta-1440.png",
+      "capturas/finance-os/2026-11-09-cuanto-ganaste-con-tu-trabajo-este-ano-y-60-con-impuestos-390.png",
+      "capturas/finance-os/2026-11-09-cuanto-ganaste-con-tu-trabajo-este-ano-y-60-lo-de-fuera-390.png",
+      "capturas/finance-os/2026-11-09-cuanto-ganaste-con-tu-trabajo-este-ano-y-60-tarjeta-390.png"
+    ]
+  },
+  {
     "id": "2026-11-09-la-app-se-queda-con-la-cifra-real-del",
     "fecha": "2026-11-09",
     "proyecto": "finance-os",
