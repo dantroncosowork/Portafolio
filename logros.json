@@ -1,5 +1,24 @@
 [
   {
+    "id": "2026-11-09-la-app-se-queda-con-la-cifra-real-del",
+    "fecha": "2026-11-09",
+    "proyecto": "finance-os",
+    "titulo": "La app se queda con la cifra real del banco y apunta cada diferencia",
+    "texto": "Al importar el extracto, cada cuenta acaba con lo que dice el banco. Lo que faltaba o sobraba queda en una lista con la cantidad y la fecha, se puede deshacer y nunca cuenta como gasto ni como ingreso. Lo probé rompiendo la app a propósito para ver que las pruebas lo cazan.",
+    "hito": true,
+    "etapa": "Nueva función",
+    "ia": [
+      "Claude Code"
+    ],
+    "capturas": [
+      "capturas/finance-os/2026-11-09-la-app-se-queda-con-la-cifra-real-del-59-antes-de-confirmar-1440.png",
+      "capturas/finance-os/2026-11-09-la-app-se-queda-con-la-cifra-real-del-59-aviso-1440.png",
+      "capturas/finance-os/2026-11-09-la-app-se-queda-con-la-cifra-real-del-59-diferencias-con-el-banco-1440.png",
+      "capturas/finance-os/2026-11-09-la-app-se-queda-con-la-cifra-real-del-59-antes-de-confirmar-390.png",
+      "capturas/finance-os/2026-11-09-la-app-se-queda-con-la-cifra-real-del-59-diferencias-con-el-banco-390.png"
+    ]
+  },
+  {
     "id": "2026-11-08-life-os-te-hace-el-recuento-de-la-semana",
     "fecha": "2026-11-08",
     "proyecto": "life-os",
