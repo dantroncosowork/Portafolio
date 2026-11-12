@@ -13,6 +13,28 @@
       }
     ]
   },
+  "certificaciones": [
+    {
+      "id": "n8n-quickstart",
+      "nombre": "n8n Quickstart",
+      "emisor": "n8n Academy",
+      "fecha": "2026-11-12",
+      "descripcion": "Automatización de flujos de trabajo, integración de APIs y orquestación con agentes de IA.",
+      "badge": "https://eu.api.accredible.com/v1/frontend/credential_website_embed_image/badge/23101181",
+      "url": "https://eu.credential.net/23101181",
+      "verificada": true
+    },
+    {
+      "id": "efset-c1",
+      "nombre": "EF SET English Certificate (C1 Advanced)",
+      "emisor": "EF Standard English Test",
+      "fecha": "2026-11-03",
+      "descripcion": "Puntuación 63/100 · Nivel C1 según el MCER en comprensión y expresión auditiva, lectora, escrita y oral.",
+      "badge": "https://cdn.efset.org/efset-widget/img/v2/social-media/certificate/cefr-badge-C1.svg",
+      "url": "https://cert.efset.org/en/dcSzob",
+      "verificada": true
+    }
+  ],
   "proyectos": [
     {
       "id": "finance-os",
