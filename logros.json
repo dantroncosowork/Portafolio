@@ -56,6 +56,38 @@
     ]
   },
   {
+    "id": "2026-11-07-minijuego-simon-dice-loro-oido-musical-4",
+    "fecha": "2026-11-07",
+    "proyecto": "tamagotchi",
+    "titulo": "Minijuego Simón Dice Loro: oído musical, 4 notas y 2ª oportunidad",
+    "texto": "Añadido el minijuego Simón Dice Loro con cuadrante táctil 2x2 afinado en Do Mayor con Sexta (Web Audio), feedback háptico, animación reactiva de Pipi en canvas y filosofía antipunitiva de segunda oportunidad.",
+    "hito": true,
+    "etapa": "Nueva función",
+    "ia": [
+      "Antigravity"
+    ],
+    "capturas": [
+      "capturas/tamagotchi/2026-11-07-minijuego-simon-dice-loro-oido-musical-4-1440.png",
+      "capturas/tamagotchi/2026-11-07-minijuego-simon-dice-loro-oido-musical-4-390.png"
+    ]
+  },
+  {
+    "id": "2026-11-04-vitrina-de-logros-y-medallas-de-pipi",
+    "fecha": "2026-11-04",
+    "proyecto": "tamagotchi",
+    "titulo": "Vitrina de Logros y Medallas de Pipi",
+    "texto": "Añadida la Vitrina de Logros y Medallas con 8 insignias coleccionables, notificaciones flotantes en vivo, fanfarria en Web Audio y sincronización en todos los modos.",
+    "hito": true,
+    "etapa": "Nueva función",
+    "ia": [
+      "Antigravity"
+    ],
+    "capturas": [
+      "capturas/tamagotchi/2026-11-04-vitrina-de-logros-y-medallas-de-pipi-1440.png",
+      "capturas/tamagotchi/2026-11-04-vitrina-de-logros-y-medallas-de-pipi-390.png"
+    ]
+  },
+  {
     "id": "2026-11-04-el-colchon-va-primero-y-la-app-explica",
     "fecha": "2026-11-04",
     "proyecto": "finance-os",
