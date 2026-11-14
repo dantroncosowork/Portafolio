@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maqueta G · Daniel OS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
+<style>
+  /* Tres de sus apps se llaman «OS». El portafolio es su escritorio: cada proyecto
+     es una app, y al abrirla sale una ventana con su historia. */
+  :root {
+    --mesa: #2B4A52;        /* el escritorio: verde azulado profundo, plano */
+    --papel: #FBFBF8;       /* el interior de las ventanas */
+    --negro: #000000;
+    --activa: #F0C419;      /* la barra de la ventana que tienes delante */
+    --inactiva: #D6D3C9;
+    --gris: #55575B;
+  }
+  * { box-sizing: border-box; }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--mesa); color: var(--negro); font: 400 16px/1.5 'Atkinson Hyperlegible', system-ui, sans-serif; overflow: hidden; }
+  :focus-visible { outline: 3px solid var(--activa); outline-offset: 2px; }
+
+  .barra { position: fixed; inset: 0 0 auto 0; height: 36px; display: flex; align-items: center; justify-content: space-between; padding: 0 16px; background: var(--papel); border-bottom: 2px solid var(--negro); font-size: 15px; z-index: 9999; }
+  .barra b { font-size: 16px; }
+  .barra span { color: var(--gris); }
+
+  .iconos { position: absolute; top: 56px; left: 16px; bottom: 16px; display: grid; grid-auto-flow: column; grid-template-rows: repeat(auto-fill, 112px); gap: 8px 12px; align-content: start; }
+  .icono { width: 104px; display: flex; flex-direction: column; align-items: center; gap: 6px; background: none; border: 0; padding: 6px 2px; cursor: pointer; color: #FFFFFF; font: inherit; }
+  .icono .cara { width: 56px; height: 56px; border: 2px solid var(--negro); border-radius: 12px; overflow: hidden; background: var(--c); display: grid; place-items: center; box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35); font-weight: 700; font-size: 24px; color: var(--negro); }
+  .icono .cara img { width: 100%; height: 100%; object-fit: cover; object-position: top left; }
+  .icono .nombre { font-size: 14px; line-height: 1.25; text-align: center; padding: 1px 4px; border-radius: 3px; }
+  .icono[aria-pressed="true"] .nombre { background: var(--activa); color: var(--negro); }
+  .doc { background: var(--papel) !important; }
+
+  .ventana { position: absolute; background: var(--papel); border: 2px solid var(--negro); box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.35); display: flex; flex-direction: column; max-height: calc(100vh - 60px); min-width: 320px; }
+  .ventana .titulo { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 8px 6px 14px; background: var(--inactiva); border-bottom: 2px solid var(--negro); cursor: grab; user-select: none; touch-action: none; }
+  .ventana.activa .titulo { background: var(--activa); }
+  .ventana .titulo h2 { margin: 0; font-size: 16px; }
+  .ventana .cerrar { width: 28px; height: 28px; border: 2px solid var(--negro); background: var(--papel); font: 700 15px 'Atkinson Hyperlegible', sans-serif; cursor: pointer; display: grid; place-items: center; }
+  .ventana .cuerpo { overflow: auto; padding: 20px; }
+
+  .leeme { display: grid; grid-template-columns: 96px 1fr; gap: 20px; }
+  .leeme img { width: 96px; height: 96px; object-fit: cover; border: 2px solid var(--negro); }
+  .leeme h3 { font-size: 30px; line-height: 1.1; margin: 0 0 6px; }
+  .leeme .rol { margin: 0 0 16px; font-size: 18px; }
+  .leeme h4 { margin: 14px 0 2px; font-size: 16px; }
+  .leeme p { margin: 0; color: var(--gris); max-width: 60ch; }
+  .leeme .pie { margin-top: 16px; color: var(--negro); }
+
+  .app .que { margin: 0 0 16px; color: var(--gris); max-width: 70ch; }
+  .app .que a { color: var(--negro); font-weight: 700; }
+  .app .partes { display: grid; grid-template-columns: 240px 1fr; gap: 20px; min-height: 0; }
+  .app ol { list-style: none; margin: 0; padding: 0; border: 2px solid var(--negro); max-height: 420px; overflow: auto; }
+  .app ol button { display: block; width: 100%; text-align: left; border: 0; border-bottom: 1px solid #CFCCC2; background: none; padding: 8px 10px; font: inherit; font-size: 14px; line-height: 1.35; cursor: pointer; }
+  .app ol button small { display: block; color: var(--gris); font-size: 13px; }
+  .app ol button[aria-current="true"] { background: var(--negro); color: var(--papel); }
+  .app ol button[aria-current="true"] small { color: #C9C9C9; }
+  .app .vista img { width: 100%; display: block; border: 2px solid var(--negro); max-height: 340px; object-fit: cover; object-position: top left; }
+  .app .vista h3 { font-size: 22px; line-height: 1.2; margin: 14px 0 4px; }
+  .app .vista .cuando { color: var(--gris); font-size: 14px; margin-bottom: 8px; }
+  .app .vista p { margin: 0; max-width: 64ch; }
+  .app .vacia { border: 2px dashed var(--gris); padding: 28px; color: var(--gris); }
+  .app .mini { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .app .mini button { padding: 0; border: 2px solid transparent; background: none; cursor: pointer; }
+  .app .mini button[aria-current="true"] { border-color: var(--negro); }
+  .app .mini img { display: block; width: 64px; height: 42px; object-fit: cover; object-position: top left; border: 0; }
+
+  .certs a { display: flex; gap: 14px; align-items: center; color: var(--negro); text-decoration: none; padding: 10px 0; border-bottom: 1px solid #CFCCC2; }
+  .certs img { width: 48px; height: 48px; object-fit: contain; }
+  .certs b { display: block; }
+  .certs span { color: var(--gris); font-size: 14px; }
+
+  .pista { position: absolute; right: 20px; bottom: 16px; color: #CFE0E3; font-size: 14px; }
+  body:has(.ventana) .pista { visibility: hidden; }
+
+  @media (max-width: 760px) {
+    body { overflow: auto; }
+    .iconos { position: static; padding: 56px 16px 24px; display: grid; grid-auto-flow: row; grid-template-columns: repeat(4, 1fr); grid-template-rows: none; gap: 16px 4px; }
+    .icono { width: auto; }
+    .ventana { position: fixed; inset: 36px 0 0 0 !important; width: auto !important; max-height: none; min-width: 0; box-shadow: none; border-width: 2px 0 0 0; }
+    .ventana .titulo { cursor: default; }
+    .leeme { grid-template-columns: 1fr; }
+    .app .partes { grid-template-columns: 1fr; }
+    .app ol { max-height: 200px; }
+    .pista { position: static; display: block; padding: 0 16px 24px; }
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .ventana.nueva { animation: abrir 140ms ease-out; }
+    @keyframes abrir { from { transform: scale(0.96); opacity: 0; } }
+  }
+</style>
+</head>
+<body>
+<header class="barra"><b>Daniel OS</b><span id="ultimo"></span></header>
+<nav class="iconos" id="iconos" aria-label="Proyectos y documentos"></nav>
+<p class="pista" id="pista"></p>
+<div id="ventanas"></div>
+
+<script src="datos.js"></script>
+<script>
+Portafolio.cargar().then(function (d) {
+  var P = Portafolio, esc = P.esc, movil = matchMedia('(max-width: 760px)');
+  var COLOR = { app: '#8FC3FF', juego: '#FFB3D6', automatizacion: '#F7C969', flujo: '#8EE0B4' };
+  var capa = 10, abiertas = {};
+
+  document.getElementById('ultimo').textContent = d.cifras.ultimo ? 'Último avance: ' + P.fecha(d.cifras.ultimo) : '';
+  document.getElementById('pista').textContent = d.cifras.proyectos + ' proyectos y ' + d.cifras.avances + ' avances. Abre uno para ver su historia.';
+
+  var iconos = [{ id: 'leeme', nombre: 'Léeme', doc: true }].concat(d.proyectos.map(function (p) { return { id: p.id, nombre: p.nombre, p: p }; }));
+  if (d.certificaciones.length) iconos.push({ id: 'certificados', nombre: 'Certificados', doc: true });
+  document.getElementById('iconos').innerHTML = iconos.map(function (it) {
+    var cara;
+    if (it.doc) cara = '<span class="cara doc" aria-hidden="true">' + (it.id === 'leeme' ? '<svg width="26" height="30" viewBox="0 0 26 30"><path d="M2 2h15l7 7v19H2z" fill="#fff" stroke="#000" stroke-width="2"/><path d="M6 13h14M6 18h14M6 23h9" stroke="#000" stroke-width="2"/></svg>' : '<svg width="30" height="28" viewBox="0 0 30 28"><circle cx="15" cy="11" r="8" fill="#F0C419" stroke="#000" stroke-width="2"/><path d="M10 18l-3 8 8-3 8 3-3-8" fill="#fff" stroke="#000" stroke-width="2"/></svg>') + '</span>';
+    else {
+      var img = d.portada(it.id);
+      cara = '<span class="cara" style="--c:' + (COLOR[it.p.tipo] || '#ccc') + '" aria-hidden="true">' + (img ? '<img src="' + esc(img) + '" alt="">' : esc(it.nombre.charAt(0))) + '</span>';
+    }
+    return '<button class="icono" type="button" data-abrir="' + esc(it.id) + '" aria-pressed="false">' + cara + '<span class="nombre">' + esc(it.nombre) + '</span></button>';
+  }).join('');
+
+  function contenido(id) {
+    if (id === 'leeme') {
+      var f = d.perfil;
+      return { titulo: 'Léeme', ancho: 620, html: '<div class="leeme">' + (d.foto ? '<img src="' + esc(d.foto) + '" alt="Daniel">' : '<span></span>') +
+        '<div><h3>' + esc(f.nombre) + '</h3><p class="rol">' + esc(f.rol) + '</p>' +
+        '<h4>Quién soy</h4><p>' + esc(f.quien) + '</p><h4>Por qué lo hago</h4><p>' + esc(f.porque) + '</p><h4>Qué busco</h4><p>' + esc(f.busca) + '</p>' +
+        '<p class="pie">' + (f.enlaces || []).map(function (e) { return '<a href="' + esc(e.url) + '">Mi ' + esc(e.nombre) + '</a>'; }).join(' ') + '</p></div></div>' };
+    }
+    if (id === 'certificados') {
+      return { titulo: 'Certificados', ancho: 460, html: '<div class="certs">' + d.certificaciones.map(function (k) {
+        return '<a href="' + esc(k.url) + '"><img src="' + esc(k.badge) + '" alt=""><div><b>' + esc(k.nombre) + '</b><span>' + esc(k.emisor) + ', ' + P.fecha(k.fecha) + '</span></div></a>';
+      }).join('') + '</div>' };
+    }
+    var p = d.proyecto(id), ls = d.logrosDe(id);
+    var lista = ls.length ? '<ol>' + ls.map(function (l, i) {
+      return '<li><button type="button" data-logro="' + esc(l.id) + '" aria-current="' + (i === 0) + '">' + esc(l.titulo) + '<small>' + P.fecha(l.fecha) + (l.hito && l.etapa ? ', ' + esc(l.etapa.toLowerCase()) : '') + '</small></button></li>';
+    }).join('') + '</ol>' : '';
+    return { titulo: p.nombre, ancho: 820, html: '<div class="app"><p class="que">' + esc(p.que) + (p.url ? ' <a href="' + esc(p.url) + '">Abrir ' + esc(p.nombre) + '</a>' : '') + '</p>' +
+      (ls.length ? '<div class="partes">' + lista + '<div class="vista"></div></div>' : '<div class="vacia">Todavía no hay avances apuntados de este proyecto.</div>') + '</div>' };
+  }
+
+  function verLogro(ventana, id) {
+    var l = d.logros.filter(function (x) { return x.id === id; })[0]; if (!l) return;
+    ventana.querySelectorAll('[data-logro]').forEach(function (b) { b.setAttribute('aria-current', String(b.dataset.logro === id)); });
+    var imgs = d.imagenes(l);
+    ventana.querySelector('.vista').innerHTML = (imgs.length ? '<img class="grande" src="' + esc(imgs[0]) + '" alt="Captura: ' + esc(l.titulo) + '">' : '') +
+      (imgs.length > 1 ? '<div class="mini">' + imgs.map(function (s, i) { return '<button type="button" data-img="' + esc(s) + '" aria-current="' + (i === 0) + '" aria-label="Captura ' + (i + 1) + '"><img src="' + esc(s) + '" alt=""></button>'; }).join('') + '</div>' : '') +
+      '<h3>' + esc(l.titulo) + '</h3><div class="cuando">' + P.fecha(l.fecha) + (l.ia && l.ia.length ? ', hecho con ' + esc(l.ia.join(' y ')) : '') + '</div><p>' + esc(l.texto) + '</p>';
+  }
+
+  function alFrente(v) {
+    v.style.zIndex = ++capa;
+    document.querySelectorAll('.ventana').forEach(function (x) { x.classList.toggle('activa', x === v); });
+    document.querySelectorAll('.icono').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.abrir === v.dataset.v)); });
+  }
+
+  function abrir(id, x, y) {
+    if (abiertas[id]) { alFrente(abiertas[id]); abiertas[id].querySelector('.cerrar').focus(); return; }
+    var c = contenido(id), n = Object.keys(abiertas).length;
+    var v = document.createElement('section');
+    v.className = 'ventana nueva'; v.dataset.v = id;
+    v.setAttribute('role', 'dialog'); v.setAttribute('aria-label', c.titulo);
+    var maxAncho = Math.min(c.ancho, innerWidth - 160);
+    v.style.width = maxAncho + 'px';
+    v.style.left = (x != null ? x : Math.min(150 + n * 36, innerWidth - maxAncho - 20)) + 'px';
+    v.style.top = (y != null ? y : 56 + n * 32) + 'px';
+    v.innerHTML = '<div class="titulo"><h2>' + esc(c.titulo) + '</h2><button class="cerrar" type="button" aria-label="Cerrar ' + esc(c.titulo) + '">✕</button></div><div class="cuerpo">' + c.html + '</div>';
+    document.getElementById('ventanas').appendChild(v);
+    abiertas[id] = v;
+    var primero = v.querySelector('[data-logro]'); if (primero) verLogro(v, primero.dataset.logro);
+    alFrente(v);
+    v.querySelector('.cerrar').focus();
+  }
+  function cerrar(v) {
+    delete abiertas[v.dataset.v]; v.remove();
+    var resto = document.querySelectorAll('.ventana');
+    if (resto.length) alFrente(resto[resto.length - 1]);
+    else document.querySelectorAll('.icono').forEach(function (b) { b.setAttribute('aria-pressed', 'false'); });
+    var ic = document.querySelector('[data-abrir="' + v.dataset.v + '"]'); if (ic) ic.focus();
+  }
+
+  document.addEventListener('click', function (e) {
+    var a = e.target.closest('[data-abrir]'); if (a) { abrir(a.dataset.abrir); return; }
+    var c = e.target.closest('.cerrar'); if (c) { cerrar(c.closest('.ventana')); return; }
+    var l = e.target.closest('[data-logro]'); if (l) { verLogro(l.closest('.ventana'), l.dataset.logro); return; }
+    var m = e.target.closest('[data-img]');
+    if (m) { var v = m.closest('.ventana'); v.querySelector('.grande').src = m.dataset.img; v.querySelectorAll('[data-img]').forEach(function (b) { b.setAttribute('aria-current', String(b === m)); }); }
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape') { var act = document.querySelector('.ventana.activa'); if (act) cerrar(act); }
+  });
+
+  // Arrastrar una ventana por su barra; en el móvil las ventanas ocupan la pantalla y no se arrastran.
+  document.addEventListener('pointerdown', function (e) {
+    var v = e.target.closest('.ventana'); if (!v) return;
+    alFrente(v);
+    var t = e.target.closest('.titulo');
+    if (!t || e.target.closest('.cerrar') || movil.matches) return;
+    var dx = e.clientX - v.offsetLeft, dy = e.clientY - v.offsetTop;
+    t.setPointerCapture(e.pointerId);
+    function mover(ev) {
+      v.style.left = Math.max(-v.offsetWidth + 80, Math.min(innerWidth - 80, ev.clientX - dx)) + 'px';
+      v.style.top = Math.max(38, Math.min(innerHeight - 40, ev.clientY - dy)) + 'px';
+    }
+    function soltar() { t.removeEventListener('pointermove', mover); t.removeEventListener('pointerup', soltar); }
+    t.addEventListener('pointermove', mover); t.addEventListener('pointerup', soltar);
+  });
+
+  // En el ordenador arranca con el Léeme y el proyecto que se movió hace menos; en el móvil, con la pantalla de inicio.
+  if (!movil.matches) {
+    abrir(d.logros[0] ? d.logros[0].proyecto : d.proyectos[0].id, Math.max(440, innerWidth - 880), 120);
+    abrir('leeme', 260, 64);
+  }
+});
+</script>
+</body>
+</html>

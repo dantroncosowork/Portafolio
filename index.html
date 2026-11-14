@@ -3,570 +3,405 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Portafolio de Daniel</title>
-<meta name="description" content="Proyectos, automatizaciones y flujos de trabajo construidos con IA.">
+<title>Portafolio de Daniel Troncoso</title>
+<meta name="description" content="Proyectos, automatizaciones y flujos de trabajo construidos con IA. Cada proyecto se abre como una app, con su historia paso a paso.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:wght@400;700&display=swap" rel="stylesheet">
 <style>
+  /* Daniel OS: tres de sus apps se llaman «OS», así que el portafolio es su escritorio.
+     Cada proyecto es una app, y al abrirla sale una ventana con su historia. */
   :root {
-    --fondo: #08080A;
-    --tarjeta: #131315;
-    --elevada: #1A1A1D;
-    --borde: #26262B;
-    --texto: #F2F2F3;
-    --texto-2: #B4BAC1;
-    --texto-3: #8E949C;
-    --acento: #A594FF;
-    --app: #6CB4FF;
-    --juego: #FF8FC7;
-    --automatizacion: #F5B94A;
-    --flujo: #5FD39A;
-    --radio: 12px;
+    --mesa: #2B4A52;        /* el escritorio: verde azulado profundo, plano */
+    --papel: #FBFBF8;       /* el interior de las ventanas */
+    --negro: #000000;
+    --activa: #F0C419;      /* la barra de la ventana que tienes delante */
+    --inactiva: #D6D3C9;
+    --gris: #55575B;
+    --raya: #CFCCC2;
   }
   * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
-  body {
-    margin: 0; background: var(--fondo); color: var(--texto);
-    font: 400 16px/1.5 Inter, system-ui, sans-serif;
-  }
-  a { color: var(--acento); }
-  button { font: inherit; color: inherit; }
-  .pagina { max-width: 1120px; margin: 0 auto; padding: 48px 16px 64px; }
-  [hidden] { display: none !important; }
+  html, body { height: 100%; }
+  body { margin: 0; background: var(--mesa); color: var(--negro); font: 400 16px/1.5 'Atkinson Hyperlegible', system-ui, sans-serif; overflow: hidden; }
+  :focus-visible { outline: 3px solid var(--activa); outline-offset: 2px; }
+  a { color: var(--negro); text-decoration-thickness: 2px; text-underline-offset: 3px; }
 
-  /* Arriba: quién es */
-  .portada-sitio {
-    background: radial-gradient(120% 140% at 0% 0%, color-mix(in srgb, var(--acento) 16%, transparent), transparent 60%), var(--tarjeta);
-    border: 1px solid var(--borde); border-radius: 16px; padding: 32px;
-  }
-  .sello { font-size: 12px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--acento); margin: 0 0 12px; }
-  .portada-sitio h1 { font-size: 40px; line-height: 1.15; font-weight: 600; margin: 0 0 8px; letter-spacing: -0.02em; }
-  .rol { font-size: 20px; color: var(--texto-2); margin: 0; max-width: 720px; }
-  .presentacion { display: flex; align-items: center; gap: 28px; }
-  .foto-perfil {
-    width: 120px; height: 120px; border-radius: 50%; object-fit: cover; flex: 0 0 auto;
-    border: 2px solid color-mix(in srgb, var(--acento) 45%, transparent);
-  }
-  .tres { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; margin-top: 28px; }
-  .tres div { border-top: 1px solid var(--borde); padding-top: 12px; }
-  .tres h2 { font-size: 14px; font-weight: 600; margin: 0 0 4px; color: var(--texto); }
-  .tres p { font-size: 14px; color: var(--texto-2); margin: 0; }
-  .bajo { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px 24px; margin-top: 28px; }
-  .cifras { display: flex; flex-wrap: wrap; gap: 8px 24px; color: var(--texto-3); font-size: 14px; }
-  .cifras b { color: var(--texto); font-weight: 600; font-variant-numeric: tabular-nums; }
-  .enlaces { display: flex; gap: 8px; flex-wrap: wrap; }
-  .boton {
-    display: inline-flex; align-items: center; gap: 6px; font-size: 14px; text-decoration: none;
-    color: var(--texto); background: var(--elevada); border: 1px solid var(--borde); border-radius: 999px; padding: 6px 14px; cursor: pointer;
-  }
-  .boton:hover { border-color: var(--texto-3); }
-  .boton.principal { color: var(--fondo); background: var(--acento); border-color: var(--acento); font-weight: 600; }
+  /* La enredadera vive debajo de todo: sólo se ve en el escritorio vacío. */
+  #enredadera { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
 
-  h2.seccion { font-size: 20px; font-weight: 600; margin: 48px 0 16px; }
-  .saltos { display: flex; flex-wrap: wrap; gap: 8px; margin: 24px 0 0; }
-  .grupo h3.titulo-grupo { font-size: 16px; font-weight: 600; margin: 32px 0 12px; display: flex; align-items: center; gap: 8px; }
-  .grupo h3.titulo-grupo::before { content: ''; width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
-  .grupo h3 small { font-size: 14px; font-weight: 400; color: var(--texto-3); }
+  .barra { position: fixed; inset: 0 0 auto 0; height: 36px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 16px; background: var(--papel); border-bottom: 2px solid var(--negro); font-size: 15px; z-index: 9999; }
+  .barra b { font-size: 16px; }
+  .barra span { color: var(--gris); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
-  .rejilla { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 16px; }
-  .proyecto {
-    background: var(--tarjeta); border: 1px solid var(--borde); border-radius: var(--radio);
-    overflow: hidden; display: flex; flex-direction: column; cursor: pointer; text-align: left; padding: 0;
-  }
-  .proyecto:hover, .proyecto:focus-visible { border-color: var(--texto-3); outline: none; }
-  .foto { aspect-ratio: 16 / 10; background: var(--elevada); position: relative; overflow: hidden; }
-  .foto.sin { aspect-ratio: 16 / 5; }
-  .foto img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; }
-  .foto .inicial {
-    position: absolute; inset: 0; display: grid; place-items: center;
-    font-size: 40px; font-weight: 600; color: var(--c); opacity: 0.55;
-  }
-  .cuerpo { padding: 16px; display: flex; flex-direction: column; gap: 8px; flex: 1; }
-  .fila { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-  .proyecto h4 { font-size: 16px; font-weight: 600; margin: 0; }
-  .que { color: var(--texto-2); font-size: 14px; margin: 0; }
-  .pie { margin-top: auto; padding-top: 8px; display: flex; flex-wrap: wrap; gap: 6px; align-items: center; font-size: 12px; color: var(--texto-3); }
-  .chip { border: 1px solid var(--borde); border-radius: 999px; padding: 2px 8px; font-size: 12px; color: var(--texto-2); }
-  .tipo { color: var(--c); border-color: color-mix(in srgb, var(--c) 40%, transparent); }
-  .estado { font-size: 12px; color: var(--texto-3); white-space: nowrap; }
-  .historia { font-size: 14px; color: var(--acento); }
+  .iconos { position: absolute; z-index: 1; top: 56px; left: 16px; bottom: 16px; display: grid; grid-auto-flow: column; grid-template-rows: repeat(auto-fill, 112px); gap: 8px 12px; align-content: start; }
+  .icono { width: 104px; display: flex; flex-direction: column; align-items: center; gap: 6px; background: none; border: 0; padding: 6px 2px; cursor: pointer; color: #FFFFFF; font: inherit; }
+  .icono .cara { width: 56px; height: 56px; border: 2px solid var(--negro); border-radius: 12px; overflow: hidden; background: var(--c); display: grid; place-items: center; box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35); font-weight: 700; font-size: 24px; color: var(--negro); }
+  .icono .cara img { width: 100%; height: 100%; object-fit: cover; object-position: top left; }
+  .icono .nombre { font-size: 14px; line-height: 1.25; text-align: center; padding: 1px 4px; border-radius: 3px; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6); }
+  .icono[aria-pressed="true"] .nombre { background: var(--activa); color: var(--negro); text-shadow: none; }
+  .doc { background: var(--papel) !important; }
 
-  /* Certificaciones y credenciales */
-  .rejilla-cert { display: grid; grid-template-columns: repeat(auto-fill, minmax(320px, 1fr)); gap: 16px; margin-top: 16px; }
-  .tarjeta-cert {
-    background: var(--tarjeta); border: 1px solid var(--borde); border-radius: var(--radio);
-    padding: 20px; display: flex; gap: 18px; align-items: flex-start;
-  }
-  .tarjeta-cert:hover { border-color: var(--texto-3); }
-  .badge-link {
-    flex: 0 0 auto; width: 92px; height: 92px; border-radius: 12px;
-    background: radial-gradient(circle at center, color-mix(in srgb, var(--automatizacion) 20%, transparent), transparent 75%), var(--elevada);
-    border: 1px solid var(--borde); padding: 6px; display: flex; align-items: center; justify-content: center;
-    text-decoration: none; transition: transform .15s ease, border-color .15s ease;
-  }
-  .badge-link:hover { transform: scale(1.04); border-color: var(--acento); }
-  .badge-link img { max-width: 100%; max-height: 100%; object-fit: contain; display: block; }
-  .badge-fallback {
-    width: 100%; height: 100%; display: flex; flex-direction: column; align-items: center; justify-content: center;
-    border-radius: 8px; background: color-mix(in srgb, var(--acento) 14%, var(--elevada)); color: var(--acento);
-    font-weight: 700; font-size: 18px; text-align: center; line-height: 1.1;
-  }
-  .badge-fallback small { font-size: 10px; font-weight: 600; text-transform: uppercase; letter-spacing: .05em; color: var(--texto-2); margin-top: 2px; }
-  .cert-info { flex: 1; min-width: 0; }
-  .cert-arriba { display: flex; align-items: center; justify-content: space-between; gap: 8px; margin-bottom: 6px; }
-  .chip-verif {
-    display: inline-flex; align-items: center; gap: 4px; font-size: 11px; font-weight: 600;
-    color: var(--flujo); border: 1px solid color-mix(in srgb, var(--flujo) 35%, transparent);
-    background: color-mix(in srgb, var(--flujo) 10%, transparent); border-radius: 999px; padding: 2px 8px;
-  }
-  .cert-info h4 { font-size: 16px; font-weight: 600; margin: 0 0 2px; color: var(--texto); line-height: 1.3; }
-  .cert-emisor { font-size: 13px; color: var(--acento); margin: 0 0 6px; font-weight: 500; }
-  .cert-desc { font-size: 13px; color: var(--texto-2); margin: 0 0 10px; line-height: 1.4; }
-  .cert-accion { display: inline-flex; align-items: center; gap: 4px; font-size: 12px; color: var(--texto); text-decoration: none; font-weight: 500; }
-  .cert-accion:hover { color: var(--acento); text-decoration: underline; }
+  .ventana { position: absolute; z-index: 2; background: var(--papel); border: 2px solid var(--negro); box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.35); display: flex; flex-direction: column; max-height: calc(100vh - 60px); min-width: 320px; }
+  .ventana .titulo { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 8px 6px 14px; background: var(--inactiva); border-bottom: 2px solid var(--negro); cursor: grab; user-select: none; touch-action: none; }
+  .ventana.activa .titulo { background: var(--activa); }
+  .ventana .titulo h2 { margin: 0; font-size: 16px; }
+  .ventana .cerrar { width: 28px; height: 28px; border: 2px solid var(--negro); background: var(--papel); font: 700 15px 'Atkinson Hyperlegible', sans-serif; cursor: pointer; display: grid; place-items: center; flex-shrink: 0; }
+  .ventana .cuerpo { overflow: auto; padding: 20px; }
 
-  /* Los logros de la portada */
-  .linea { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 16px; }
-  .logro { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: var(--radio); padding: 20px; }
-  .meta { font-size: 12px; color: var(--texto-3); display: flex; flex-wrap: wrap; gap: 6px 12px; align-items: center; }
-  .logro h4, .paso h4 { font-size: 16px; font-weight: 600; margin: 8px 0 4px; }
-  .logro p, .paso p { color: var(--texto-2); margin: 0; white-space: pre-line; }
-  .ir { display: inline-block; margin-top: 12px; font-size: 14px; background: none; border: 0; padding: 0; color: var(--acento); cursor: pointer; }
-  .tiras { display: flex; gap: 8px; margin-top: 16px; overflow-x: auto; padding-bottom: 4px; }
-  .tira { flex: 0 0 auto; border: 1px solid var(--borde); border-radius: 8px; padding: 0; background: var(--elevada); cursor: zoom-in; overflow: hidden; }
-  /* Las capturas suelen ser de página entera: la miniatura enseña su parte de arriba. */
-  .tira img { display: block; width: 240px; height: 150px; object-fit: cover; object-position: top left; }
-  .tira video { display: block; width: 240px; height: 150px; object-fit: cover; object-position: top left; pointer-events: none; }
-  .tira.estrecha img, .tira.estrecha video { width: 96px; }
-  .tira-video { position: relative; }
-  .play-badge {
-    position: absolute; bottom: 8px; left: 8px; background: rgba(0, 0, 0, 0.75); color: #fff;
-    font-size: 11px; font-weight: 600; padding: 2px 8px; border-radius: 4px; pointer-events: none;
-    display: inline-flex; align-items: center; gap: 4px; border: 1px solid rgba(255, 255, 255, 0.2);
-  }
-  .cabeza video.foto { border: 1px solid var(--borde); border-radius: var(--radio); max-height: 320px; width: 100%; object-fit: cover; background: #000; }
-  .vacio { color: var(--texto-3); border: 1px dashed var(--borde); border-radius: var(--radio); padding: 32px; text-align: center; }
+  .leeme { display: grid; grid-template-columns: 96px 1fr; gap: 20px; }
+  .leeme img { width: 96px; height: 96px; object-fit: cover; border: 2px solid var(--negro); }
+  .leeme h3 { font-size: 30px; line-height: 1.1; margin: 0 0 6px; }
+  .leeme .rol { margin: 0 0 16px; font-size: 18px; }
+  .leeme h4 { margin: 14px 0 2px; font-size: 16px; }
+  .leeme p { margin: 0; color: var(--gris); max-width: 60ch; }
+  .leeme .pie { margin-top: 16px; color: var(--negro); display: flex; gap: 16px; flex-wrap: wrap; }
 
-  /* La página de un proyecto */
-  .volver { margin-bottom: 24px; }
-  .cabeza { display: grid; grid-template-columns: 1.2fr 1fr; gap: 24px; align-items: start; }
-  .cabeza .foto { border: 1px solid var(--borde); border-radius: var(--radio); }
-  .cabeza h1 { font-size: 32px; font-weight: 600; margin: 8px 0; letter-spacing: -0.01em; }
-  .cabeza .que { font-size: 16px; }
-  .cabeza .acciones { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
-  .camino { list-style: none; margin: 0; padding: 0; position: relative; }
-  .camino::before { content: ''; position: absolute; left: 15px; top: 8px; bottom: 8px; width: 2px; background: var(--borde); }
-  .paso { position: relative; padding: 0 0 32px 52px; }
-  .paso .num {
-    position: absolute; left: 0; top: 0; width: 32px; height: 32px; border-radius: 50%;
-    display: grid; place-items: center; font-size: 14px; font-weight: 600;
-    background: var(--tarjeta); border: 2px solid var(--c); color: var(--texto);
-  }
-  .paso.menor .num { width: 14px; height: 14px; left: 9px; top: 6px; border-width: 2px; font-size: 0; }
-  .paso.menor h4 { font-size: 14px; }
-  .paso:last-child { padding-bottom: 0; }
-  .paso .tarjeta-paso { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: var(--radio); padding: 16px 20px; }
+  .app .que { margin: 0 0 12px; color: var(--gris); max-width: 72ch; }
+  .app .acciones { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 16px; }
+  .boton { display: inline-block; font: 700 14px 'Atkinson Hyperlegible', sans-serif; color: var(--negro); background: var(--papel); border: 2px solid var(--negro); padding: 6px 14px; text-decoration: none; cursor: pointer; box-shadow: 3px 3px 0 var(--negro); }
+  .boton:active { transform: translate(2px, 2px); box-shadow: 1px 1px 0 var(--negro); }
+  .boton.principal { background: var(--activa); }
+  .app video.demo { width: 100%; display: block; border: 2px solid var(--negro); background: #000; max-height: 360px; margin-bottom: 16px; }
+  .app .partes { display: grid; grid-template-columns: 250px 1fr; gap: 20px; min-height: 0; }
+  .app .partes > * { min-width: 0; }
+  .app ol { list-style: none; margin: 0; padding: 0; border: 2px solid var(--negro); max-height: 420px; overflow: auto; }
+  .app ol button { display: grid; grid-template-columns: 26px 1fr; gap: 8px; width: 100%; text-align: left; border: 0; border-bottom: 1px solid var(--raya); background: none; padding: 8px 10px; font: inherit; font-size: 14px; line-height: 1.35; cursor: pointer; }
+  .app ol .num { font-weight: 700; font-size: 13px; color: var(--gris); padding-top: 1px; }
+  .app ol small { display: block; color: var(--gris); font-size: 13px; }
+  .app ol .menor { color: var(--gris); }
+  .app ol button[aria-current="true"] { background: var(--negro); color: var(--papel); }
+  .app ol button[aria-current="true"] small, .app ol button[aria-current="true"] .num { color: #C9C9C9; }
+  .app .todos { margin-top: 12px; }
+  .app .vista .grande { width: 100%; display: block; border: 2px solid var(--negro); max-height: 360px; object-fit: cover; object-position: top left; background: #000; }
+  .app .vista h3 { font-size: 22px; line-height: 1.2; margin: 14px 0 4px; }
+  .app .vista .cuando { color: var(--gris); font-size: 14px; margin-bottom: 8px; }
+  .app .vista p { margin: 0; max-width: 64ch; }
+  .app .vista .aparte { display: inline-block; margin-top: 12px; font-size: 14px; }
+  .app .vacia { border: 2px dashed var(--gris); padding: 28px; color: var(--gris); }
+  .app .mini { display: flex; gap: 6px; margin-top: 8px; flex-wrap: wrap; }
+  .app .mini button { padding: 0; border: 2px solid transparent; background: #000; cursor: pointer; position: relative; }
+  .app .mini button[aria-current="true"] { border-color: var(--negro); outline: 2px solid var(--activa); }
+  .app .mini img, .app .mini video { display: block; width: 64px; height: 42px; object-fit: cover; object-position: top left; pointer-events: none; }
+  .app .mini .play { position: absolute; inset: 0; display: grid; place-items: center; color: #fff; font-size: 14px; text-shadow: 0 0 4px #000; }
 
-  .tiras { scrollbar-color: var(--borde) transparent; scrollbar-width: thin; }
+  .certs .cert { display: grid; grid-template-columns: 64px 1fr; gap: 16px; padding: 14px 0; border-bottom: 1px solid var(--raya); }
+  .certs .cert:last-child { border-bottom: 0; }
+  .certs img { width: 64px; height: 64px; object-fit: contain; }
+  .certs h3 { margin: 4px 0 0; font-size: 18px; line-height: 1.25; }
+  .certs .emisor { margin: 0; color: var(--gris); font-size: 14px; }
+  .certs .desc { margin: 6px 0 8px; font-size: 15px; }
+  .certs .verif { display: inline-block; font-size: 13px; font-weight: 700; border: 2px solid var(--negro); padding: 0 6px; background: #CDEFD9; }
+  .certs .fecha { color: var(--gris); font-size: 13px; margin-left: 8px; }
 
-  /* El visor. Muchas capturas son de página entera (1440 × 3500): se abren al
-     ancho de la pantalla y se bajan con la rueda; pulsando, a tamaño real. */
-  dialog#visor {
-    border: 0; padding: 0; margin: 0; width: 100vw; height: 100vh; max-width: none; max-height: none;
-    background: rgba(8, 8, 10, 0.96); color: var(--texto);
-  }
-  dialog#visor[open] { display: flex; flex-direction: column; }
-  dialog#visor::backdrop { background: rgba(0, 0, 0, 0.6); }
-  .barra-visor { display: flex; align-items: center; gap: 8px; padding: 12px 16px; flex-wrap: wrap; border-bottom: 1px solid var(--borde); }
-  .barra-visor .titulo-visor { flex: 1; min-width: 0; font-size: 14px; color: var(--texto-2); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .lienzo { flex: 1; overflow: auto; padding: 16px; display: flex; justify-content: center; align-items: flex-start; }
-  .lienzo img { display: block; max-width: 100%; height: auto; border-radius: 8px; cursor: zoom-in; }
-  .lienzo.real { justify-content: flex-start; }
-  .lienzo.real img { max-width: none; cursor: zoom-out; }
-
-  footer { margin-top: 64px; color: var(--texto-3); font-size: 12px; }
+  .pista { position: absolute; z-index: 1; right: 20px; bottom: 16px; color: #CFE0E3; font-size: 14px; margin: 0; }
+  body:has(.ventana) .pista { visibility: hidden; }
+  noscript p { position: relative; z-index: 3; margin: 80px auto; max-width: 560px; background: var(--papel); border: 2px solid var(--negro); padding: 20px; }
 
   @media (max-width: 760px) {
-    .tres { grid-template-columns: 1fr; }
-    .cabeza { grid-template-columns: 1fr; }
+    body { overflow: auto; }
+    .iconos { position: relative; inset: auto; padding: 56px 16px 24px; display: grid; grid-auto-flow: row; grid-template-columns: repeat(4, 1fr); grid-template-rows: none; gap: 16px 4px; }
+    .icono { width: auto; }
+    .ventana { position: fixed; inset: 36px 0 0 0 !important; width: auto !important; max-height: none; min-width: 0; box-shadow: none; border-width: 2px 0 0 0; }
+    .ventana .titulo { cursor: default; }
+    .leeme { grid-template-columns: 1fr; }
+    .app .partes { grid-template-columns: 1fr; }
+    .app ol { max-height: 220px; }
+    .pista { position: relative; display: block; padding: 0 16px 24px; right: auto; bottom: auto; }
   }
-  @media (max-width: 480px) {
-    .pagina { padding-top: 16px; }
-    .portada-sitio { padding: 24px 20px; }
-    .portada-sitio h1 { font-size: 32px; }
-    .presentacion { flex-direction: column; align-items: flex-start; gap: 16px; }
-    .foto-perfil { width: 88px; height: 88px; }
-    .rol { font-size: 16px; }
-    .rejilla { grid-template-columns: 1fr; }
-    .rejilla-cert { grid-template-columns: 1fr; }
-    .tarjeta-cert { flex-direction: column; align-items: flex-start; gap: 14px; }
-    .badge-link { width: 76px; height: 76px; }
-    .tira img { width: 200px; height: 125px; }
-    .tira.estrecha img { width: 80px; }
-    .cabeza h1 { font-size: 26px; }
-    .barra-visor .titulo-visor { flex-basis: 100%; }
-    #visorAbrir { display: none; }
+  @media (prefers-reduced-motion: no-preference) {
+    .ventana.nueva { animation: abrir 140ms ease-out; }
+    @keyframes abrir { from { transform: scale(0.96); opacity: 0; } }
   }
 </style>
 </head>
 <body>
-<div class="pagina">
-  <main id="inicio">
-    <section class="portada-sitio">
-      <div class="presentacion">
-        <img id="foto" class="foto-perfil" alt="" hidden>
-        <div>
-          <p class="sello">Portafolio · proyectos hechos con IA</p>
-          <h1 id="nombre">Portafolio</h1>
-          <p class="rol" id="rol"></p>
-        </div>
-      </div>
-      <div class="tres" id="tres"></div>
-      <div class="bajo">
-        <div class="cifras" id="cifras"></div>
-        <div class="enlaces" id="enlaces"></div>
-      </div>
-    </section>
-
-    <div class="saltos" id="saltos" role="group" aria-label="Ir a una categoría"></div>
-
-    <section id="seccion-certificaciones" hidden>
-      <h2 class="seccion" style="margin-top:36px">Certificaciones oficiales</h2>
-      <div class="rejilla-cert" id="certificaciones"></div>
-    </section>
-
-    <h2 class="seccion">Proyectos</h2>
-    <div id="grupos"></div>
-
-    <h2 class="seccion">Últimos avances</h2>
-    <ol class="linea" id="ultimos"></ol>
-  </main>
-
-  <main id="ficha" hidden></main>
-
-  <footer>Esta página se mantiene sola: cada avance lo apunta el flujo del propio portafolio, con su captura, y se publica al subirlo.</footer>
-</div>
-
-<dialog id="visor" aria-label="Captura">
-  <div class="barra-visor">
-    <span class="titulo-visor" id="visorTitulo"></span>
-    <button class="boton" type="button" id="visorAnt" aria-label="Captura anterior">←</button>
-    <button class="boton" type="button" id="visorSig" aria-label="Captura siguiente">→</button>
-    <button class="boton" type="button" id="visorZoom">Tamaño real</button>
-    <a class="boton" id="visorAbrir" target="_blank" rel="noopener">Abrir aparte</a>
-    <button class="boton" type="button" id="cerrarVisor">Cerrar</button>
-  </div>
-  <div class="lienzo" id="visorLienzo"><img id="visorImg" alt=""><video id="visorVid" controls playsinline hidden style="max-width:100%;max-height:85vh;border-radius:8px;outline:none;"></video></div>
-</dialog>
+<canvas id="enredadera" aria-hidden="true"></canvas>
+<header class="barra"><b>Daniel OS</b><span id="ultimo"></span></header>
+<nav class="iconos" id="iconos" aria-label="Proyectos y documentos"></nav>
+<p class="pista" id="pista"></p>
+<div id="ventanas"></div>
+<noscript><p>Este portafolio abre cada proyecto en su ventana, y para eso necesita JavaScript. Todo lo que enseña está también en <a href="proyectos.json">proyectos.json</a> y <a href="logros.json">logros.json</a>.</p></noscript>
 
 <script>
+/* La enredadera: el puntero deja un rastro que echa ramas y se desvanece.
+   Viene de un componente de React (LivingVineBackground); aquí es el mismo dibujo en un
+   <canvas>, sin React. Con «reducir movimiento» no se dibuja, y se para sola al quedarse quieta. */
 (function () {
-  var TIPOS = { app: 'Apps', juego: 'Juegos', automatizacion: 'Automatizaciones', flujo: 'Flujos de trabajo' };
-  var TIPO_UNO = { app: 'App', juego: 'Juego', automatizacion: 'Automatización', flujo: 'Flujo de trabajo' };
+  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  var lienzo = document.getElementById('enredadera'), ctx = lienzo.getContext('2d');
+  var TALLO = 'rgba(45, 255, 190, 0.8)', RAMA = [45, 255, 190], LARGO_RAMA = 50;
+  var ancho, alto, rastro = [], ramas = [], quieto = 0, andando = false;
+
+  function medir() {
+    var r = window.devicePixelRatio || 1;
+    ancho = innerWidth; alto = innerHeight;
+    lienzo.width = ancho * r; lienzo.height = alto * r;
+    ctx.setTransform(r, 0, 0, r, 0, 0);
+  }
+  function Rama(x, y) {
+    this.puntos = [{ x: x, y: y }];
+    this.vida = 1;
+    this.angulo = Math.random() * Math.PI * 2;
+    this.paso = Math.random() * 1.5 + 0.5;
+  }
+  Rama.prototype.crecer = function () {
+    if (this.puntos.length > LARGO_RAMA) { this.vida -= 0.02; return; }
+    this.angulo += (Math.random() - 0.5) * 0.2;
+    var u = this.puntos[this.puntos.length - 1];
+    this.puntos.push({ x: u.x + Math.cos(this.angulo) * this.paso, y: u.y + Math.sin(this.angulo) * this.paso });
+  };
+  Rama.prototype.dibujar = function () {
+    ctx.beginPath();
+    ctx.moveTo(this.puntos[0].x, this.puntos[0].y);
+    for (var i = 1; i < this.puntos.length; i++) ctx.lineTo(this.puntos[i].x, this.puntos[i].y);
+    ctx.strokeStyle = 'rgba(' + RAMA.join(',') + ',' + (this.vida * 0.4) + ')';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+  };
+  function cuadro() {
+    // Se borra un poco cada vez (no se pinta encima): así el escritorio sigue siendo el del CSS.
+    ctx.globalCompositeOperation = 'destination-out';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
+    ctx.fillRect(0, 0, ancho, alto);
+    ctx.globalCompositeOperation = 'source-over';
+    if (rastro.length > 1) {
+      ctx.beginPath();
+      ctx.moveTo(rastro[0].x, rastro[0].y);
+      for (var i = 1; i < rastro.length; i++) ctx.lineTo(rastro[i].x, rastro[i].y);
+      ctx.strokeStyle = TALLO;
+      ctx.lineWidth = 2;
+      ctx.stroke();
+    }
+    ramas = ramas.filter(function (b) { return b.vida > 0; });
+    ramas.forEach(function (b) { b.crecer(); b.dibujar(); });
+    // Sin movimiento y sin ramas vivas, no gasta: se para hasta que el puntero vuelva a moverse.
+    if (++quieto > 90 && !ramas.length) { andando = false; return; }
+    requestAnimationFrame(cuadro);
+  }
+  addEventListener('pointermove', function (e) {
+    rastro.push({ x: e.clientX, y: e.clientY });
+    if (rastro.length > 100) rastro.shift();
+    if (Math.random() > 0.95) ramas.push(new Rama(e.clientX, e.clientY));
+    quieto = 0;
+    if (!andando) { andando = true; requestAnimationFrame(cuadro); }
+  }, { passive: true });
+  addEventListener('resize', medir);
+  medir();
+})();
+
+(function () {
   var MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
-  var ULTIMOS = 6;
-  var datos = { perfil: {}, proyectos: [], logros: [] };
-  var verTodos = false;
+  var COLOR = { app: '#8FC3FF', juego: '#FFB3D6', automatizacion: '#F7C969', flujo: '#8EE0B4' };
+  var movil = matchMedia('(max-width: 760px)');
+  var capa = 10, abiertas = {}, verTodos = {};
+  var d = { perfil: {}, certificaciones: [], proyectos: [], logros: [] };
 
   function esc(s) {
     return String(s == null ? '' : s).replace(/[&<>"']/g, function (c) {
       return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c];
     });
   }
-  function fecha(iso) {
-    var p = String(iso).split('-');
-    return p.length === 3 ? (+p[2]) + ' ' + MESES[+p[1] - 1] + ' ' + p[0] : esc(iso);
-  }
-  function color(tipo) { return 'var(--' + (TIPOS[tipo] ? tipo : 'app') + ')'; }
-  function proyecto(id) { return datos.proyectos.filter(function (p) { return p.id === id; })[0]; }
-  // De más nuevo a más viejo; la página de un proyecto le da la vuelta.
-  function logrosDe(id) { return datos.logros.filter(function (l) { return l.proyecto === id; }); }
+  function fecha(iso) { var p = String(iso).split('-'); return p.length === 3 ? (+p[2]) + ' ' + MESES[+p[1] - 1] + ' ' + p[0] : esc(iso); }
+  function esVideo(c) { return /\.mp4$/i.test(c); }
+  function proyecto(id) { return d.proyectos.filter(function (p) { return p.id === id; })[0]; }
+  function logrosDe(id) { return d.logros.filter(function (l) { return l.proyecto === id; }); }
   // Si un proyecto no marcó ningún hito, su historia son todos sus logros: nunca sale vacía.
-  function hitosDe(id) {
-    var ls = logrosDe(id), h = ls.filter(function (l) { return l.hito; });
-    return h.length ? h : ls;
-  }
-  function fotoDe(id) {
+  function hitosDe(id) { var ls = logrosDe(id), h = ls.filter(function (l) { return l.hito; }); return h.length ? h : ls; }
+  function portada(id) {
     var ls = hitosDe(id).concat(logrosDe(id));
     for (var i = 0; i < ls.length; i++) {
-      var cs = (ls[i].capturas || []).filter(function (c) { return !/\.mp4$/i.test(c); });
-      var ancha = cs.filter(function (c) { return /1440/.test(c); })[0] || cs[0];
+      var cs = (ls[i].capturas || []).filter(function (c) { return !esVideo(c); });
+      var ancha = cs.filter(function (c) { return !/-390\./.test(c); })[0] || cs[0];
       if (ancha) return ancha;
     }
     return null;
   }
-  function chipsIA(lista) { return (lista || []).map(function (x) { return '<span class="chip">' + esc(x) + '</span>'; }).join(''); }
-  function tiras(l) {
-    return (l.capturas || []).map(function (c) {
-      if (/\.mp4$/i.test(c)) {
-        return '<button class="tira tira-video" type="button" data-ver="' + esc(c) + '">' +
-          '<video src="' + esc(c) + '" muted playsinline preload="metadata"></video>' +
-          '<span class="play-badge">▶ Video Demo</span></button>';
+
+  function pintarEscritorio() {
+    var ultimo = d.logros[0];
+    document.getElementById('ultimo').textContent = ultimo ? 'Último avance: ' + fecha(ultimo.fecha) : '';
+    document.getElementById('pista').textContent = d.proyectos.length + ' proyectos y ' + d.logros.length + ' avances. Abre uno para ver su historia.';
+    var iconos = [{ id: 'leeme', nombre: 'Léeme', doc: true }].concat(d.proyectos.map(function (p) { return { id: p.id, nombre: p.nombre, p: p }; }));
+    if (d.certificaciones.length) iconos.push({ id: 'certificados', nombre: 'Certificados', doc: true });
+    document.getElementById('iconos').innerHTML = iconos.map(function (it) {
+      var cara;
+      if (it.doc) cara = '<span class="cara doc" aria-hidden="true">' + (it.id === 'leeme'
+        ? '<svg width="26" height="30" viewBox="0 0 26 30"><path d="M2 2h15l7 7v19H2z" fill="#fff" stroke="#000" stroke-width="2"/><path d="M6 13h14M6 18h14M6 23h9" stroke="#000" stroke-width="2"/></svg>'
+        : '<svg width="30" height="28" viewBox="0 0 30 28"><circle cx="15" cy="11" r="8" fill="#F0C419" stroke="#000" stroke-width="2"/><path d="M10 18l-3 8 8-3 8 3-3-8" fill="#fff" stroke="#000" stroke-width="2"/></svg>') + '</span>';
+      else {
+        var img = portada(it.id);
+        cara = '<span class="cara" style="--c:' + (COLOR[it.p.tipo] || '#ccc') + '" aria-hidden="true">' + (img ? '<img src="' + esc(img) + '" alt="">' : esc(it.nombre.charAt(0))) + '</span>';
       }
-      return '<button class="tira' + (/-390[.-]/.test(c) ? ' estrecha' : '') + '" type="button" data-ver="' + esc(c) + '">' +
-        '<img src="' + esc(c) + '" alt="Captura: ' + esc(l.titulo) + '" loading="lazy"></button>';
+      return '<button class="icono" type="button" data-abrir="' + esc(it.id) + '" aria-pressed="false">' + cara + '<span class="nombre">' + esc(it.nombre) + '</span></button>';
     }).join('');
   }
-  function foto(p, img) {
-    return '<div class="foto' + (img ? '' : ' sin') + '" style="--c:' + color(p.tipo) + '">' + (img
-      ? '<img src="' + esc(img) + '" alt="Captura de ' + esc(p.nombre) + '" loading="lazy">'
-      : '<div class="inicial" aria-hidden="true">' + esc(p.nombre.charAt(0)) + '</div>') + '</div>';
-  }
 
-  /* ---------- la portada ---------- */
-  function pintarInicio() {
-    var perfil = datos.perfil || {};
-    document.getElementById('nombre').textContent = perfil.nombre || 'Portafolio';
-    var f = document.getElementById('foto');
-    if (perfil.foto) { f.src = perfil.foto; f.alt = 'Foto de ' + (perfil.nombre || ''); f.hidden = false; }
-    document.getElementById('rol').textContent = perfil.rol || '';
-    var tres = [['Quién soy', perfil.quien], ['Por qué lo hago', perfil.porque], ['Qué busco', perfil.busca]]
-      .filter(function (x) { return x[1]; });
-    document.getElementById('tres').innerHTML = tres.map(function (x) {
-      return '<div><h2>' + x[0] + '</h2><p>' + esc(x[1]) + '</p></div>';
-    }).join('');
-    var ultimo = datos.logros[0];
-    var certs = datos.certificaciones || [];
-    document.getElementById('cifras').innerHTML =
-      '<span><b>' + datos.proyectos.length + '</b> proyectos</span>' +
-      (certs.length ? '<span><b>' + certs.length + '</b> ' + (certs.length === 1 ? 'certificación' : 'certificaciones') + '</span>' : '') +
-      '<span><b>' + datos.logros.length + '</b> avances apuntados</span>' +
-      (ultimo ? '<span>el último, el <b>' + fecha(ultimo.fecha) + '</b></span>' : '');
-    document.getElementById('enlaces').innerHTML = (perfil.enlaces || []).map(function (e) {
-      return '<a class="boton" href="' + esc(e.url) + '" target="_blank" rel="noopener">' + esc(e.nombre) + '</a>';
-    }).join('');
-
-    var secCert = document.getElementById('seccion-certificaciones');
-    if (secCert) {
-      if (certs.length) {
-        secCert.hidden = false;
-        document.getElementById('certificaciones').innerHTML = certs.map(tarjetaCert).join('');
-      } else {
-        secCert.hidden = true;
-      }
+  function contenido(id) {
+    if (id === 'leeme') {
+      var f = d.perfil;
+      return { titulo: 'Léeme', ancho: 640, html: '<div class="leeme">' + (f.foto ? '<img src="' + esc(f.foto) + '" alt="Daniel Troncoso">' : '<span></span>') +
+        '<div><h3>' + esc(f.nombre) + '</h3><p class="rol">' + esc(f.rol) + '</p>' +
+        (f.quien ? '<h4>Quién soy</h4><p>' + esc(f.quien) + '</p>' : '') +
+        (f.porque ? '<h4>Por qué lo hago</h4><p>' + esc(f.porque) + '</p>' : '') +
+        (f.busca ? '<h4>Qué busco</h4><p>' + esc(f.busca) + '</p>' : '') +
+        '<p class="pie">' + (f.enlaces || []).map(function (e) { return '<a href="' + esc(e.url) + '" target="_blank" rel="noopener">Mi ' + esc(e.nombre) + '</a>'; }).join('') + '</p></div></div>' };
     }
-
-    var orden = Object.keys(TIPOS).filter(function (t) { return datos.proyectos.some(function (p) { return p.tipo === t; }); });
-    var botonesSaltos = [];
-    if (certs.length) {
-      botonesSaltos.push('<button class="boton" type="button" data-salto-cert="1">Certificaciones (' + certs.length + ')</button>');
+    if (id === 'certificados') {
+      return { titulo: 'Certificados', ancho: 560, html: '<div class="certs">' + d.certificaciones.map(function (k) {
+        return '<div class="cert">' + (k.badge ? '<img src="' + esc(k.badge) + '" alt="Insignia de ' + esc(k.nombre) + '">' : '<span></span>') +
+          '<div>' + (k.verificada ? '<span class="verif">Verificada</span>' : '') + '<span class="fecha">' + fecha(k.fecha) + '</span>' +
+          '<h3>' + esc(k.nombre) + '</h3><p class="emisor">' + esc(k.emisor) + '</p>' +
+          (k.descripcion ? '<p class="desc">' + esc(k.descripcion) + '</p>' : '') +
+          (k.url ? '<a href="' + esc(k.url) + '" target="_blank" rel="noopener">Ver la credencial oficial</a>' : '') + '</div></div>';
+      }).join('') + '</div>' };
     }
-    botonesSaltos = botonesSaltos.concat(orden.map(function (t) {
-      return '<button class="boton" type="button" data-salto="' + t + '">' + TIPOS[t] + '</button>';
-    }));
-    document.getElementById('saltos').innerHTML = botonesSaltos.join('');
-    document.getElementById('grupos').innerHTML = orden.map(function (t) {
-      var lista = datos.proyectos.filter(function (p) { return p.tipo === t; });
-      return '<section class="grupo" id="grupo-' + t + '" style="--c:' + color(t) + '">' +
-        '<h3 class="titulo-grupo">' + TIPOS[t] + ' <small>' + lista.length + '</small></h3>' +
-        '<div class="rejilla">' + lista.map(tarjeta).join('') + '</div></section>';
-    }).join('');
-
-    var ultimos = datos.logros.slice(0, ULTIMOS);
-    document.getElementById('ultimos').innerHTML = ultimos.length ? ultimos.map(function (l) {
-      var pr = proyecto(l.proyecto) || { id: l.proyecto, nombre: l.proyecto, tipo: 'app' };
-      return '<li class="logro" style="--c:' + color(pr.tipo) + '">' +
-        '<div class="meta"><span>' + fecha(l.fecha) + '</span><span class="chip tipo">' + esc(pr.nombre) + '</span>' + chipsIA(l.ia) + '</div>' +
-        '<h4>' + esc(l.titulo) + '</h4>' + (l.texto ? '<p>' + esc(l.texto) + '</p>' : '') +
-        (l.capturas && l.capturas.length ? '<div class="tiras">' + tiras(l) + '</div>' : '') +
-        '<button class="ir" type="button" data-proyecto="' + esc(pr.id) + '">Ver la historia de ' + esc(pr.nombre) + ' →</button>' +
-        '</li>';
-    }).join('') : '<li class="vacio">Todavía no hay avances apuntados.</li>';
-  }
-
-  function tarjetaCert(c) {
-    var badgeHtml = c.badge
-      ? '<img src="' + esc(c.badge) + '" alt="Insignia oficial de ' + esc(c.nombre) + '" loading="lazy">'
-      : '<div class="badge-fallback" aria-hidden="true">' + esc(c.nombre.indexOf('EF SET') >= 0 ? 'C1' : c.nombre.charAt(0)) + '<small>' + esc((c.emisor || '').split(' ')[0]) + '</small></div>';
-
-    var enlaceBadge = c.url
-      ? '<a class="badge-link" href="' + esc(c.url) + '" target="_blank" rel="noopener" title="Ver credencial oficial de ' + esc(c.nombre) + '">' + badgeHtml + '</a>'
-      : '<div class="badge-link">' + badgeHtml + '</div>';
-
-    return '<div class="tarjeta-cert">' +
-      enlaceBadge +
-      '<div class="cert-info">' +
-        '<div class="cert-arriba">' +
-          '<span class="chip-verif"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" style="vertical-align:middle"><polyline points="20 6 9 17 4 12"></polyline></svg> Verificada</span>' +
-          '<span class="estado">' + fecha(c.fecha) + '</span>' +
-        '</div>' +
-        '<h4>' + esc(c.nombre) + '</h4>' +
-        '<p class="cert-emisor">' + esc(c.emisor) + '</p>' +
-        '<p class="cert-desc">' + esc(c.descripcion || '') + '</p>' +
-        (c.url ? '<a class="cert-accion" href="' + esc(c.url) + '" target="_blank" rel="noopener">Ver credencial oficial ↗</a>' : '') +
-      '</div>' +
-    '</div>';
-  }
-
-  function tarjeta(p) {
-    var n = hitosDe(p.id).length;
-    return '<button class="proyecto" type="button" data-proyecto="' + esc(p.id) + '" style="--c:' + color(p.tipo) + '">' +
-      foto(p, fotoDe(p.id)) +
-      '<div class="cuerpo">' +
-        '<div class="fila"><h4>' + esc(p.nombre) + '</h4><span class="estado">' + esc(p.estado || '') + '</span></div>' +
-        '<p class="que">' + esc(p.que || '') + '</p>' +
-        '<div class="pie"><span class="chip tipo">' + (TIPO_UNO[p.tipo] || esc(p.tipo)) + '</span>' + chipsIA(p.ia) + '</div>' +
-        '<span class="historia">' + (n ? 'Su historia: ' + n + (n === 1 ? ' paso' : ' pasos') + ' →' : 'Ver el proyecto →') + '</span>' +
-      '</div></button>';
-  }
-
-  /* ---------- la página de un proyecto ---------- */
-  function pintarFicha(id) {
     var p = proyecto(id);
-    var caja = document.getElementById('ficha');
-    if (!p) { location.hash = ''; return; }
-    var hitos = hitosDe(id).slice().reverse();
-    var todos = logrosDe(id).slice().reverse();
-    var menores = todos.length - hitos.length;
-    var lista = verTodos ? todos : hitos;
-    document.title = p.nombre + ' · ' + ((datos.perfil && datos.perfil.nombre) || 'Portafolio');
-
-    var pasos = lista.length ? lista.map(function (l) {
-      var esHito = hitos.indexOf(l) >= 0;
-      var num = esHito ? hitos.indexOf(l) + 1 : '';
-      return '<li class="paso' + (esHito ? '' : ' menor') + '" style="--c:' + color(p.tipo) + '">' +
-        '<span class="num" aria-hidden="true">' + num + '</span>' +
-        '<div class="tarjeta-paso">' +
-          '<div class="meta"><span>' + fecha(l.fecha) + '</span>' + (l.etapa ? '<span class="chip tipo">' + esc(l.etapa) + '</span>' : '') + chipsIA(l.ia) + '</div>' +
-          '<h4>' + esc(l.titulo) + '</h4>' + (l.texto ? '<p>' + esc(l.texto) + '</p>' : '') +
-          (l.capturas && l.capturas.length ? '<div class="tiras">' + tiras(l) + '</div>' : '') +
-        '</div></li>';
-    }).join('') : '';
-
-    var mediaPrincipal = p.video
-      ? '<video class="foto video-demo" src="' + esc(p.video) + '" controls playsinline preload="metadata" poster="' + esc(fotoDe(id) || '') + '"></video>'
-      : foto(p, fotoDe(id));
-
-    caja.innerHTML =
-      '<button class="boton volver" type="button" data-volver>← Todos los proyectos</button>' +
-      '<div class="cabeza" style="--c:' + color(p.tipo) + '">' +
-        '<div>' +
-          '<div class="meta"><span class="chip tipo">' + (TIPO_UNO[p.tipo] || esc(p.tipo)) + '</span>' + chipsIA(p.ia) + '<span>' + esc(p.estado || '') + '</span></div>' +
-          '<h1>' + esc(p.nombre) + '</h1>' +
-          '<p class="que">' + esc(p.que || '') + '</p>' +
-          (p.historia ? '<p class="que" style="margin-top:12px">' + esc(p.historia) + '</p>' : '') +
-          '<div class="acciones">' +
-            (p.url ? '<a class="boton principal" href="' + esc(p.url) + '" target="_blank" rel="noopener">Verlo en vivo →</a>' : '') +
-            (p.repo ? '<a class="boton" href="' + esc(p.repo) + '" target="_blank" rel="noopener">El código</a>' : '') +
-          '</div>' +
-        '</div>' +
-        mediaPrincipal +
-      '</div>' +
-      '<h2 class="seccion">Su historia, paso a paso</h2>' +
-      (pasos ? '<ol class="camino">' + pasos + '</ol>' : '<p class="vacio">Este proyecto todavía no tiene avances apuntados. El primero saldrá aquí.</p>') +
-      (menores > 0 ? '<button class="boton" type="button" data-todos style="margin-top:24px">' +
-        (verTodos ? 'Ver sólo los pasos grandes' : menores === 1 ? 'Ver también el avance pequeño' : 'Ver también los ' + menores + ' avances pequeños') + '</button>' : '');
+    if (!p) return null;
+    return { titulo: p.nombre, ancho: 860, html: '<div class="app">' +
+      '<p class="que">' + esc(p.que) + '</p>' + (p.historia ? '<p class="que">' + esc(p.historia) + '</p>' : '') +
+      ((p.url || p.repo) ? '<div class="acciones">' +
+        (p.url ? '<a class="boton principal" href="' + esc(p.url) + '" target="_blank" rel="noopener">Verlo en vivo</a>' : '') +
+        (p.repo ? '<a class="boton" href="' + esc(p.repo) + '" target="_blank" rel="noopener">El código</a>' : '') + '</div>' : '') +
+      (p.video ? '<video class="demo" src="' + esc(p.video) + '" controls playsinline preload="metadata"' + (portada(id) ? ' poster="' + esc(portada(id)) + '"' : '') + '></video>' : '') +
+      '<div class="historia"></div></div>' };
   }
 
-  /* ---------- las rutas: #/<proyecto> es la página de ese proyecto, y se puede compartir ---------- */
-  var fichaAbierta = null;
-  function ruta() {
-    var m = /^#\/(.+)$/.exec(location.hash);
-    var id = m && decodeURIComponent(m[1]);
-    // Cada proyecto se abre con sus pasos grandes, llegue uno por la tarjeta, por un enlace o con «atrás».
-    if (id !== fichaAbierta) { verTodos = false; fichaAbierta = id; }
-    document.getElementById('inicio').hidden = !!id;
-    document.getElementById('ficha').hidden = !id;
-    if (id) { pintarFicha(id); window.scrollTo(0, 0); }
-    else { document.title = 'Portafolio de ' + ((datos.perfil && datos.perfil.nombre) || 'Daniel'); }
+  // La historia de un proyecto: los hitos numerados en orden, del último al primero;
+  // los avances pequeños, detrás de un botón.
+  function pintarHistoria(v) {
+    var id = v.dataset.v, caja = v.querySelector('.historia');
+    var hitos = hitosDe(id), todos = logrosDe(id), menores = todos.length - hitos.length;
+    if (!todos.length) { caja.innerHTML = '<div class="vacia">Este proyecto todavía no tiene avances apuntados. El primero saldrá aquí.</div>'; return; }
+    var orden = hitos.slice().reverse();
+    var lista = verTodos[id] ? todos : hitos;
+    caja.innerHTML = '<div class="partes"><div><ol>' + lista.map(function (l, i) {
+      var n = orden.indexOf(l);
+      return '<li><button type="button" data-logro="' + esc(l.id) + '" aria-current="' + (i === 0) + '"' + (n < 0 ? ' class="menor"' : '') + '>' +
+        '<span class="num">' + (n < 0 ? '' : n + 1) + '</span><span>' + esc(l.titulo) + '<small>' + fecha(l.fecha) + (l.etapa ? ', ' + esc(l.etapa.toLowerCase()) : '') + '</small></span></button></li>';
+    }).join('') + '</ol>' +
+      (menores > 0 ? '<button class="boton todos" type="button" data-todos>' + (verTodos[id] ? 'Ver sólo los pasos grandes' : menores === 1 ? 'Ver también el avance pequeño' : 'Ver también los ' + menores + ' avances pequeños') + '</button>' : '') +
+      '</div><div class="vista"></div></div>';
+    verLogro(v, lista[0].id);
+  }
+
+  function medio(src, alt) {
+    return esVideo(src)
+      ? '<video class="grande" src="' + esc(src) + '" controls playsinline preload="metadata"></video>'
+      : '<img class="grande" src="' + esc(src) + '" alt="' + esc(alt) + '">';
+  }
+  function verLogro(v, id) {
+    var l = d.logros.filter(function (x) { return x.id === id; })[0]; if (!l) return;
+    v.querySelectorAll('[data-logro]').forEach(function (b) { b.setAttribute('aria-current', String(b.dataset.logro === id)); });
+    var cs = l.capturas || [];
+    v.querySelector('.vista').innerHTML =
+      (cs.length ? '<div class="medio">' + medio(cs[0], 'Captura: ' + l.titulo) + '</div>' : '') +
+      (cs.length > 1 ? '<div class="mini">' + cs.map(function (s, i) {
+        return '<button type="button" data-medio="' + esc(s) + '" aria-current="' + (i === 0) + '" aria-label="' + (esVideo(s) ? 'Vídeo ' : 'Captura ') + (i + 1) + '">' +
+          (esVideo(s) ? '<video src="' + esc(s) + '" muted playsinline preload="metadata"></video><span class="play" aria-hidden="true">▶</span>' : '<img src="' + esc(s) + '" alt="">') + '</button>';
+      }).join('') + '</div>' : '') +
+      (cs.length ? '<a class="aparte" href="' + esc(cs[0]) + '" target="_blank" rel="noopener">Abrir aparte, a tamaño completo</a>' : '') +
+      '<h3>' + esc(l.titulo) + '</h3><div class="cuando">' + fecha(l.fecha) + (l.ia && l.ia.length ? ', hecho con ' + esc(l.ia.join(' y ')) : '') + '</div>' +
+      (l.texto ? '<p>' + esc(l.texto) + '</p>' : '');
+  }
+
+  function alFrente(v) {
+    v.style.zIndex = ++capa;
+    document.querySelectorAll('.ventana').forEach(function (x) { x.classList.toggle('activa', x === v); });
+    document.querySelectorAll('.icono').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.abrir === v.dataset.v)); });
+  }
+
+  // Cada proyecto tiene su dirección, #/<id>, para poder compartirlo.
+  function ponerRuta(id) {
+    var nueva = proyecto(id) ? '#/' + encodeURIComponent(id) : location.pathname + location.search;
+    if (location.hash !== nueva) history.replaceState(null, '', nueva);
+    var p = proyecto(id);
+    document.title = (p ? p.nombre + ', en el ' : '') + 'Portafolio de ' + (d.perfil.nombre || 'Daniel');
+  }
+
+  function abrir(id, x, y) {
+    if (abiertas[id]) { alFrente(abiertas[id]); ponerRuta(id); abiertas[id].querySelector('.cerrar').focus(); return; }
+    var c = contenido(id); if (!c) return;
+    var n = Object.keys(abiertas).length;
+    var v = document.createElement('section');
+    v.className = 'ventana nueva'; v.dataset.v = id;
+    v.setAttribute('role', 'dialog'); v.setAttribute('aria-label', c.titulo);
+    var ancho = Math.min(c.ancho, innerWidth - 160);
+    v.style.width = ancho + 'px';
+    v.style.left = (x != null ? x : Math.max(140, Math.min(150 + n * 36, innerWidth - ancho - 20))) + 'px';
+    var arriba = y != null ? y : 56 + n * 32;
+    v.style.top = arriba + 'px';
+    if (!movil.matches) v.style.maxHeight = (innerHeight - arriba - 16) + 'px'; // que no pase del borde de abajo
+    v.innerHTML = '<div class="titulo"><h2>' + esc(c.titulo) + '</h2><button class="cerrar" type="button" aria-label="Cerrar ' + esc(c.titulo) + '">✕</button></div><div class="cuerpo">' + c.html + '</div>';
+    document.getElementById('ventanas').appendChild(v);
+    abiertas[id] = v;
+    if (v.querySelector('.historia')) pintarHistoria(v);
+    alFrente(v);
+    ponerRuta(id);
+    v.querySelector('.cerrar').focus();
+  }
+  function cerrar(v) {
+    delete abiertas[v.dataset.v]; v.remove();
+    var resto = document.querySelectorAll('.ventana');
+    if (resto.length) { var arriba = [].slice.call(resto).sort(function (a, b) { return b.style.zIndex - a.style.zIndex; })[0]; alFrente(arriba); ponerRuta(arriba.dataset.v); }
+    else { document.querySelectorAll('.icono').forEach(function (b) { b.setAttribute('aria-pressed', 'false'); }); ponerRuta(null); }
+    var ic = document.querySelector('[data-abrir="' + v.dataset.v + '"]'); if (ic) ic.focus();
   }
 
   document.addEventListener('click', function (e) {
-    var v = e.target.closest('[data-ver]');
-    if (v) {
-      // Las flechas recorren las capturas del mismo avance.
-      var hermanas = [].slice.call(v.parentNode.querySelectorAll('[data-ver]'));
-      visor.lista = hermanas.map(function (b) {
-        var im = b.querySelector('img');
-        var altText = im ? im.alt : 'Video Demo';
-        return { src: b.getAttribute('data-ver'), alt: altText };
-      });
-      mostrar(hermanas.indexOf(v));
-      document.getElementById('visor').showModal();
-      return;
+    var a = e.target.closest('[data-abrir]'); if (a) { abrir(a.dataset.abrir); return; }
+    var c = e.target.closest('.cerrar'); if (c) { cerrar(c.closest('.ventana')); return; }
+    var t = e.target.closest('[data-todos]');
+    if (t) { var vt = t.closest('.ventana'); verTodos[vt.dataset.v] = !verTodos[vt.dataset.v]; pintarHistoria(vt); return; }
+    var l = e.target.closest('[data-logro]'); if (l) { verLogro(l.closest('.ventana'), l.dataset.logro); return; }
+    var m = e.target.closest('[data-medio]');
+    if (m) {
+      var v = m.closest('.ventana');
+      v.querySelector('.medio').innerHTML = medio(m.dataset.medio, '');
+      v.querySelector('.aparte').href = m.dataset.medio;
+      v.querySelectorAll('[data-medio]').forEach(function (b) { b.setAttribute('aria-current', String(b === m)); });
     }
-    var s = e.target.closest('[data-salto]');
-    if (s) { document.getElementById('grupo-' + s.getAttribute('data-salto')).scrollIntoView({ behavior: 'smooth' }); return; }
-    var sc = e.target.closest('[data-salto-cert]');
-    if (sc) {
-      var elem = document.getElementById('seccion-certificaciones');
-      if (elem) elem.scrollIntoView({ behavior: 'smooth' });
-      return;
-    }
-    if (e.target.closest('[data-volver]')) { location.hash = ''; return; }
-    if (e.target.closest('[data-todos]')) {
-      verTodos = !verTodos;
-      pintarFicha(decodeURIComponent(location.hash.slice(2)));
-      return;
-    }
-    var p = e.target.closest('[data-proyecto]');
-    if (p) { location.hash = '#/' + encodeURIComponent(p.getAttribute('data-proyecto')); }
-  });
-  window.addEventListener('hashchange', ruta);
-  /* ---------- el visor ---------- */
-  var visor = { lista: [], i: 0 };
-  function mostrar(i) {
-    var n = visor.lista.length;
-    visor.i = (i + n) % n;
-    var c = visor.lista[visor.i];
-    var img = document.getElementById('visorImg');
-    var vid = document.getElementById('visorVid');
-    if (/\.mp4$/i.test(c.src)) {
-      img.hidden = true;
-      if (vid) {
-        vid.hidden = false;
-        vid.src = c.src;
-        vid.play().catch(function () {});
-      }
-    } else {
-      if (vid) { vid.pause(); vid.hidden = true; }
-      img.hidden = false;
-      img.src = c.src; img.alt = c.alt;
-    }
-    document.getElementById('visorTitulo').textContent = (c.alt || 'Video').replace(/^Captura: /, '') + (n > 1 ? ' · ' + (visor.i + 1) + ' de ' + n : '');
-    document.getElementById('visorAbrir').href = c.src;
-    document.getElementById('visorAnt').hidden = document.getElementById('visorSig').hidden = n < 2;
-    zoom(false);
-  }
-  function zoom(real) {
-    var l = document.getElementById('visorLienzo');
-    l.classList.toggle('real', real);
-    l.scrollTop = 0; l.scrollLeft = 0;
-    document.getElementById('visorZoom').textContent = real ? 'Ajustar a la pantalla' : 'Tamaño real';
-  }
-  function enReal() { return document.getElementById('visorLienzo').classList.contains('real'); }
-  document.getElementById('visorImg').addEventListener('click', function () { zoom(!enReal()); });
-  document.getElementById('visorZoom').addEventListener('click', function () { zoom(!enReal()); });
-  document.getElementById('visorAnt').addEventListener('click', function () { mostrar(visor.i - 1); });
-  document.getElementById('visorSig').addEventListener('click', function () { mostrar(visor.i + 1); });
-  document.getElementById('cerrarVisor').addEventListener('click', function () { document.getElementById('visor').close(); });
-  // Se cierre con el botón o con Esc, el vídeo se para.
-  document.getElementById('visor').addEventListener('close', function () {
-    var vid = document.getElementById('visorVid');
-    if (vid) vid.pause();
   });
   document.addEventListener('keydown', function (e) {
-    if (!document.getElementById('visor').open || visor.lista.length < 2) return;
-    if (e.key === 'ArrowLeft') mostrar(visor.i - 1);
-    if (e.key === 'ArrowRight') mostrar(visor.i + 1);
+    if (e.key === 'Escape') { var act = document.querySelector('.ventana.activa'); if (act) cerrar(act); }
+  });
+  window.addEventListener('hashchange', function () {
+    var m = /^#\/(.+)$/.exec(location.hash);
+    if (m) abrir(decodeURIComponent(m[1]));
   });
 
-  function leer(f) {
-    return fetch(f, { cache: 'no-cache' }).then(function (r) {
-      if (!r.ok) throw new Error(f + ': ' + r.status);
-      return r.json();
-    });
-  }
+  // Arrastrar una ventana por su barra; en el móvil las ventanas ocupan la pantalla y no se arrastran.
+  document.addEventListener('pointerdown', function (e) {
+    var v = e.target.closest('.ventana'); if (!v) return;
+    if (!v.classList.contains('activa')) { alFrente(v); ponerRuta(v.dataset.v); }
+    var t = e.target.closest('.titulo');
+    if (!t || e.target.closest('.cerrar') || movil.matches) return;
+    var dx = e.clientX - v.offsetLeft, dy = e.clientY - v.offsetTop;
+    t.setPointerCapture(e.pointerId);
+    function mover(ev) {
+      v.style.left = Math.max(-v.offsetWidth + 80, Math.min(innerWidth - 80, ev.clientX - dx)) + 'px';
+      v.style.top = Math.max(38, Math.min(innerHeight - 40, ev.clientY - dy)) + 'px';
+    }
+    function soltar() { t.removeEventListener('pointermove', mover); t.removeEventListener('pointerup', soltar); }
+    t.addEventListener('pointermove', mover); t.addEventListener('pointerup', soltar);
+  });
+
+  function leer(f) { return fetch(f, { cache: 'no-cache' }).then(function (r) { if (!r.ok) throw new Error(f + ': ' + r.status); return r.json(); }); }
   Promise.all([leer('proyectos.json'), leer('logros.json')]).then(function (r) {
-    datos.perfil = r[0].perfil || {};
-    datos.proyectos = r[0].proyectos || [];
-    datos.certificaciones = r[0].certificaciones || [];
-    datos.logros = (r[1] || []).slice().sort(function (a, b) { return a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : 0; });
-    pintarInicio();
-    ruta();
+    d.perfil = r[0].perfil || {};
+    d.certificaciones = r[0].certificaciones || [];
+    d.proyectos = r[0].proyectos || [];
+    d.logros = (r[1] || []).slice().sort(function (a, b) { return a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : 0; });
+    pintarEscritorio();
+    // Con un enlace a un proyecto se abre ése. Si no, en el ordenador sale el Léeme con el
+    // proyecto que se movió hace menos detrás; en el móvil, la pantalla de inicio.
+    var m = /^#\/(.+)$/.exec(location.hash), pedido = m && decodeURIComponent(m[1]);
+    if (pedido && proyecto(pedido)) abrir(pedido);
+    else if (!movil.matches) {
+      abrir(d.logros[0] ? d.logros[0].proyecto : d.proyectos[0].id, Math.max(440, innerWidth - 900), 120);
+      abrir('leeme', 260, 64);
+    } else ponerRuta(null);
   }).catch(function (err) {
-    document.getElementById('ultimos').innerHTML = '<li class="vacio">No se pudieron leer los datos (' + esc(err.message) + ').</li>';
+    document.getElementById('pista').textContent = 'No se pudieron leer los proyectos (' + err.message + '). Recarga la página.';
   });
 })();
 </script>

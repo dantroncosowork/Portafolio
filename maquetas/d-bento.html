@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maqueta D · Bento</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fondo: #0A0A0D; --bloque: #141419; --borde: #24242C; --texto: #F4F4F6; --texto-2: #A3A3AE;
+    --app: #6CB4FF; --juego: #FF8FC7; --automatizacion: #F5B94A; --flujo: #5FD39A; --titulo: 'Space Grotesk', Inter, sans-serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fondo); color: var(--texto); font: 400 16px/1.5 Inter, system-ui, sans-serif; }
+  .pagina { max-width: 1200px; margin: 0 auto; padding: 32px 16px 64px; }
+  .bento { display: grid; grid-template-columns: repeat(12, 1fr); gap: 14px; }
+  .b { background: var(--bloque); border: 1px solid var(--borde); border-radius: 22px; padding: 24px; overflow: hidden; position: relative; min-width: 0; }
+  .b h2 { font: 500 13px var(--titulo); letter-spacing: .06em; text-transform: uppercase; color: var(--texto-2); margin: 0 0 10px; }
+  .w12 { grid-column: span 12; } .w8 { grid-column: span 8; } .w6 { grid-column: span 6; } .w4 { grid-column: span 4; } .h2 { grid-row: span 2; }
+
+  .yo { display: flex; gap: 24px; align-items: center;
+    background: radial-gradient(120% 140% at 0% 0%, rgba(108,180,255,.18), transparent 50%), radial-gradient(100% 120% at 100% 100%, rgba(95,211,154,.12), transparent 55%), var(--bloque); }
+  .yo img { width: 112px; height: 112px; border-radius: 28px; object-fit: cover; flex-shrink: 0; }
+  .yo h1 { font: 700 44px/1.05 var(--titulo); margin: 0 0 10px; letter-spacing: -0.02em; }
+  .yo p { margin: 0; color: var(--texto-2); font-size: 18px; }
+  .num { display: flex; flex-direction: column; justify-content: space-between; gap: 12px; }
+  .num .fila { display: flex; justify-content: space-between; align-items: baseline; border-bottom: 1px solid var(--borde); padding-bottom: 8px; }
+  .num .fila:last-of-type { border: 0; }
+  .num b { font: 700 36px var(--titulo); font-variant-numeric: tabular-nums; }
+  .num span { color: var(--texto-2); font-size: 14px; }
+  .num small { color: var(--texto-2); font-size: 12px; }
+  .texto p { margin: 0; color: var(--texto-2); font-size: 15px; }
+  .cert { display: flex; gap: 16px; align-items: center; text-decoration: none; color: inherit; }
+  .cert img { width: 56px; height: 56px; object-fit: contain; background: #fff; border-radius: 12px; padding: 4px; flex-shrink: 0; }
+  .cert b { display: block; font: 500 17px var(--titulo); }
+  .cert span { color: var(--texto-2); font-size: 13px; }
+  .proyecto { padding: 0; display: flex; flex-direction: column; text-decoration: none; color: inherit; }
+  .proyecto .img { flex: 1; min-height: 180px; background: linear-gradient(135deg, color-mix(in srgb, var(--c) 25%, transparent), transparent); overflow: hidden; }
+  .proyecto .img img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; }
+  .proyecto .img .letra { height: 100%; display: grid; place-items: center; font: 700 64px var(--titulo); color: var(--c); opacity: .6; }
+  .proyecto .pie { padding: 18px 22px; display: flex; justify-content: space-between; align-items: end; gap: 12px; }
+  .proyecto h3 { font: 700 22px var(--titulo); margin: 0; }
+  .proyecto .tipo { color: var(--c); font-size: 13px; }
+  .proyecto .pasos { font-size: 13px; color: var(--texto-2); white-space: nowrap; }
+  .ultimo { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; align-items: center; }
+  .ultimo .etiqueta { display: inline-block; font-size: 12px; color: var(--c); border: 1px solid var(--c); border-radius: 999px; padding: 2px 10px; margin-bottom: 10px; }
+  .ultimo h3 { font: 700 26px/1.2 var(--titulo); margin: 0 0 8px; }
+  .ultimo p { margin: 0; color: var(--texto-2); }
+  .ultimo img { width: 100%; aspect-ratio: 16 / 9; object-fit: cover; object-position: top left; border-radius: 14px; border: 1px solid var(--borde); display: block; }
+  .saltos { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+  .saltos a { font-size: 14px; color: var(--texto); text-decoration: none; border: 1px solid var(--borde); border-radius: 999px; padding: 6px 14px; }
+  .saltos a.gh { margin-left: auto; background: var(--texto); color: var(--fondo); border-color: var(--texto); }
+
+  @media (max-width: 900px) {
+    .w8, .w6, .w4 { grid-column: span 12; } .h2 { grid-row: auto; }
+    .yo { flex-direction: column; align-items: flex-start; } .yo h1 { font-size: 34px; }
+    .ultimo { grid-template-columns: 1fr; } .saltos a.gh { margin-left: 0; }
+  }
+</style>
+</head>
+<body>
+<div class="pagina"><div class="bento" id="bento"></div></div>
+<script src="datos.js"></script>
+<script>
+Portafolio.cargar().then(function (d) {
+  var P = Portafolio, esc = P.esc, c = d.cifras;
+  function color(t) { return 'var(--' + (P.TIPOS[t] ? t : 'app') + ')'; }
+  var h = '';
+  h += '<section class="b w8 yo">' + (d.foto ? '<img src="' + esc(d.foto) + '" alt="">' : '') +
+    '<div><h1>' + esc(d.perfil.nombre) + '</h1><p>' + esc(d.perfil.rol) + '</p></div></section>';
+  h += '<section class="b w4 num"><h2>En números</h2>' +
+    [[c.proyectos, 'proyectos'], [c.certificaciones, 'certificaciones'], [c.avances, 'avances apuntados']]
+      .map(function (x) { return '<div class="fila"><b>' + x[0] + '</b><span>' + x[1] + '</span></div>'; }).join('') +
+    (c.ultimo ? '<small>El último, el ' + P.fecha(c.ultimo) + '</small>' : '') + '</section>';
+  [['Quién soy', d.perfil.quien], ['Por qué lo hago', d.perfil.porque], ['Qué busco', d.perfil.busca]].forEach(function (x) {
+    h += '<section class="b w4 texto"><h2>' + x[0] + '</h2><p>' + esc(x[1]) + '</p></section>';
+  });
+  var gh = (d.perfil.enlaces || [])[0];
+  h += '<nav class="b w12 saltos">' + d.tiposUsados.map(function (t) { return '<a href="#">' + P.TIPOS[t] + '</a>'; }).join('') +
+    (gh ? '<a class="gh" href="' + esc(gh.url) + '">' + esc(gh.nombre) + ' ↗</a>' : '') + '</nav>';
+
+  var l = d.logros[0];
+  if (l) {
+    var p0 = d.proyecto(l.proyecto), img0 = d.imagenes(l).filter(function (s) { return !/-390\./.test(s); })[0];
+    h += '<section class="b w12 ultimo" style="--c:' + color(p0.tipo) + '"><div><h2>Lo último · ' + P.fecha(l.fecha) + '</h2>' +
+      '<span class="etiqueta">' + esc(p0.nombre) + '</span><h3>' + esc(l.titulo) + '</h3><p>' + esc(l.texto) + '</p></div>' +
+      (img0 ? '<img src="' + esc(img0) + '" alt="">' : '') + '</section>';
+  }
+
+  // Tamaños que se repiten: uno grande, uno alto, y el resto medianos.
+  var formas = ['w8', 'w4 h2', 'w4', 'w4', 'w6', 'w6', 'w4', 'w4', 'w4'];
+  d.proyectos.forEach(function (p, i) {
+    var img = d.portada(p.id), n = d.pasos(p.id);
+    h += '<a class="b proyecto ' + (formas[i] || 'w4') + '" href="#" style="--c:' + color(p.tipo) + '"><div class="img">' +
+      (img ? '<img src="' + esc(img) + '" alt="">' : '<div class="letra">' + esc(p.nombre.charAt(0)) + '</div>') + '</div>' +
+      '<div class="pie"><div><span class="tipo">' + esc(P.TIPO_UNO[p.tipo] || p.tipo) + '</span><h3>' + esc(p.nombre) + '</h3></div>' +
+      '<span class="pasos">' + (n ? n + (n === 1 ? ' paso' : ' pasos') + ' →' : 'en marcha') + '</span></div></a>';
+  });
+
+  d.certificaciones.forEach(function (k) {
+    h += '<a class="b w6 cert" href="' + esc(k.url) + '"><img src="' + esc(k.badge) + '" alt=""><div><b>' + esc(k.nombre) + '</b><span>' + esc(k.emisor) + ' · ' + P.fecha(k.fecha) + '</span></div></a>';
+  });
+  document.getElementById('bento').innerHTML = h;
+});
+</script>
+</body>
+</html>

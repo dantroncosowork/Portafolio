@@ -1,0 +1,126 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maqueta C · Bitácora</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --fondo: #0F0F11; --tarjeta: #18181B; --borde: #2A2A2F; --texto: #EDEDEF; --texto-2: #A8A8B0;
+    --app: #6CB4FF; --juego: #FF8FC7; --automatizacion: #F5B94A; --flujo: #5FD39A; --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--fondo); color: var(--texto); font: 400 16px/1.55 Inter, system-ui, sans-serif; }
+  a { color: inherit; }
+  .pagina { max-width: 1240px; margin: 0 auto; padding: 40px 16px; display: grid; grid-template-columns: 340px 1fr; gap: 56px; }
+
+  aside { position: sticky; top: 40px; align-self: start; display: flex; flex-direction: column; gap: 20px; }
+  .foto { width: 96px; height: 96px; border-radius: 50%; object-fit: cover; border: 1px solid var(--borde); }
+  h1 { font-size: 28px; margin: 0; font-weight: 600; letter-spacing: -0.01em; }
+  .rol { margin: 0; color: var(--texto-2); }
+  .bloque h2 { font: 600 12px var(--mono); letter-spacing: .08em; text-transform: uppercase; color: var(--texto-2); margin: 0 0 4px; }
+  .bloque p { margin: 0; font-size: 14px; color: var(--texto-2); }
+  .cifras { display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--borde); border-radius: 10px; overflow: hidden; }
+  .cifras div { padding: 12px; border-right: 1px solid var(--borde); }
+  .cifras div:last-child { border-right: 0; }
+  .cifras b { display: block; font: 600 22px var(--mono); }
+  .cifras span { font-size: 12px; color: var(--texto-2); }
+  .certs { display: flex; flex-direction: column; gap: 8px; }
+  .cert { display: flex; gap: 10px; align-items: center; font-size: 14px; text-decoration: none; }
+  .cert img { width: 32px; height: 32px; object-fit: contain; background: #fff; border-radius: 6px; padding: 2px; }
+  .cert span { color: var(--texto-2); font-size: 12px; display: block; }
+  .enlace { font-size: 14px; color: var(--texto-2); }
+
+  main { min-width: 0; } /* sin esto, la tira de capturas ensancha la columna y la página se sale */
+  main h2.titulo { font-size: 14px; font-family: var(--mono); color: var(--texto-2); font-weight: 400; margin: 0 0 16px; }
+  .proyectos { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 40px; }
+  .chip { display: inline-flex; align-items: center; gap: 8px; border: 1px solid var(--borde); background: var(--tarjeta); border-radius: 999px; padding: 6px 14px; font-size: 14px; cursor: pointer; color: var(--texto); font-family: inherit; }
+  .chip i { width: 8px; height: 8px; border-radius: 50%; background: var(--c); }
+  .chip small { color: var(--texto-2); font: 12px var(--mono); }
+  .chip[aria-pressed="true"] { border-color: var(--c); }
+
+  .mes { font: 600 14px var(--mono); letter-spacing: .06em; text-transform: uppercase; color: var(--texto-2); margin: 32px 0 16px; }
+  .linea { list-style: none; margin: 0; padding: 0 0 0 28px; border-left: 1px solid var(--borde); }
+  .linea li { position: relative; margin-bottom: 24px; }
+  .linea li::before { content: ''; position: absolute; left: -34px; top: 22px; width: 11px; height: 11px; border-radius: 50%; background: var(--c); box-shadow: 0 0 0 4px var(--fondo); }
+  .entrada { background: var(--tarjeta); border: 1px solid var(--borde); border-radius: 12px; padding: 18px 20px; }
+  .entrada .meta { display: flex; flex-wrap: wrap; gap: 6px 12px; font: 12px var(--mono); color: var(--texto-2); }
+  .entrada .meta b { color: var(--c); font-weight: 600; }
+  .entrada .hito { color: var(--texto); border: 1px solid var(--borde); border-radius: 4px; padding: 0 6px; }
+  .entrada h3 { font-size: 18px; margin: 8px 0 6px; font-weight: 600; }
+  .entrada p { margin: 0; color: var(--texto-2); font-size: 15px; }
+  .entrada .imgs { display: flex; gap: 8px; margin-top: 14px; overflow-x: auto; }
+  .entrada .imgs img { height: 150px; width: 250px; object-fit: cover; object-position: top left; border-radius: 8px; border: 1px solid var(--borde); }
+  .entrada .imgs img.alta { width: 90px; }
+
+  @media (max-width: 900px) {
+    .pagina { grid-template-columns: 1fr; gap: 32px; padding-top: 24px; }
+    aside { position: static; }
+    .entrada .imgs img { width: 200px; height: 120px; } .entrada .imgs img.alta { width: 72px; }
+  }
+</style>
+</head>
+<body>
+<div class="pagina">
+  <aside>
+    <img class="foto" id="foto" alt="">
+    <div><h1 id="nombre"></h1><p class="rol" id="rol"></p></div>
+    <div class="cifras" id="cifras"></div>
+    <div id="tres" style="display:flex;flex-direction:column;gap:14px"></div>
+    <div class="certs" id="certs"></div>
+    <div id="enlaces"></div>
+  </aside>
+  <main>
+    <h2 class="titulo">Proyectos · pulsa uno para ver sólo los suyos</h2>
+    <div class="proyectos" id="proyectos"></div>
+    <div id="bitacora"></div>
+  </main>
+</div>
+<script src="datos.js"></script>
+<script>
+Portafolio.cargar().then(function (d) {
+  var P = Portafolio, esc = P.esc, filtro = null;
+  function color(t) { return 'var(--' + (P.TIPOS[t] ? t : 'app') + ')'; }
+  if (d.foto) document.getElementById('foto').src = d.foto;
+  document.getElementById('nombre').textContent = d.perfil.nombre || '';
+  document.getElementById('rol').textContent = d.perfil.rol || '';
+  var c = d.cifras;
+  document.getElementById('cifras').innerHTML = [[c.proyectos, 'proyectos'], [c.certificaciones, 'certificados'], [c.avances, 'avances']]
+    .map(function (x) { return '<div><b>' + x[0] + '</b><span>' + x[1] + '</span></div>'; }).join('');
+  document.getElementById('tres').innerHTML = [['Quién soy', d.perfil.quien], ['Por qué', d.perfil.porque], ['Qué busco', d.perfil.busca]]
+    .map(function (x) { return '<div class="bloque"><h2>' + x[0] + '</h2><p>' + esc(x[1]) + '</p></div>'; }).join('');
+  document.getElementById('certs').innerHTML = d.certificaciones.map(function (k) {
+    return '<a class="cert" href="' + esc(k.url) + '"><img src="' + esc(k.badge) + '" alt=""><div>' + esc(k.nombre) + '<span>' + esc(k.emisor) + ' · ' + P.fecha(k.fecha) + '</span></div></a>';
+  }).join('');
+  document.getElementById('enlaces').innerHTML = (d.perfil.enlaces || []).map(function (e) { return '<a class="enlace" href="' + esc(e.url) + '">' + esc(e.nombre) + ' ↗</a>'; }).join(' · ');
+
+  function pintar() {
+    document.getElementById('proyectos').innerHTML = d.proyectos.map(function (p) {
+      return '<button class="chip" data-p="' + esc(p.id) + '" aria-pressed="' + (filtro === p.id) + '" style="--c:' + color(p.tipo) + '"><i></i>' + esc(p.nombre) + ' <small>' + d.logrosDe(p.id).length + '</small></button>';
+    }).join('');
+    var lista = d.logros.filter(function (l) { return !filtro || l.proyecto === filtro; }).slice(0, filtro ? 50 : 6);
+    var html = '', mesActual = '';
+    lista.forEach(function (l) {
+      var m = P.mesLargo(l.fecha);
+      if (m !== mesActual) { html += (mesActual ? '</ol>' : '') + '<div class="mes">' + m + '</div><ol class="linea">'; mesActual = m; }
+      var p = d.proyecto(l.proyecto), imgs = d.imagenes(l).slice(0, 4);
+      html += '<li style="--c:' + color(p.tipo) + '"><div class="entrada"><div class="meta"><span>' + P.fecha(l.fecha) + '</span><b>' + esc(p.nombre) + '</b>' +
+        (l.etapa ? '<span class="hito">' + esc(l.etapa) + '</span>' : '') + '<span>' + esc((l.ia || []).join(' · ')) + '</span></div>' +
+        '<h3>' + esc(l.titulo) + '</h3><p>' + esc(l.texto) + '</p>' +
+        (imgs.length ? '<div class="imgs">' + imgs.map(function (s) { return '<img src="' + esc(s) + '"' + (/-390\./.test(s) ? ' class="alta"' : '') + ' alt="">'; }).join('') + '</div>' : '') +
+        '</div></li>';
+    });
+    document.getElementById('bitacora').innerHTML = html + (mesActual ? '</ol>' : '');
+  }
+  document.addEventListener('click', function (e) {
+    var b = e.target.closest('[data-p]');
+    if (b) { filtro = filtro === b.dataset.p ? null : b.dataset.p; pintar(); }
+  });
+  pintar();
+});
+</script>
+</body>
+</html>

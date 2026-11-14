@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Maqueta B · Editorial</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,600;1,9..144,400&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --papel: #F5F2EC; --tinta: #1A1A1A; --tinta-2: #57534E; --regla: #D9D3C7;
+    --acento: #B43C0E; --serif: Fraunces, Georgia, serif;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--papel); color: var(--tinta); font: 400 17px/1.6 Inter, system-ui, sans-serif; }
+  .pagina { max-width: 1120px; margin: 0 auto; padding: 56px 16px 80px; }
+  a { color: var(--acento); }
+
+  .cabecera { display: grid; grid-template-columns: 1fr 280px; gap: 48px; align-items: end; padding-bottom: 40px; border-bottom: 2px solid var(--tinta); }
+  .antetitulo { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; color: var(--acento); font-weight: 600; }
+  h1 { font: 600 72px/1 var(--serif); letter-spacing: -0.02em; margin: 16px 0 20px; }
+  .rol { font: italic 400 26px/1.35 var(--serif); color: var(--tinta-2); margin: 0; max-width: 680px; }
+  .foto img { width: 100%; aspect-ratio: 4 / 5; object-fit: cover; border-radius: 4px; display: block; filter: grayscale(.15); }
+
+  .tres { display: grid; grid-template-columns: repeat(3, 1fr); gap: 40px; padding: 32px 0; border-bottom: 1px solid var(--regla); }
+  .tres h2 { font-size: 13px; letter-spacing: .14em; text-transform: uppercase; margin: 0 0 8px; font-weight: 600; }
+  .tres p { margin: 0; color: var(--tinta-2); font-size: 16px; }
+
+  .cifras { display: flex; flex-wrap: wrap; gap: 24px 64px; padding: 32px 0; border-bottom: 1px solid var(--regla); align-items: baseline; }
+  .cifra b { font: 400 56px/1 var(--serif); display: block; font-variant-numeric: lining-nums tabular-nums; }
+  .cifra span { font-size: 14px; color: var(--tinta-2); }
+  .cifras .ultimo { margin-left: auto; font-size: 14px; color: var(--tinta-2); }
+
+  .indice { display: flex; flex-wrap: wrap; gap: 8px 28px; padding: 20px 0; font-size: 15px; }
+  .indice a { color: var(--tinta); text-decoration: none; border-bottom: 1px solid var(--regla); }
+  .indice a:hover { border-color: var(--acento); color: var(--acento); }
+
+  h3.seccion { font: 600 40px/1.1 var(--serif); margin: 72px 0 8px; }
+  .entradilla { color: var(--tinta-2); margin: 0 0 32px; }
+
+  .caso { display: grid; grid-template-columns: 64px 1fr 1.25fr; gap: 32px; padding: 40px 0; border-top: 1px solid var(--regla); }
+  .caso .num { font: 400 32px var(--serif); color: var(--acento); }
+  .caso h4 { font: 600 32px/1.15 var(--serif); margin: 0 0 12px; }
+  .caso p { margin: 0 0 16px; color: var(--tinta-2); }
+  .caso .datos { font-size: 14px; color: var(--tinta-2); display: flex; flex-direction: column; gap: 4px; }
+  .caso .datos b { color: var(--tinta); font-weight: 600; }
+  .caso figure { margin: 0; }
+  .caso figure img { width: 100%; aspect-ratio: 16 / 10; object-fit: cover; object-position: top left; border-radius: 4px; border: 1px solid var(--regla); display: block; background: #fff; }
+  .caso figure .vacia { aspect-ratio: 16 / 10; border: 1px dashed var(--regla); border-radius: 4px; display: grid; place-items: center; font: italic 22px var(--serif); color: var(--tinta-2); }
+
+  .diario { display: grid; grid-template-columns: 160px 1fr; gap: 8px 32px; }
+  .diario .dia { font-size: 14px; color: var(--tinta-2); padding-top: 28px; border-top: 1px solid var(--regla); }
+  .diario .dia b { display: block; color: var(--tinta); font-weight: 600; }
+  .diario article { padding: 24px 0 32px; border-top: 1px solid var(--regla); }
+  .diario h4 { font: 600 24px/1.25 var(--serif); margin: 0 0 8px; }
+  .diario p { margin: 0 0 16px; color: var(--tinta-2); max-width: 720px; }
+  .diario img { width: 100%; max-width: 720px; aspect-ratio: 16 / 7; object-fit: cover; object-position: top left; border-radius: 4px; border: 1px solid var(--regla); display: block; }
+
+  @media (max-width: 800px) {
+    .pagina { padding-top: 32px; }
+    .cabecera { grid-template-columns: 1fr; gap: 24px; } .foto { order: -1; width: 140px; }
+    h1 { font-size: 48px; } .rol { font-size: 21px; }
+    .tres { grid-template-columns: 1fr; gap: 20px; }
+    .cifra b { font-size: 44px; } .cifras { gap: 20px 40px; } .cifras .ultimo { margin-left: 0; }
+    h3.seccion { font-size: 32px; margin-top: 56px; }
+    .caso { grid-template-columns: 1fr; gap: 12px; } .caso figure { order: -1; }
+    .diario { grid-template-columns: 1fr; } .diario .dia { padding-top: 20px; } .diario article { border-top: 0; padding-top: 4px; }
+  }
+</style>
+</head>
+<body>
+<div class="pagina">
+  <header class="cabecera">
+    <div>
+      <div class="antetitulo">Portafolio · proyectos hechos con IA</div>
+      <h1 id="nombre"></h1>
+      <p class="rol" id="rol"></p>
+    </div>
+    <div class="foto"><img id="foto" alt=""></div>
+  </header>
+  <div class="tres" id="tres"></div>
+  <div class="cifras" id="cifras"></div>
+  <nav class="indice" id="indice"></nav>
+
+  <h3 class="seccion">Proyectos</h3>
+  <p class="entradilla">Cada uno resuelve un problema mío, y cada uno tiene su historia contada paso a paso.</p>
+  <div id="casos"></div>
+
+  <h3 class="seccion">Diario de avances</h3>
+  <p class="entradilla">Se escribe solo: cada vez que un proyecto avanza, entra aquí con su captura.</p>
+  <div class="diario" id="diario"></div>
+</div>
+<script src="datos.js"></script>
+<script>
+Portafolio.cargar().then(function (d) {
+  var P = Portafolio, esc = P.esc;
+  if (d.foto) document.getElementById('foto').src = d.foto;
+  document.getElementById('nombre').textContent = d.perfil.nombre || '';
+  document.getElementById('rol').textContent = d.perfil.rol || '';
+  document.getElementById('tres').innerHTML = [['Quién soy', d.perfil.quien], ['Por qué lo hago', d.perfil.porque], ['Qué busco', d.perfil.busca]]
+    .map(function (x) { return '<div><h2>' + x[0] + '</h2><p>' + esc(x[1]) + '</p></div>'; }).join('');
+  var c = d.cifras;
+  document.getElementById('cifras').innerHTML =
+    [[c.proyectos, 'proyectos'], [c.certificaciones, 'certificaciones'], [c.avances, 'avances apuntados']]
+      .map(function (x) { return '<div class="cifra"><b>' + x[0] + '</b><span>' + x[1] + '</span></div>'; }).join('') +
+    (c.ultimo ? '<span class="ultimo">El último, el ' + P.fecha(c.ultimo) + '</span>' : '');
+  var gh = (d.perfil.enlaces || [])[0];
+  document.getElementById('indice').innerHTML =
+    (d.certificaciones.length ? '<a href="#">Certificaciones (' + d.certificaciones.length + ')</a>' : '') +
+    d.tiposUsados.map(function (t) { return '<a href="#">' + P.TIPOS[t] + '</a>'; }).join('') +
+    (gh ? '<a href="' + esc(gh.url) + '">' + esc(gh.nombre) + ' ↗</a>' : '');
+
+  document.getElementById('casos').innerHTML = d.proyectos.slice(0, 4).map(function (p, i) {
+    var img = d.portada(p.id), n = d.pasos(p.id);
+    return '<section class="caso"><div class="num">' + String(i + 1).padStart(2, '0') + '</div>' +
+      '<div><h4>' + esc(p.nombre) + '</h4><p>' + esc(p.que) + '</p><div class="datos">' +
+        '<span><b>' + esc(P.TIPO_UNO[p.tipo] || p.tipo) + '</b> · ' + esc(p.estado) + '</span>' +
+        '<span>Hecho con ' + esc((p.ia || []).join(', ')) + '</span>' +
+        '<span><a href="#">Su historia, en ' + n + (n === 1 ? ' paso' : ' pasos') + ' →</a></span></div></div>' +
+      '<figure>' + (img ? '<img src="' + esc(img) + '" alt="Captura de ' + esc(p.nombre) + '">' : '<div class="vacia">' + esc(p.nombre) + '</div>') + '</figure></section>';
+  }).join('');
+
+  document.getElementById('diario').innerHTML = d.logros.slice(0, 3).map(function (l) {
+    var img = d.imagenes(l).filter(function (s) { return !/-390\./.test(s); })[0];
+    return '<div class="dia"><b>' + P.fecha(l.fecha) + '</b>' + esc(d.proyecto(l.proyecto).nombre) + '</div>' +
+      '<article><h4>' + esc(l.titulo) + '</h4><p>' + esc(l.texto) + '</p>' + (img ? '<img src="' + esc(img) + '" alt="">' : '') + '</article>';
+  }).join('');
+});
+</script>
+</body>
+</html>
