@@ -119,6 +119,10 @@
   .centro .dias .hoy { background: var(--activa); color: var(--negro); font-weight: 700; }
   /* En una pantalla baja el calendario se pliega a la fecha, como se puede plegar el de Windows. */
   .baja .centro .mes, .baja .centro .dias { display: none; }
+  /* Reservar una llamada: sólo si el perfil tiene su agenda de Google. No se pliega con el mes: es lo que sirve. */
+  .centro .reservar { display: block; width: 100%; margin-top: 12px; text-align: center; }
+  .reservas iframe { display: block; width: 100%; height: clamp(320px, calc(var(--alto, 100vh) - 240px), 640px); border: 0; background: #fff; }
+  .reservas .pie { margin: 10px 0 0; color: var(--gris); font-size: 14px; }
 
   .iconos { position: absolute; z-index: 1; top: 16px; left: 16px; bottom: 60px; display: grid; grid-auto-flow: column; grid-template-rows: repeat(auto-fill, 112px); gap: 8px 12px; align-content: start; }
   /* Cada icono lleva una mira: cuatro esquinas que se cierran sobre él al pasar el ratón
@@ -524,7 +528,16 @@ var pantalla = (function () {
     for (var i = 0; i < hueco; i++) celdas += '<span></span>';
     for (var n = 1; n <= total; n++) celdas += '<span' + (n === a.getDate() ? ' class="hoy" aria-current="date"' : '') + '>' + n + '</span>';
     document.getElementById('calendario').innerHTML = '<p class="dia">' + dia.charAt(0).toUpperCase() + dia.slice(1) + '</p>' +
-      '<p class="mes">' + a.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }) + '</p><div class="dias">' + celdas + '</div>';
+      '<p class="mes">' + a.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }) + '</p><div class="dias">' + celdas + '</div>' +
+      (agenda() ? '<button class="boton principal reservar" type="button" data-abrir="reservar">Reservar una llamada</button>' : '');
+  }
+  // La agenda de citas de Google Calendar del perfil («reservas»), lista para ir dentro de una ventana.
+  // Sólo https; a una de calendar.google.com le añade gv=true, que es lo que Google pide para incrustarla.
+  function agenda() {
+    var x; try { x = new URL(d.perfil.reservas); } catch (e) { return ''; }
+    if (x.protocol !== 'https:') return '';
+    if (x.hostname === 'calendar.google.com' && !x.searchParams.has('gv')) x.searchParams.set('gv', 'true');
+    return x.href;
   }
 
   function pintarEscritorio() {
@@ -571,6 +584,12 @@ var pantalla = (function () {
           (k.descripcion ? '<p class="desc">' + esc(k.descripcion) + '</p>' : '') +
           (k.url ? '<a href="' + esc(k.url) + '" target="_blank" rel="noopener">Ver la credencial oficial</a>' : '') + '</div></div>';
       }).join('') + '</div>' };
+    }
+    if (id === 'reservar') {
+      if (!agenda()) return null;
+      return { titulo: 'Reservar una llamada', ancho: 720, html: '<div class="reservas">' +
+        '<iframe src="' + esc(agenda()) + '" title="Agenda de Google Calendar para reservar una llamada"></iframe>' +
+        '<p class="pie">¿No carga? <a href="' + esc(d.perfil.reservas) + '" target="_blank" rel="noopener">Ábrela en Google Calendar</a>.</p></div>' };
     }
     var p = proyecto(id);
     if (!p) return null;
@@ -644,11 +663,12 @@ var pantalla = (function () {
   reloj(); setInterval(reloj, 15000);
 
   // Cada proyecto tiene su dirección, #/<id>, para poder compartirlo.
+  // La agenda también: #/reservar es el enlace que se manda para reservar una llamada.
   function ponerRuta(id) {
-    var nueva = proyecto(id) ? '#/' + encodeURIComponent(id) : location.pathname + location.search;
+    var p = proyecto(id), nombre = p ? p.nombre : id === 'reservar' && agenda() ? 'Reservar una llamada' : '';
+    var nueva = nombre ? '#/' + encodeURIComponent(id) : location.pathname + location.search;
     if (location.hash !== nueva) history.replaceState(null, '', nueva);
-    var p = proyecto(id);
-    document.title = (p ? p.nombre + ', en el ' : '') + 'Portafolio de ' + (d.perfil.nombre || 'Daniel');
+    document.title = (nombre ? nombre + ', en el ' : '') + 'Portafolio de ' + (d.perfil.nombre || 'Daniel');
   }
 
   function abrir(id, x, y) {
@@ -741,10 +761,11 @@ var pantalla = (function () {
     d.proyectos = r[0].proyectos || [];
     d.logros = (r[1] || []).slice().sort(function (a, b) { return a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : 0; });
     pintarEscritorio();
-    // Con un enlace a un proyecto se abre ése. Si no, la página de entrada es el Léeme, sola
+    pintarCalendario(new Date()); // ya con el perfil: si tiene agenda, sale su botón
+    // Con un enlace a un proyecto (o a la agenda) se abre ése. Si no, la página de entrada es el Léeme, sola
     // y centrada; en el móvil ocupa la pantalla, y al cerrarla quedan los iconos.
     var m = /^#\/(.+)$/.exec(location.hash), pedido = m && decodeURIComponent(m[1]);
-    if (pedido && proyecto(pedido)) abrir(pedido);
+    if (pedido && (proyecto(pedido) || (pedido === 'reservar' && agenda()))) abrir(pedido);
     else abrir('leeme', Math.max(140, Math.round((pantalla.ancho - Math.min(640, pantalla.ancho - 160)) / 2)), 40);
   }).catch(function (err) {
     // Abierta con doble clic (file://), el navegador no deja leer los JSON de al lado.
