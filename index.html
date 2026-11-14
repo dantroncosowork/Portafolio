@@ -12,18 +12,19 @@
   /* Daniel OS: tres de sus apps se llaman «OS», así que el portafolio es su escritorio.
      Cada proyecto es una app, y al abrirla sale una ventana con su historia. */
   /* Los colores, todos aquí: una paleta nueva sólo cambia este bloque. */
+  /* «Escritorio claro y rojo señal», la 7 de maquetas/paletas.html, elegida el 14-nov-2026. */
   :root {
-    --mesa: #2B4A52;        /* el escritorio: verde azulado profundo, plano */
-    --papel: #FBFBF8;       /* el interior de las ventanas */
-    --negro: #000000;       /* bordes y texto */
-    --activa: #F0C419;      /* el acento: la barra de la ventana de delante, la mira de los iconos, el foco */
-    --inactiva: #D6D3C9;
-    --gris: #55575B;
-    --raya: #CFCCC2;
-    --mira: var(--activa);  /* las esquinas de los iconos y el foco del teclado: tienen que verse sobre el escritorio */
-    --sobre-mesa: #FFFFFF;  /* el texto que va directamente sobre el escritorio */
-    --sombra-nombre: 0 1px 2px rgba(0, 0, 0, 0.6);
-    --malla: 232, 240, 243; /* las líneas del fondo, en r, g, b */
+    --mesa: #D3D1C9;        /* el escritorio: papel gris claro, plano */
+    --papel: #FFFFFF;       /* el interior de las ventanas */
+    --negro: #111111;       /* bordes y texto */
+    --activa: #E8432E;      /* el acento: la barra de la ventana de delante y el botón principal */
+    --inactiva: #E6E4DE;
+    --gris: #54555A;
+    --raya: #D7D5CE;
+    --mira: #111111;        /* las esquinas de los iconos y el foco: en negro, porque el rojo no se distingue sobre el gris claro */
+    --sobre-mesa: #141414;  /* el texto que va directamente sobre el escritorio */
+    --sombra-nombre: none;
+    --malla: 40, 40, 40;    /* las líneas del fondo, en r, g, b: como de lápiz */
   }
   * { box-sizing: border-box; }
   html, body { height: 100%; }
@@ -34,11 +35,21 @@
   /* La malla vive debajo de todo: sólo se ve en el escritorio vacío. */
   #malla { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
 
-  .barra { position: fixed; inset: 0 0 auto 0; height: 36px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 16px; background: var(--papel); border-bottom: 2px solid var(--negro); font-size: 15px; z-index: 9999; }
-  .barra b { font-size: 16px; }
-  .barra span { color: var(--gris); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  /* La barra de tareas, abajo como en un ordenador: «Daniel OS» abre el Léeme, cada ventana
+     abierta tiene su botón (la de delante, en el color de acento), y a la derecha la hora y la fecha. */
+  .tareas { position: fixed; inset: auto 0 0 0; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 8px; background: var(--papel); border-top: 2px solid var(--negro); z-index: 9999; font-size: 14px; }
+  .tareas .inicio { display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px 0 8px; flex-shrink: 0; font: 700 15px 'Atkinson Hyperlegible', sans-serif; color: var(--negro); background: var(--papel); border: 2px solid var(--negro); box-shadow: 2px 2px 0 var(--negro); cursor: pointer; }
+  .tareas .inicio:active { transform: translate(2px, 2px); box-shadow: none; }
+  .tareas .inicio i { width: 14px; height: 14px; background: var(--activa); border: 2px solid var(--negro); border-radius: 50%; }
+  .tareas .abiertas { flex: 1; min-width: 0; display: flex; gap: 6px; overflow: hidden; }
+  .tareas .abiertas button { min-width: 0; max-width: 180px; height: 32px; padding: 0 12px; font: inherit; color: var(--negro); background: var(--inactiva); border: 2px solid var(--negro); cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .tareas .abiertas button[aria-current="true"] { background: var(--activa); font-weight: 700; }
+  .tareas .bandeja { display: flex; align-items: center; gap: 16px; padding-right: 6px; white-space: nowrap; flex-shrink: 0; }
+  .tareas .ultimo { color: var(--gris); }
+  .tareas time { display: grid; text-align: right; line-height: 1.15; font-size: 13px; }
+  .tareas time b { font-size: 14px; }
 
-  .iconos { position: absolute; z-index: 1; top: 56px; left: 16px; bottom: 16px; display: grid; grid-auto-flow: column; grid-template-rows: repeat(auto-fill, 112px); gap: 8px 12px; align-content: start; }
+  .iconos { position: absolute; z-index: 1; top: 16px; left: 16px; bottom: 60px; display: grid; grid-auto-flow: column; grid-template-rows: repeat(auto-fill, 112px); gap: 8px 12px; align-content: start; }
   /* Cada icono lleva una mira: cuatro esquinas que se cierran sobre él al pasar el ratón
      o al llegar con el teclado, y que se quedan puestas en el de la ventana que tienes delante. */
   .icono { width: 104px; display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: 0; padding: 4px 2px; cursor: pointer; color: var(--sobre-mesa); font: inherit; }
@@ -112,20 +123,23 @@
   .certs .verif { display: inline-block; font-size: 13px; font-weight: 700; border: 2px solid var(--negro); padding: 0 6px; background: #CDEFD9; }
   .certs .fecha { color: var(--gris); font-size: 13px; margin-left: 8px; }
 
-  .pista { position: absolute; z-index: 1; right: 20px; bottom: 16px; color: var(--sobre-mesa); text-shadow: var(--sombra-nombre); font-size: 14px; margin: 0; }
+  .pista { position: absolute; z-index: 1; right: 20px; bottom: 60px; color: var(--sobre-mesa); text-shadow: var(--sombra-nombre); font-size: 14px; margin: 0; }
   body:has(.ventana) .pista { visibility: hidden; }
   noscript p { position: relative; z-index: 3; margin: 80px auto; max-width: 560px; background: var(--papel); border: 2px solid var(--negro); padding: 20px; }
 
   @media (max-width: 760px) {
     body { overflow: auto; }
-    .iconos { position: relative; inset: auto; padding: 56px 16px 24px; display: grid; grid-auto-flow: row; grid-template-columns: repeat(4, 1fr); grid-template-rows: none; gap: 16px 4px; }
+    .iconos { position: relative; inset: auto; padding: 16px 16px 24px; display: grid; grid-auto-flow: row; grid-template-columns: repeat(4, 1fr); grid-template-rows: none; gap: 16px 4px; }
     .icono { width: auto; }
-    .ventana { position: fixed; inset: 36px 0 0 0 !important; width: auto !important; max-height: none; min-width: 0; box-shadow: none; border-width: 2px 0 0 0; }
+    .ventana { position: fixed; inset: 0 0 44px 0 !important; width: auto !important; max-height: none; min-width: 0; box-shadow: none; border-width: 0; }
+    .tareas { gap: 6px; padding: 0 6px; }
+    .tareas .ultimo { display: none; }
+    .tareas .abiertas button { padding: 0 8px; }
     .ventana .titulo { cursor: default; }
     .leeme { grid-template-columns: 1fr; }
     .app .partes { grid-template-columns: 1fr; }
     .app ol { max-height: 220px; }
-    .pista { position: relative; display: block; padding: 0 16px 24px; right: auto; bottom: auto; }
+    .pista { position: relative; display: block; padding: 0 16px 68px; right: auto; bottom: auto; }
   }
   @media (prefers-reduced-motion: no-preference) {
     .ventana.nueva { animation: abrir 140ms ease-out; }
@@ -138,10 +152,14 @@
 </head>
 <body>
 <canvas id="malla" aria-hidden="true"></canvas>
-<header class="barra"><b>Daniel OS</b><span id="ultimo"></span></header>
 <nav class="iconos" id="iconos" aria-label="Proyectos y documentos"></nav>
 <p class="pista" id="pista"></p>
 <div id="ventanas"></div>
+<footer class="tareas" aria-label="Barra de tareas">
+  <button class="inicio" type="button" data-abrir="leeme"><i aria-hidden="true"></i>Daniel OS</button>
+  <div class="abiertas" id="abiertas" aria-label="Ventanas abiertas"></div>
+  <div class="bandeja"><span class="ultimo" id="ultimo"></span><time id="reloj"></time></div>
+</footer>
 <noscript><p>Este portafolio abre cada proyecto en su ventana, y para eso necesita JavaScript. Todo lo que enseña está también en <a href="proyectos.json">proyectos.json</a> y <a href="logros.json">logros.json</a>.</p></noscript>
 
 <script>
@@ -226,6 +244,7 @@
   var MESES = ['ene', 'feb', 'mar', 'abr', 'may', 'jun', 'jul', 'ago', 'sep', 'oct', 'nov', 'dic'];
   var COLOR = { app: '#8FC3FF', juego: '#FFB3D6', automatizacion: '#F7C969', flujo: '#8EE0B4' };
   var movil = matchMedia('(max-width: 760px)');
+  var BARRA = 44; // el alto de la barra de tareas, como en el CSS
   var capa = 10, abiertas = {}, verTodos = {};
   var d = { perfil: {}, certificaciones: [], proyectos: [], logros: [] };
 
@@ -343,7 +362,22 @@
     v.style.zIndex = ++capa;
     document.querySelectorAll('.ventana').forEach(function (x) { x.classList.toggle('activa', x === v); });
     document.querySelectorAll('.icono').forEach(function (b) { b.setAttribute('aria-pressed', String(b.dataset.abrir === v.dataset.v)); });
+    pintarTareas();
   }
+  // Un botón por ventana abierta, en el orden en que se abrieron; el de la de delante, marcado.
+  function pintarTareas() {
+    var delante = document.querySelector('.ventana.activa');
+    document.getElementById('abiertas').innerHTML = Object.keys(abiertas).map(function (id) {
+      var t = abiertas[id].getAttribute('aria-label');
+      return '<button type="button" data-ir="' + esc(id) + '" aria-current="' + (abiertas[id] === delante) + '" title="' + esc(t) + '">' + esc(t) + '</button>';
+    }).join('');
+  }
+  function reloj() {
+    var a = new Date(), r = document.getElementById('reloj');
+    r.dateTime = a.toISOString();
+    r.innerHTML = '<b>' + a.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }) + '</b>' + a.toLocaleDateString('es-ES');
+  }
+  reloj(); setInterval(reloj, 15000);
 
   // Cada proyecto tiene su dirección, #/<id>, para poder compartirlo.
   function ponerRuta(id) {
@@ -363,9 +397,9 @@
     var ancho = Math.min(c.ancho, innerWidth - 160);
     v.style.width = ancho + 'px';
     v.style.left = (x != null ? x : Math.max(140, Math.min(150 + n * 36, innerWidth - ancho - 20))) + 'px';
-    var arriba = y != null ? y : 56 + n * 32;
+    var arriba = y != null ? y : 20 + n * 32;
     v.style.top = arriba + 'px';
-    if (!movil.matches) v.style.maxHeight = (innerHeight - arriba - 16) + 'px'; // que no pase del borde de abajo
+    if (!movil.matches) v.style.maxHeight = (innerHeight - arriba - BARRA - 16) + 'px'; // que no se meta bajo la barra de tareas
     v.innerHTML = '<div class="titulo"><h2>' + esc(c.titulo) + '</h2><button class="cerrar" type="button" aria-label="Cerrar ' + esc(c.titulo) + '">✕</button></div><div class="cuerpo">' + c.html + '</div>';
     document.getElementById('ventanas').appendChild(v);
     abiertas[id] = v;
@@ -378,12 +412,13 @@
     delete abiertas[v.dataset.v]; v.remove();
     var resto = document.querySelectorAll('.ventana');
     if (resto.length) { var arriba = [].slice.call(resto).sort(function (a, b) { return b.style.zIndex - a.style.zIndex; })[0]; alFrente(arriba); ponerRuta(arriba.dataset.v); }
-    else { document.querySelectorAll('.icono').forEach(function (b) { b.setAttribute('aria-pressed', 'false'); }); ponerRuta(null); }
+    else { document.querySelectorAll('.icono').forEach(function (b) { b.setAttribute('aria-pressed', 'false'); }); ponerRuta(null); pintarTareas(); }
     var ic = document.querySelector('[data-abrir="' + v.dataset.v + '"]'); if (ic) ic.focus();
   }
 
   document.addEventListener('click', function (e) {
     var a = e.target.closest('[data-abrir]'); if (a) { abrir(a.dataset.abrir); return; }
+    var ir = e.target.closest('[data-ir]'); if (ir) { abrir(ir.dataset.ir); return; }
     var c = e.target.closest('.cerrar'); if (c) { cerrar(c.closest('.ventana')); return; }
     var t = e.target.closest('[data-todos]');
     if (t) { var vt = t.closest('.ventana'); verTodos[vt.dataset.v] = !verTodos[vt.dataset.v]; pintarHistoria(vt); return; }
@@ -414,7 +449,7 @@
     t.setPointerCapture(e.pointerId);
     function mover(ev) {
       v.style.left = Math.max(-v.offsetWidth + 80, Math.min(innerWidth - 80, ev.clientX - dx)) + 'px';
-      v.style.top = Math.max(38, Math.min(innerHeight - 40, ev.clientY - dy)) + 'px';
+      v.style.top = Math.max(0, Math.min(innerHeight - BARRA - 40, ev.clientY - dy)) + 'px';
     }
     function soltar() { t.removeEventListener('pointermove', mover); t.removeEventListener('pointerup', soltar); }
     t.addEventListener('pointermove', mover); t.addEventListener('pointerup', soltar);
@@ -431,7 +466,7 @@
     // y centrada; en el móvil ocupa la pantalla, y al cerrarla quedan los iconos.
     var m = /^#\/(.+)$/.exec(location.hash), pedido = m && decodeURIComponent(m[1]);
     if (pedido && proyecto(pedido)) abrir(pedido);
-    else abrir('leeme', Math.max(140, Math.round((innerWidth - Math.min(640, innerWidth - 160)) / 2)), 72);
+    else abrir('leeme', Math.max(140, Math.round((innerWidth - Math.min(640, innerWidth - 160)) / 2)), 40);
   }).catch(function (err) {
     // Abierta con doble clic (file://), el navegador no deja leer los JSON de al lado.
     document.getElementById('pista').textContent = location.protocol === 'file:'

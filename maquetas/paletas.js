@@ -1,9 +1,10 @@
 // Paletas de prueba para Daniel OS. Cada una cambia sólo las variables de color del index;
 // la estructura, la malla y los iconos son los mismos. La primera es la que hay ahora.
 // La usan maquetas/paletas.html (para probarlas en vivo) y el script que saca las capturas.
+// Daniel eligió la 7, «claro», el 14-nov-2026: es la que tiene el index.
 window.PALETAS = [
-  { id: 'ahora', nombre: 'Ahora: verde azulado y amarillo',
-    por: 'La de hoy. El amarillo de taxi sobre el verde azulado es la que más se ve de lejos.',
+  { id: 'ahora', nombre: 'Verde azulado y amarillo (la de antes)',
+    por: 'La que había hasta el 14-nov-2026. El amarillo de taxi sobre el verde azulado es la que más se ve de lejos.',
     v: { mesa: '#2B4A52', papel: '#FBFBF8', negro: '#000000', activa: '#F0C419', inactiva: '#D6D3C9', gris: '#55575B', raya: '#CFCCC2', 'sobre-mesa': '#FFFFFF', malla: '232, 240, 243' } },
   { id: 'plano', nombre: 'Plano de arquitecto: azul y naranja',
     por: 'Azul de plano con líneas como un dibujo técnico, y el naranja de las marcas de obra.',
@@ -20,12 +21,14 @@ window.PALETAS = [
   { id: 'lima', nombre: 'Violeta y lima',
     por: 'La más atrevida: dos colores que chocan a propósito, para que se recuerde.',
     v: { mesa: '#423C66', papel: '#FBFAFF', negro: '#16132A', activa: '#C6F25E', inactiva: '#D9D6E9', gris: '#55516C', raya: '#D2CFE3', 'sobre-mesa': '#FFFFFF', malla: '210, 200, 255' } },
-  { id: 'claro', nombre: 'Escritorio claro y rojo señal',
+  { id: 'claro', nombre: 'Escritorio claro y rojo señal (la elegida)',
     por: 'La única clara: papel gris con líneas de lápiz. El rojo va en las barras; la mira y el foco, en negro, porque rojo sobre gris claro no se distingue.',
     v: { mesa: '#D3D1C9', papel: '#FFFFFF', negro: '#111111', activa: '#E8432E', inactiva: '#E6E4DE', gris: '#54555A', raya: '#D7D5CE', mira: '#111111', 'sobre-mesa': '#141414', 'sombra-nombre': 'none', malla: '40, 40, 40' } },
 ];
 
 // El CSS que pone una paleta encima del index.
+// Lo que una paleta no dice se pone aquí, para que no herede lo de la elegida (la mira negra, sin sombra).
 window.cssPaleta = function (p) {
-  return ':root{' + Object.keys(p.v).map(function (k) { return '--' + k + ':' + p.v[k]; }).join(';') + '}';
+  var v = Object.assign({ mira: 'var(--activa)', 'sombra-nombre': '0 1px 2px rgba(0, 0, 0, 0.6)' }, p.v);
+  return ':root{' + Object.keys(v).map(function (k) { return '--' + k + ':' + v[k]; }).join(';') + '}';
 };
