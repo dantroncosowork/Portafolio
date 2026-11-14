@@ -37,11 +37,31 @@
 
   /* La barra de tareas, abajo como en un ordenador: «Daniel OS» abre el Léeme, cada ventana
      abierta tiene su botón (la de delante, en el color de acento), y a la derecha la hora y la fecha. */
-  .tareas { position: fixed; inset: auto 0 0 0; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 8px; background: var(--papel); border-top: 2px solid var(--negro); z-index: 9999; font-size: 14px; }
-  .tareas .inicio { display: flex; align-items: center; gap: 8px; height: 32px; padding: 0 12px 0 8px; flex-shrink: 0; font: 700 15px 'Atkinson Hyperlegible', sans-serif; color: var(--negro); background: var(--papel); border: 2px solid var(--negro); box-shadow: 2px 2px 0 var(--negro); cursor: pointer; }
-  .tareas .inicio:active { transform: translate(2px, 2px); box-shadow: none; }
-  .tareas .inicio i { width: 14px; height: 14px; background: var(--activa); border: 2px solid var(--negro); border-radius: 50%; }
+  /* La barra va en la letra del sistema (Segoe UI en Windows): la de la página tacha el cero. */
+  .tareas { position: fixed; inset: auto 0 0 0; height: 44px; display: flex; align-items: center; gap: 10px; padding: 0 8px; background: var(--papel); border-top: 2px solid var(--negro); z-index: 9999; font: 400 14px/1.3 'Segoe UI', system-ui, -apple-system, sans-serif; }
+  .tareas .inicio { display: flex; align-items: center; gap: 8px; height: 36px; padding: 0 12px 0 5px; flex-shrink: 0; font: inherit; color: var(--negro); background: none; border: 0; border-radius: 4px; cursor: pointer; }
+  .tareas .inicio:hover { background: rgba(0, 0, 0, 0.07); }
+  .tareas .inicio[aria-expanded="true"] { background: rgba(0, 0, 0, 0.12); }
+  .tareas .inicio img, .tareas .inicio .sin-foto { width: 26px; height: 26px; border-radius: 50%; object-fit: cover; object-position: center 20%; border: 1.5px solid var(--negro); background: var(--activa); }
   .tareas .abiertas { flex: 1; min-width: 0; display: flex; gap: 6px; overflow: hidden; }
+  .tareas .sistema { display: flex; gap: 10px; color: var(--negro); }
+  .tareas .sistema svg { display: block; }
+
+  /* El menú de inicio: quién es (lo de arriba del Léeme) y en qué ha trabajado esta semana. */
+  .menu { position: fixed; left: 8px; bottom: 52px; z-index: 10000; width: 380px; max-height: calc(100vh - 68px); overflow: auto; background: var(--papel); border: 2px solid var(--negro); box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.35); padding: 18px; }
+  .menu[hidden] { display: none; }
+  .menu .yo { display: grid; grid-template-columns: 64px 1fr; gap: 14px; align-items: center; }
+  .menu .yo img { width: 64px; height: 64px; border-radius: 50%; object-fit: cover; object-position: center 20%; border: 2px solid var(--negro); }
+  .menu .yo h2 { margin: 0; font-size: 20px; line-height: 1.15; }
+  .menu .yo p { margin: 2px 0 0; color: var(--gris); font-size: 14px; line-height: 1.35; }
+  .menu .mas { margin: 14px 0 18px; }
+  .menu h3 { margin: 0 0 6px; font-size: 14px; color: var(--gris); font-weight: 700; }
+  .menu ul { list-style: none; margin: 0; padding: 0; }
+  .menu li button { display: grid; grid-template-columns: 44px 1fr; gap: 12px; align-items: center; width: 100%; text-align: left; padding: 8px; border: 0; background: none; font: inherit; color: var(--negro); cursor: pointer; }
+  .menu li button:hover { background: var(--inactiva); }
+  .menu li img, .menu li .letra { width: 44px; height: 44px; object-fit: cover; object-position: top left; border: 1.5px solid var(--negro); border-radius: 6px; display: grid; place-items: center; font-weight: 700; background: var(--inactiva); }
+  .menu li b { display: block; font-size: 15px; }
+  .menu li small { display: block; color: var(--gris); font-size: 13px; line-height: 1.3; }
   .tareas .abiertas button { min-width: 0; max-width: 180px; height: 32px; padding: 0 12px; font: inherit; color: var(--negro); background: var(--inactiva); border: 2px solid var(--negro); cursor: pointer; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
   .tareas .abiertas button[aria-current="true"] { background: var(--activa); font-weight: 700; }
   .tareas .bandeja { display: flex; align-items: center; gap: 16px; padding-right: 6px; white-space: nowrap; flex-shrink: 0; }
@@ -70,6 +90,12 @@
   .doc .tinta { fill: var(--papel); stroke: var(--negro); }
   .doc .trazo { stroke: var(--negro); }
   .doc .medalla { fill: var(--activa); stroke: var(--negro); }
+  .icono .foto img { object-position: center 20%; }
+  .cara.cert { background: var(--negro); }
+  .cert .papel { fill: var(--papel); }
+  .cert .linea { stroke: var(--negro); }
+  .cert .medalla { fill: var(--activa); stroke: var(--negro); }
+  .cert .visto { stroke: var(--papel); }
 
   .ventana { position: absolute; z-index: 2; background: var(--papel); border: 2px solid var(--negro); box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.35); display: flex; flex-direction: column; max-height: calc(100vh - 60px); min-width: 320px; }
   .ventana .titulo { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 8px 6px 14px; background: var(--inactiva); border-bottom: 2px solid var(--negro); cursor: grab; user-select: none; touch-action: none; }
@@ -133,7 +159,8 @@
     .icono { width: auto; }
     .ventana { position: fixed; inset: 0 0 44px 0 !important; width: auto !important; max-height: none; min-width: 0; box-shadow: none; border-width: 0; }
     .tareas { gap: 6px; padding: 0 6px; }
-    .tareas .ultimo { display: none; }
+    .tareas .ultimo, .tareas .sistema { display: none; }
+    .menu { left: 0; right: 0; bottom: 44px; width: auto; box-shadow: none; border-width: 2px 0 0; }
     .tareas .abiertas button { padding: 0 8px; }
     .ventana .titulo { cursor: default; }
     .leeme { grid-template-columns: 1fr; }
@@ -156,10 +183,16 @@
 <p class="pista" id="pista"></p>
 <div id="ventanas"></div>
 <footer class="tareas" aria-label="Barra de tareas">
-  <button class="inicio" type="button" data-abrir="leeme"><i aria-hidden="true"></i>Daniel OS</button>
+  <button class="inicio" id="inicio" type="button" aria-expanded="false" aria-controls="menu"><span class="sin-foto" aria-hidden="true"></span><span id="nombre">Daniel Troncoso</span></button>
   <div class="abiertas" id="abiertas" aria-label="Ventanas abiertas"></div>
-  <div class="bandeja"><span class="ultimo" id="ultimo"></span><time id="reloj"></time></div>
+  <div class="bandeja"><span class="ultimo" id="ultimo"></span>
+    <span class="sistema" aria-hidden="true">
+      <svg width="20" height="18" viewBox="0 0 20 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><rect x="6" y="1.5" width="12.5" height="9" rx="1"/><path d="M12.25 10.5v3.5M9.5 14h5.5M1 4.5h3V15h5"/></svg>
+      <svg width="20" height="18" viewBox="0 0 20 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><path d="M2 6.5h3.2L9.5 3v12L5.2 11.5H2z"/><path d="M13 6.2a3.6 3.6 0 0 1 0 5.6M15.6 3.8a7 7 0 0 1 0 10.4"/></svg>
+    </span>
+    <time id="reloj"></time></div>
 </footer>
+<div class="menu" id="menu" role="dialog" aria-label="Inicio" hidden></div>
 <noscript><p>Este portafolio abre cada proyecto en su ventana, y para eso necesita JavaScript. Todo lo que enseña está también en <a href="proyectos.json">proyectos.json</a> y <a href="logros.json">logros.json</a>.</p></noscript>
 
 <script>
@@ -245,6 +278,7 @@
   var COLOR = { app: '#8FC3FF', juego: '#FFB3D6', automatizacion: '#F7C969', flujo: '#8EE0B4' };
   var movil = matchMedia('(max-width: 760px)');
   var BARRA = 44; // el alto de la barra de tareas, como en el CSS
+  var menu = document.getElementById('menu'), inicio = document.getElementById('inicio');
   var capa = 10, abiertas = {}, verTodos = {};
   var d = { perfil: {}, certificaciones: [], proyectos: [], logros: [] };
 
@@ -269,7 +303,43 @@
     return null;
   }
 
+  // Cuántos días hace de una fecha AAAA-MM-DD, contando desde hoy en el reloj de quien mira.
+  function dias(iso) {
+    var p = String(iso).split('-'), hoy = new Date();
+    return Math.round((new Date(hoy.getFullYear(), hoy.getMonth(), hoy.getDate()) - new Date(+p[0], p[1] - 1, +p[2])) / 864e5);
+  }
+  function hace(n) { return n <= 0 ? 'Hoy' : n === 1 ? 'Ayer' : 'Hace ' + n + ' días'; }
+  // Los proyectos en los que ha trabajado esta semana (un avance en los últimos 7 días), del más
+  // reciente al más viejo. Si en 7 días no hubo ninguno, los tres últimos, para que nunca salga vacío.
+  function recientes() {
+    var ultimo = {};
+    d.logros.forEach(function (l) { if (!ultimo[l.proyecto] && proyecto(l.proyecto)) ultimo[l.proyecto] = l; });
+    var lista = Object.keys(ultimo).map(function (id) { return ultimo[id]; });
+    var semana = lista.filter(function (l) { return dias(l.fecha) <= 7; });
+    return semana.length ? { titulo: 'En lo que trabajo esta semana', lista: semana.slice(0, 5) } : { titulo: 'Lo último en lo que he trabajado', lista: lista.slice(0, 3) };
+  }
+  function pintarMenu() {
+    var f = d.perfil, r = recientes();
+    menu.innerHTML = '<div class="yo">' + (f.foto ? '<img src="' + esc(f.foto) + '" alt="">' : '<span></span>') +
+      '<div><h2>' + esc(f.nombre) + '</h2><p>' + esc(f.rol) + '</p></div></div>' +
+      '<button class="boton principal mas" type="button" data-abrir="leeme">Leer quién soy</button>' +
+      (r.lista.length ? '<h3>' + r.titulo + '</h3><ul>' + r.lista.map(function (l) {
+        var p = proyecto(l.proyecto), img = portada(p.id);
+        return '<li><button type="button" data-abrir="' + esc(p.id) + '">' + (img ? '<img src="' + esc(img) + '" alt="">' : '<span class="letra">' + esc(p.nombre.charAt(0)) + '</span>') +
+          '<span><b>' + esc(p.nombre) + '</b><small>' + hace(dias(l.fecha)) + ': ' + esc(l.titulo) + '</small></span></button></li>';
+      }).join('') + '</ul>' : '');
+  }
+  function menuAbierto(si) {
+    if (si) pintarMenu();
+    menu.hidden = !si;
+    inicio.setAttribute('aria-expanded', String(si));
+    if (si) menu.querySelector('button').focus();
+  }
+
   function pintarEscritorio() {
+    var f = d.perfil;
+    if (f.nombre) document.getElementById('nombre').textContent = f.nombre;
+    if (f.foto) inicio.querySelector('.sin-foto').outerHTML = '<img src="' + esc(f.foto) + '" alt="">';
     var ultimo = d.logros[0];
     document.getElementById('ultimo').textContent = ultimo ? 'Último avance: ' + fecha(ultimo.fecha) : '';
     document.getElementById('pista').textContent = d.proyectos.length + ' proyectos y ' + d.logros.length + ' avances. Abre uno para ver su historia.';
@@ -277,9 +347,13 @@
     if (d.certificaciones.length) iconos.push({ id: 'certificados', nombre: 'Certificados', doc: true });
     document.getElementById('iconos').innerHTML = iconos.map(function (it) {
       var cara;
-      if (it.doc) cara = '<span class="cara doc" aria-hidden="true">' + (it.id === 'leeme'
-        ? '<svg width="26" height="30" viewBox="0 0 26 30"><path class="tinta" d="M2 2h15l7 7v19H2z" stroke-width="2"/><path class="trazo" d="M6 13h14M6 18h14M6 23h9" stroke-width="2"/></svg>'
-        : '<svg width="30" height="28" viewBox="0 0 30 28"><circle class="medalla" cx="15" cy="11" r="8" stroke-width="2"/><path class="tinta" d="M10 18l-3 8 8-3 8 3-3-8" stroke-width="2"/></svg>') + '</span>';
+      // El Léeme lleva la foto de Daniel; Certificados, un diploma con su sello, sobre oscuro para que resalte.
+      if (it.id === 'leeme') cara = '<span class="cara doc foto" aria-hidden="true">' + (d.perfil.foto
+        ? '<img src="' + esc(d.perfil.foto) + '" alt="">'
+        : '<svg width="26" height="30" viewBox="0 0 26 30"><path class="tinta" d="M2 2h15l7 7v19H2z" stroke-width="2"/><path class="trazo" d="M6 13h14M6 18h14M6 23h9" stroke-width="2"/></svg>') + '</span>';
+      else if (it.doc) cara = '<span class="cara cert" aria-hidden="true">' +
+        '<svg width="44" height="40" viewBox="0 0 44 40"><rect class="papel" x="3" y="5" width="32" height="24" rx="1.5"/><path class="linea" d="M8 12h22M8 17h15M8 22h10" stroke-width="2.4" stroke-linecap="round"/>' +
+        '<path class="medalla" d="M28 28l-3 10 6-3.2 6 3.2-3-10z" stroke-width="2"/><circle class="medalla" cx="31" cy="25" r="8" stroke-width="2"/><path class="visto" d="M27.4 25.2l2.6 2.6 4.6-5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg></span>';
       else {
         var img = portada(it.id);
         cara = '<span class="cara" style="--c:' + (COLOR[it.p.tipo] || '#ccc') + '" aria-hidden="true">' + (img ? '<img src="' + esc(img) + '" alt="">' : esc(it.nombre.charAt(0))) + '</span>';
@@ -417,7 +491,9 @@
   }
 
   document.addEventListener('click', function (e) {
-    var a = e.target.closest('[data-abrir]'); if (a) { abrir(a.dataset.abrir); return; }
+    if (e.target.closest('#inicio')) { menuAbierto(menu.hidden); return; }
+    if (!menu.hidden && !e.target.closest('#menu')) menuAbierto(false); // un clic fuera lo cierra
+    var a = e.target.closest('[data-abrir]'); if (a) { menuAbierto(false); abrir(a.dataset.abrir); return; }
     var ir = e.target.closest('[data-ir]'); if (ir) { abrir(ir.dataset.ir); return; }
     var c = e.target.closest('.cerrar'); if (c) { cerrar(c.closest('.ventana')); return; }
     var t = e.target.closest('[data-todos]');
@@ -432,6 +508,7 @@
     }
   });
   document.addEventListener('keydown', function (e) {
+    if (e.key === 'Escape' && !menu.hidden) { menuAbierto(false); inicio.focus(); return; }
     if (e.key === 'Escape') { var act = document.querySelector('.ventana.activa'); if (act) cerrar(act); }
   });
   window.addEventListener('hashchange', function () {
