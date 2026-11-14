@@ -3,43 +3,59 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Daniel OS: probar paletas</title>
+<title>Daniel OS: probar colores</title>
 <style>
   * { box-sizing: border-box; }
-  html, body { margin: 0; height: 100%; font: 400 15px/1.4 system-ui, sans-serif; background: #111; color: #fff; }
+  html, body { margin: 0; height: 100%; font: 400 14px/1.4 system-ui, sans-serif; background: #111; color: #fff; }
   body { display: grid; grid-template-rows: auto 1fr; }
-  .elegir { display: flex; gap: 6px; flex-wrap: wrap; align-items: center; padding: 8px 10px; }
-  .elegir button { display: flex; align-items: center; gap: 8px; font: inherit; color: #fff; background: #222; border: 2px solid #444; padding: 4px 10px 4px 6px; cursor: pointer; }
+  .elegir { display: grid; grid-template-columns: auto 1fr; gap: 6px 10px; align-items: center; padding: 8px 10px; }
+  .elegir b { color: #bbb; font-weight: 400; }
+  .elegir div { display: flex; gap: 6px; flex-wrap: wrap; }
+  .elegir button { display: flex; align-items: center; gap: 8px; font: inherit; color: #fff; background: #222; border: 2px solid #444; padding: 3px 10px 3px 6px; cursor: pointer; }
   .elegir button[aria-pressed="true"] { border-color: #fff; background: #333; }
   .elegir i { display: inline-flex; border: 1px solid #000; }
-  .elegir i span { width: 14px; height: 18px; }
-  .elegir p { margin: 0 0 0 8px; color: #bbb; flex: 1 1 300px; }
+  .elegir i span { width: 13px; height: 17px; }
+  .elegir p { margin: 0; color: #bbb; grid-column: 1 / -1; }
   iframe { width: 100%; height: 100%; border: 0; display: block; }
 </style>
 </head>
 <body>
-<div class="elegir" id="elegir"></div>
-<iframe id="marco" src="../index.html" title="Daniel OS con la paleta elegida"></iframe>
+<div class="elegir" id="elegir">
+  <b>Colores</b><div id="colores"></div>
+  <b>Panel</b><div id="paneles"></div>
+  <p id="por"></p>
+</div>
+<iframe id="marco" src="../index.html" title="Daniel OS con los colores elegidos"></iframe>
 <script src="paletas.js"></script>
 <script>
-  // Mueve el ratón por el escritorio para ver la malla con cada paleta.
-  var marco = document.getElementById('marco'), elegir = document.getElementById('elegir'), actual = 0;
-  elegir.innerHTML = PALETAS.map(function (p, i) {
-    return '<button type="button" data-i="' + i + '" aria-pressed="' + (i === 0) + '"><i aria-hidden="true">' +
-      ['mesa', 'papel', 'activa'].map(function (k) { return '<span style="background:' + p.v[k] + '"></span>'; }).join('') +
-      '</i>' + p.nombre + '</button>';
-  }).join('') + '<p id="por"></p>';
-  function poner(i) {
-    actual = i;
-    var doc = marco.contentDocument; if (!doc) return;
-    var s = doc.getElementById('paleta') || doc.head.appendChild(doc.createElement('style'));
-    s.id = 'paleta'; s.textContent = cssPaleta(PALETAS[i]);
-    marco.contentWindow.dispatchEvent(new Event('resize')); // la malla vuelve a leer su color
-    elegir.querySelectorAll('button').forEach(function (b) { b.setAttribute('aria-pressed', String(+b.dataset.i === i)); });
-    document.getElementById('por').textContent = PALETAS[i].por;
+  // Es el index de verdad, dentro de un marco, con otros colores por encima.
+  var marco = document.getElementById('marco'), color = ELEGIDA, panel = 0;
+  function botones(lista, de, muestras) {
+    return lista.map(function (x, i) {
+      return '<button type="button" data-' + de + '="' + i + '"><i aria-hidden="true">' +
+        muestras(x).map(function (c) { return '<span style="background:' + c + '"></span>'; }).join('') +
+        '</i>' + (de === 'color' ? (i + 1) + '. ' : '') + x.nombre + '</button>';
+    }).join('');
   }
-  elegir.addEventListener('click', function (e) { var b = e.target.closest('button'); if (b) poner(+b.dataset.i); });
-  marco.addEventListener('load', function () { poner(actual); });
+  document.getElementById('colores').innerHTML = botones(PALETAS, 'color', function (p) { return [p.v.mesa, p.v.papel, p.v.activa]; });
+  document.getElementById('paneles').innerHTML = botones(PANELES, 'panel', function (x) { return [x.v.panel || '#fff', x.v['panel-tinta'] || '#111']; });
+  function poner() {
+    var doc = marco.contentDocument; if (!doc || !doc.head) return;
+    var s = doc.getElementById('paleta') || doc.head.appendChild(doc.createElement('style'));
+    s.id = 'paleta'; s.textContent = cssPaleta(PALETAS[color], PANELES[panel]);
+    marco.contentWindow.dispatchEvent(new Event('resize')); // el fondo vuelve a leer su color
+    document.querySelectorAll('[data-color]').forEach(function (b) { b.setAttribute('aria-pressed', String(+b.dataset.color === color)); });
+    document.querySelectorAll('[data-panel]').forEach(function (b) { b.setAttribute('aria-pressed', String(+b.dataset.panel === panel)); });
+    document.getElementById('por').textContent = PALETAS[color].por + ' ' + PANELES[panel].por +
+      ' Mueve el ratón por el escritorio para ver el fondo, pásalo por un icono para que asome el panel, o pulsa la hora para dejarlo puesto.';
+  }
+  document.getElementById('elegir').addEventListener('click', function (e) {
+    var b = e.target.closest('button'); if (!b) return;
+    if (b.dataset.color) color = +b.dataset.color; else panel = +b.dataset.panel;
+    poner();
+  });
+  marco.addEventListener('load', poner);
+  poner();
 </script>
 </body>
 </html>
