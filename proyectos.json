@@ -70,6 +70,17 @@
       "url": null
     },
     {
+      "id": "indicadores-tradingview",
+      "nombre": "Indicadores de TradingView",
+      "tipo": "automatizacion",
+      "estado": "en desarrollo",
+      "que": "Indicadores propios en Pine Script. El primero, Retest Indicator, vigila una lista de símbolos con su nivel de soporte y avisa con una sola alerta cuando el nivel aguanta, se rompe, se recupera o se retestea.",
+      "ia": [
+        "Claude Code"
+      ],
+      "url": null
+    },
+    {
       "id": "teleoperador",
       "nombre": "Teleoperador",
       "tipo": "app",

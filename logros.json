@@ -1,5 +1,22 @@
 [
   {
+    "id": "2026-11-14-retest-indicator-una-alerta-vigila-hasta",
+    "fecha": "2026-11-14",
+    "proyecto": "indicadores-tradingview",
+    "titulo": "Retest Indicator: una alerta vigila hasta 10 soportes",
+    "texto": "Un indicador de TradingView que sigue una lista de símbolos, cada uno con su nivel, y dice si el soporte aguanta, se rompe, se recupera o se retestea tras una ruptura. Una caja resume el estado de todos y una sola alerta los cubre, con filtros por símbolo. Escrito en Pine Script con Claude Code, corrigiendo sobre lo que se veía en el gráfico.",
+    "hito": true,
+    "etapa": "Primera versión",
+    "ia": [
+      "Claude Code"
+    ],
+    "capturas": [
+      "capturas/indicadores-tradingview/2026-11-14-retest-indicator-una-alerta-vigila-hasta-1-goog-paso-a-paso-1200.png",
+      "capturas/indicadores-tradingview/2026-11-14-retest-indicator-una-alerta-vigila-hasta-2-mapa-de-estados-1200.png",
+      "capturas/indicadores-tradingview/2026-11-14-retest-indicator-una-alerta-vigila-hasta-3-tres-caminos-1200.png"
+    ]
+  },
+  {
     "id": "2026-11-09-cuanto-ganaste-con-tu-trabajo-este-ano-y",
     "fecha": "2026-11-09",
     "proyecto": "finance-os",
