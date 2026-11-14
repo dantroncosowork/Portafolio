@@ -401,7 +401,10 @@
       abrir('leeme', 260, 64);
     } else ponerRuta(null);
   }).catch(function (err) {
-    document.getElementById('pista').textContent = 'No se pudieron leer los proyectos (' + err.message + '). Recarga la página.';
+    // Abierta con doble clic (file://), el navegador no deja leer los JSON de al lado.
+    document.getElementById('pista').textContent = location.protocol === 'file:'
+      ? 'Abierta como fichero, el navegador no deja leer los proyectos. Para verla en este ordenador, sírvela con: node herramientas/logro.js ver'
+      : 'No se pudieron leer los proyectos (' + err.message + '). Recarga la página.';
   });
 })();
 </script>
