@@ -12,19 +12,19 @@
   /* Daniel OS: tres de sus apps se llaman «OS», así que el portafolio es su escritorio.
      Cada proyecto es una app, y al abrirla sale una ventana con su historia. */
   /* Los colores, todos aquí: una paleta nueva sólo cambia este bloque. */
-  /* «Escritorio claro y rojo señal», la 7 de maquetas/paletas.html, elegida el 14-nov-2026. */
+  /* «Grafito y menta», la 3 de maquetas/paletas.html, elegida el 14-nov-2026. */
   :root {
-    --mesa: #D3D1C9;        /* el escritorio: papel gris claro, plano */
-    --papel: #FFFFFF;       /* el interior de las ventanas */
-    --negro: #111111;       /* bordes y texto */
-    --activa: #E8432E;      /* el acento: la barra de la ventana de delante y el botón principal */
-    --inactiva: #E6E4DE;
-    --gris: #54555A;
-    --raya: #D7D5CE;
-    --mira: #111111;        /* las esquinas de los iconos y el foco: en negro, porque el rojo no se distingue sobre el gris claro */
-    --sobre-mesa: #141414;  /* el texto que va directamente sobre el escritorio */
-    --sombra-nombre: none;
-    --fragmento: 40, 40, 40; /* los triángulos del fondo, en r, g, b: como de lápiz */
+    --mesa: #26292D;        /* el escritorio: grafito, casi neutro */
+    --papel: #F8F8F6;       /* el interior de las ventanas */
+    --negro: #0E0F10;       /* bordes y texto */
+    --activa: #6EE7B7;      /* el acento, lo único con color: la barra de la ventana de delante y el botón principal */
+    --inactiva: #D5D7D9;
+    --gris: #54575B;
+    --raya: #D0D2D4;
+    --mira: var(--activa);  /* las esquinas de los iconos y el foco */
+    --sobre-mesa: #FFFFFF;  /* el texto que va directamente sobre el escritorio */
+    --sombra-nombre: 0 1px 2px rgba(0, 0, 0, 0.6);
+    --fragmento: 170, 240, 210; /* los triángulos del fondo, en r, g, b: menta apagada */
     /* El centro de avisos: sus tarjetas van como las ventanas. En maquetas/paletas.html se prueba de cristal. */
     --panel: var(--papel);
     --panel-tinta: var(--negro);

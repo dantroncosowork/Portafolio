@@ -1,7 +1,7 @@
 // Paletas de prueba para Daniel OS. Cada una cambia sólo las variables de color del index;
 // la estructura, el fondo de fragmentos, los iconos y el centro de avisos son los mismos.
 // La usan maquetas/paletas.html (para probarlas en vivo) y el script que saca las capturas.
-// Daniel eligió la 7, «claro», el 14-nov-2026: es la que tiene el index. El número de cada una no se
+// Daniel eligió la 3, «grafito», el 14-nov-2026 (antes tuvo la 7): es la que tiene el index. El número de cada una no se
 // mueve, porque él las nombra por su número.
 window.PALETAS = [
   { id: 'ahora', nombre: 'Verde azulado y amarillo (la de antes)',
@@ -10,7 +10,7 @@ window.PALETAS = [
   { id: 'plano', nombre: 'Plano de arquitecto: azul y naranja',
     por: 'Azul de plano, con los fragmentos como trazos de dibujo técnico, y el naranja de las marcas de obra.',
     v: { mesa: '#1E3A5C', papel: '#F6F8FB', negro: '#0B1A2C', activa: '#FF9142', inactiva: '#CDD6E1', gris: '#4A5568', raya: '#CBD4DF', 'sobre-mesa': '#FFFFFF', fragmento: '175, 205, 255' } },
-  { id: 'grafito', nombre: 'Grafito y menta',
+  { id: 'grafito', nombre: 'Grafito y menta (la elegida)',
     por: 'Casi neutro: la menta es lo único con color, así que la ventana de delante manda.',
     v: { mesa: '#26292D', papel: '#F8F8F6', negro: '#0E0F10', activa: '#6EE7B7', inactiva: '#D5D7D9', gris: '#54575B', raya: '#D0D2D4', 'sobre-mesa': '#FFFFFF', fragmento: '170, 240, 210' } },
   { id: 'topografico', nombre: 'Mapa topográfico: musgo y azul agua',
@@ -22,14 +22,14 @@ window.PALETAS = [
   { id: 'lima', nombre: 'Violeta y lima',
     por: 'La más atrevida: dos colores que chocan a propósito, para que se recuerde.',
     v: { mesa: '#423C66', papel: '#FBFAFF', negro: '#16132A', activa: '#C6F25E', inactiva: '#D9D6E9', gris: '#55516C', raya: '#D2CFE3', 'sobre-mesa': '#FFFFFF', fragmento: '210, 200, 255' } },
-  { id: 'claro', nombre: 'Escritorio claro y rojo señal (la elegida)',
+  { id: 'claro', nombre: 'Escritorio claro y rojo señal',
     por: 'La única clara: papel gris con fragmentos de lápiz. El rojo va en las barras; la mira y el foco, en negro, porque rojo sobre gris claro no se distingue.',
     v: { mesa: '#D3D1C9', papel: '#FFFFFF', negro: '#111111', activa: '#E8432E', inactiva: '#E6E4DE', gris: '#54555A', raya: '#D7D5CE', mira: '#111111', 'sobre-mesa': '#141414', 'sombra-nombre': 'none', fragmento: '40, 40, 40' } },
   { id: 'gemini', nombre: 'Verde azulado y menta (los colores del fichero de Gemini)',
     por: 'El verde azulado y la menta que traía portafolio-combinado.html. Para verla como allí, pon el panel en cristal oscuro.',
     v: { mesa: '#2B4A52', papel: '#F6F8F8', negro: '#0E1315', activa: '#6EE7B7', inactiva: '#D3DCDD', gris: '#4F5A5D', raya: '#CCD6D8', 'sobre-mesa': '#FFFFFF', fragmento: '232, 240, 243' } },
 ];
-window.ELEGIDA = 6; // la posición de «claro» en la lista
+window.ELEGIDA = 2; // la posición de «grafito» en la lista
 
 // El aspecto del centro de avisos. «papel» es el del index y no cambia nada.
 window.PANELES = [
@@ -45,7 +45,7 @@ window.PANELES = [
 ];
 
 // El CSS que pone una paleta (y, si se dice, un aspecto del panel) encima del index.
-// Lo que una paleta no dice se pone aquí, para que no herede lo de la elegida (la mira negra, sin sombra).
+// Lo que una paleta no dice se pone aquí, para que valga igual sea cual sea la del index (la 7 lleva la mira negra y los nombres sin sombra).
 window.cssPaleta = function (p, panel) {
   var v = Object.assign({ mira: 'var(--activa)', 'sombra-nombre': '0 1px 2px rgba(0, 0, 0, 0.6)' }, p.v, panel ? panel.v : {});
   return ':root{' + Object.keys(v).map(function (k) { return '--' + k + ':' + v[k]; }).join(';') + '}';
