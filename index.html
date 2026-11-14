@@ -11,35 +11,54 @@
 <style>
   /* Daniel OS: tres de sus apps se llaman «OS», así que el portafolio es su escritorio.
      Cada proyecto es una app, y al abrirla sale una ventana con su historia. */
+  /* Los colores, todos aquí: una paleta nueva sólo cambia este bloque. */
   :root {
     --mesa: #2B4A52;        /* el escritorio: verde azulado profundo, plano */
     --papel: #FBFBF8;       /* el interior de las ventanas */
-    --negro: #000000;
-    --activa: #F0C419;      /* la barra de la ventana que tienes delante */
+    --negro: #000000;       /* bordes y texto */
+    --activa: #F0C419;      /* el acento: la barra de la ventana de delante, la mira de los iconos, el foco */
     --inactiva: #D6D3C9;
     --gris: #55575B;
     --raya: #CFCCC2;
+    --mira: var(--activa);  /* las esquinas de los iconos y el foco del teclado: tienen que verse sobre el escritorio */
+    --sobre-mesa: #FFFFFF;  /* el texto que va directamente sobre el escritorio */
+    --sombra-nombre: 0 1px 2px rgba(0, 0, 0, 0.6);
+    --malla: 232, 240, 243; /* las líneas del fondo, en r, g, b */
   }
   * { box-sizing: border-box; }
   html, body { height: 100%; }
   body { margin: 0; background: var(--mesa); color: var(--negro); font: 400 16px/1.5 'Atkinson Hyperlegible', system-ui, sans-serif; overflow: hidden; }
-  :focus-visible { outline: 3px solid var(--activa); outline-offset: 2px; }
+  :focus-visible { outline: 3px solid var(--mira); outline-offset: 2px; }
   a { color: var(--negro); text-decoration-thickness: 2px; text-underline-offset: 3px; }
 
-  /* La enredadera vive debajo de todo: sólo se ve en el escritorio vacío. */
-  #enredadera { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+  /* La malla vive debajo de todo: sólo se ve en el escritorio vacío. */
+  #malla { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
 
   .barra { position: fixed; inset: 0 0 auto 0; height: 36px; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 0 16px; background: var(--papel); border-bottom: 2px solid var(--negro); font-size: 15px; z-index: 9999; }
   .barra b { font-size: 16px; }
   .barra span { color: var(--gris); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 
   .iconos { position: absolute; z-index: 1; top: 56px; left: 16px; bottom: 16px; display: grid; grid-auto-flow: column; grid-template-rows: repeat(auto-fill, 112px); gap: 8px 12px; align-content: start; }
-  .icono { width: 104px; display: flex; flex-direction: column; align-items: center; gap: 6px; background: none; border: 0; padding: 6px 2px; cursor: pointer; color: #FFFFFF; font: inherit; }
-  .icono .cara { width: 56px; height: 56px; border: 2px solid var(--negro); border-radius: 12px; overflow: hidden; background: var(--c); display: grid; place-items: center; box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35); font-weight: 700; font-size: 24px; color: var(--negro); }
+  /* Cada icono lleva una mira: cuatro esquinas que se cierran sobre él al pasar el ratón
+     o al llegar con el teclado, y que se quedan puestas en el de la ventana que tienes delante. */
+  .icono { width: 104px; display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: 0; padding: 4px 2px; cursor: pointer; color: var(--sobre-mesa); font: inherit; }
+  .icono:focus-visible { outline: none; }
+  .icono .mira { position: relative; display: block; padding: 7px; }
+  .icono .esquinas { position: absolute; inset: 0; pointer-events: none; opacity: 0; transform: scale(1.18); transition: opacity 120ms ease-out, transform 160ms ease-out; }
+  .icono .esquina { position: absolute; width: 13px; height: 13px; border: 0 solid var(--mira); }
+  .icono .arr-izq { top: 0; left: 0; border-width: 3px 0 0 3px; }
+  .icono .arr-der { top: 0; right: 0; border-width: 3px 3px 0 0; }
+  .icono .aba-izq { bottom: 0; left: 0; border-width: 0 0 3px 3px; }
+  .icono .aba-der { bottom: 0; right: 0; border-width: 0 3px 3px 0; }
+  .icono:hover .esquinas, .icono:focus-visible .esquinas, .icono[aria-pressed="true"] .esquinas { opacity: 1; transform: none; }
+  .icono .cara { width: 56px; height: 56px; border: 2px solid var(--negro); border-radius: 10px; overflow: hidden; background: var(--c); display: grid; place-items: center; box-shadow: 3px 3px 0 rgba(0, 0, 0, 0.35); font-weight: 700; font-size: 24px; color: var(--negro); }
   .icono .cara img { width: 100%; height: 100%; object-fit: cover; object-position: top left; }
-  .icono .nombre { font-size: 14px; line-height: 1.25; text-align: center; padding: 1px 4px; border-radius: 3px; text-shadow: 0 1px 2px rgba(0, 0, 0, 0.6); }
-  .icono[aria-pressed="true"] .nombre { background: var(--activa); color: var(--negro); text-shadow: none; }
+  .icono .nombre { font-size: 14px; line-height: 1.25; text-align: center; padding: 1px 4px; text-shadow: var(--sombra-nombre); }
+  .icono:focus-visible .nombre { text-decoration: underline 2px; text-underline-offset: 3px; }
   .doc { background: var(--papel) !important; }
+  .doc .tinta { fill: var(--papel); stroke: var(--negro); }
+  .doc .trazo { stroke: var(--negro); }
+  .doc .medalla { fill: var(--activa); stroke: var(--negro); }
 
   .ventana { position: absolute; z-index: 2; background: var(--papel); border: 2px solid var(--negro); box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.35); display: flex; flex-direction: column; max-height: calc(100vh - 60px); min-width: 320px; }
   .ventana .titulo { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 8px 6px 14px; background: var(--inactiva); border-bottom: 2px solid var(--negro); cursor: grab; user-select: none; touch-action: none; }
@@ -93,7 +112,7 @@
   .certs .verif { display: inline-block; font-size: 13px; font-weight: 700; border: 2px solid var(--negro); padding: 0 6px; background: #CDEFD9; }
   .certs .fecha { color: var(--gris); font-size: 13px; margin-left: 8px; }
 
-  .pista { position: absolute; z-index: 1; right: 20px; bottom: 16px; color: #CFE0E3; font-size: 14px; margin: 0; }
+  .pista { position: absolute; z-index: 1; right: 20px; bottom: 16px; color: var(--sobre-mesa); text-shadow: var(--sombra-nombre); font-size: 14px; margin: 0; }
   body:has(.ventana) .pista { visibility: hidden; }
   noscript p { position: relative; z-index: 3; margin: 80px auto; max-width: 560px; background: var(--papel); border: 2px solid var(--negro); padding: 20px; }
 
@@ -112,10 +131,13 @@
     .ventana.nueva { animation: abrir 140ms ease-out; }
     @keyframes abrir { from { transform: scale(0.96); opacity: 0; } }
   }
+  @media (prefers-reduced-motion: reduce) {
+    .icono .esquinas { transition: none; }
+  }
 </style>
 </head>
 <body>
-<canvas id="enredadera" aria-hidden="true"></canvas>
+<canvas id="malla" aria-hidden="true"></canvas>
 <header class="barra"><b>Daniel OS</b><span id="ultimo"></span></header>
 <nav class="iconos" id="iconos" aria-label="Proyectos y documentos"></nav>
 <p class="pista" id="pista"></p>
@@ -123,69 +145,80 @@
 <noscript><p>Este portafolio abre cada proyecto en su ventana, y para eso necesita JavaScript. Todo lo que enseña está también en <a href="proyectos.json">proyectos.json</a> y <a href="logros.json">logros.json</a>.</p></noscript>
 
 <script>
-/* La enredadera: el puntero deja un rastro que echa ramas y se desvanece.
-   Viene de un componente de React (LivingVineBackground); aquí es el mismo dibujo en un
-   <canvas>, sin React. Con «reducir movimiento» no se dibuja, y se para sola al quedarse quieta. */
+/* El fondo: líneas finas, como curvas de nivel, que ceden bajo el puntero y vuelven a su sitio.
+   Viene de una prueba hecha con Gemini (fondo-07). Su color sale de --malla, así que una paleta
+   nueva lo cambia sin tocar esto. Con «reducir movimiento» se queda quieta; en reposo no gasta. */
 (function () {
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  var lienzo = document.getElementById('enredadera'), ctx = lienzo.getContext('2d');
-  var TALLO = 'rgba(45, 255, 190, 0.8)', RAMA = [45, 255, 190], LARGO_RAMA = 50;
-  var ancho, alto, rastro = [], ramas = [], quieto = 0, andando = false;
+  var lienzo = document.getElementById('malla'), ctx = lienzo.getContext('2d');
+  var quieta = matchMedia('(prefers-reduced-motion: reduce)');
+  var ALCANCE = 155, FILA = 36, COLUMNA = 28;
+  var ancho = 0, alto = 0, lineas = [], cuadro = null, espera = null, yAntes = null;
+  var puntero = { x: -999, y: -999, vy: 0, activo: false };
 
-  function medir() {
-    var r = window.devicePixelRatio || 1;
-    ancho = innerWidth; alto = innerHeight;
-    lienzo.width = ancho * r; lienzo.height = alto * r;
-    ctx.setTransform(r, 0, 0, r, 0, 0);
-  }
-  function Rama(x, y) {
-    this.puntos = [{ x: x, y: y }];
-    this.vida = 1;
-    this.angulo = Math.random() * Math.PI * 2;
-    this.paso = Math.random() * 1.5 + 0.5;
-  }
-  Rama.prototype.crecer = function () {
-    if (this.puntos.length > LARGO_RAMA) { this.vida -= 0.02; return; }
-    this.angulo += (Math.random() - 0.5) * 0.2;
-    var u = this.puntos[this.puntos.length - 1];
-    this.puntos.push({ x: u.x + Math.cos(this.angulo) * this.paso, y: u.y + Math.sin(this.angulo) * this.paso });
-  };
-  Rama.prototype.dibujar = function () {
-    ctx.beginPath();
-    ctx.moveTo(this.puntos[0].x, this.puntos[0].y);
-    for (var i = 1; i < this.puntos.length; i++) ctx.lineTo(this.puntos[i].x, this.puntos[i].y);
-    ctx.strokeStyle = 'rgba(' + RAMA.join(',') + ',' + (this.vida * 0.4) + ')';
-    ctx.lineWidth = 1;
-    ctx.stroke();
-  };
-  function cuadro() {
-    // Se borra un poco cada vez (no se pinta encima): así el escritorio sigue siendo el del CSS.
-    ctx.globalCompositeOperation = 'destination-out';
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.1)';
-    ctx.fillRect(0, 0, ancho, alto);
-    ctx.globalCompositeOperation = 'source-over';
-    if (rastro.length > 1) {
-      ctx.beginPath();
-      ctx.moveTo(rastro[0].x, rastro[0].y);
-      for (var i = 1; i < rastro.length; i++) ctx.lineTo(rastro[i].x, rastro[i].y);
-      ctx.strokeStyle = TALLO;
-      ctx.lineWidth = 2;
-      ctx.stroke();
+  function tejer() {
+    lineas = [];
+    var cols = Math.ceil(ancho / COLUMNA) + 2;
+    for (var y = FILA * 0.6; y < alto; y += FILA) {
+      var pts = [];
+      for (var c = 0; c < cols; c++) pts.push({ x: (c - 0.5) * COLUMNA, y: y, dy: 0, vy: 0 });
+      lineas.push(pts);
     }
-    ramas = ramas.filter(function (b) { return b.vida > 0; });
-    ramas.forEach(function (b) { b.crecer(); b.dibujar(); });
-    // Sin movimiento y sin ramas vivas, no gasta: se para hasta que el puntero vuelva a moverse.
-    if (++quieto > 90 && !ramas.length) { andando = false; return; }
-    requestAnimationFrame(cuadro);
+  }
+  // Cada vértice es un muelle: el puntero lo empuja y él vuelve a su sitio. Dice si algo se sigue moviendo.
+  function dibujar() {
+    var color = getComputedStyle(document.documentElement).getPropertyValue('--malla').trim() || '232, 240, 243';
+    var seMueve = false;
+    ctx.clearRect(0, 0, ancho, alto);
+    ctx.lineWidth = 1;
+    lineas.forEach(function (pts) {
+      var curva = 0;
+      pts.forEach(function (p) {
+        if (puntero.activo && !quieta.matches) {
+          var dist = Math.hypot(p.x - puntero.x, p.y - puntero.y);
+          if (dist < ALCANCE) {
+            var f = Math.pow(1 - dist / ALCANCE, 2);
+            var empuje = (p.y >= puntero.y ? 1 : -1) * 26 * f + puntero.vy * 0.45 * f;
+            p.vy += (empuje - p.dy) * 0.12;
+          }
+        }
+        p.vy += -p.dy * 0.085; p.vy *= 0.82; p.dy += p.vy;
+        if (Math.abs(p.dy) > 0.08 || Math.abs(p.vy) > 0.04) { seMueve = true; curva = Math.max(curva, Math.abs(p.dy)); }
+        else { p.dy = 0; p.vy = 0; }
+      });
+      ctx.beginPath();
+      ctx.moveTo(pts[0].x, pts[0].y + pts[0].dy);
+      for (var c = 1; c < pts.length - 1; c++) {
+        ctx.quadraticCurveTo(pts[c].x, pts[c].y + pts[c].dy,
+          (pts[c].x + pts[c + 1].x) / 2, (pts[c].y + pts[c].dy + pts[c + 1].y + pts[c + 1].dy) / 2);
+      }
+      ctx.strokeStyle = 'rgba(' + color + ', ' + Math.min(0.32, 0.085 + curva * 0.008).toFixed(3) + ')';
+      ctx.stroke();
+    });
+    return seMueve;
+  }
+  function paso() {
+    var sigue = dibujar();
+    puntero.vy *= 0.7;
+    cuadro = (sigue || puntero.activo) && !quieta.matches ? requestAnimationFrame(paso) : null;
+  }
+  function medir() {
+    var r = Math.min(window.devicePixelRatio || 1, 2);
+    ancho = innerWidth; alto = innerHeight;
+    lienzo.width = Math.floor(ancho * r); lienzo.height = Math.floor(alto * r);
+    ctx.setTransform(r, 0, 0, r, 0, 0);
+    tejer(); dibujar();
   }
   addEventListener('pointermove', function (e) {
-    rastro.push({ x: e.clientX, y: e.clientY });
-    if (rastro.length > 100) rastro.shift();
-    if (Math.random() > 0.95) ramas.push(new Rama(e.clientX, e.clientY));
-    quieto = 0;
-    if (!andando) { andando = true; requestAnimationFrame(cuadro); }
+    if (quieta.matches) return;
+    puntero.vy = yAntes !== null ? Math.max(-28, Math.min(28, e.clientY - yAntes)) : 0;
+    yAntes = e.clientY;
+    puntero.x = e.clientX; puntero.y = e.clientY; puntero.activo = true;
+    clearTimeout(espera);
+    espera = setTimeout(function () { puntero.activo = false; yAntes = null; }, 160);
+    if (!cuadro) cuadro = requestAnimationFrame(paso);
   }, { passive: true });
   addEventListener('resize', medir);
+  quieta.addEventListener('change', medir);
   medir();
 })();
 
@@ -226,13 +259,15 @@
     document.getElementById('iconos').innerHTML = iconos.map(function (it) {
       var cara;
       if (it.doc) cara = '<span class="cara doc" aria-hidden="true">' + (it.id === 'leeme'
-        ? '<svg width="26" height="30" viewBox="0 0 26 30"><path d="M2 2h15l7 7v19H2z" fill="#fff" stroke="#000" stroke-width="2"/><path d="M6 13h14M6 18h14M6 23h9" stroke="#000" stroke-width="2"/></svg>'
-        : '<svg width="30" height="28" viewBox="0 0 30 28"><circle cx="15" cy="11" r="8" fill="#F0C419" stroke="#000" stroke-width="2"/><path d="M10 18l-3 8 8-3 8 3-3-8" fill="#fff" stroke="#000" stroke-width="2"/></svg>') + '</span>';
+        ? '<svg width="26" height="30" viewBox="0 0 26 30"><path class="tinta" d="M2 2h15l7 7v19H2z" stroke-width="2"/><path class="trazo" d="M6 13h14M6 18h14M6 23h9" stroke-width="2"/></svg>'
+        : '<svg width="30" height="28" viewBox="0 0 30 28"><circle class="medalla" cx="15" cy="11" r="8" stroke-width="2"/><path class="tinta" d="M10 18l-3 8 8-3 8 3-3-8" stroke-width="2"/></svg>') + '</span>';
       else {
         var img = portada(it.id);
         cara = '<span class="cara" style="--c:' + (COLOR[it.p.tipo] || '#ccc') + '" aria-hidden="true">' + (img ? '<img src="' + esc(img) + '" alt="">' : esc(it.nombre.charAt(0))) + '</span>';
       }
-      return '<button class="icono" type="button" data-abrir="' + esc(it.id) + '" aria-pressed="false">' + cara + '<span class="nombre">' + esc(it.nombre) + '</span></button>';
+      return '<button class="icono" type="button" data-abrir="' + esc(it.id) + '" aria-pressed="false"><span class="mira">' +
+        '<span class="esquinas" aria-hidden="true"><span class="esquina arr-izq"></span><span class="esquina arr-der"></span><span class="esquina aba-izq"></span><span class="esquina aba-der"></span></span>' +
+        cara + '</span><span class="nombre">' + esc(it.nombre) + '</span></button>';
     }).join('');
   }
 
@@ -392,14 +427,11 @@
     d.proyectos = r[0].proyectos || [];
     d.logros = (r[1] || []).slice().sort(function (a, b) { return a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : 0; });
     pintarEscritorio();
-    // Con un enlace a un proyecto se abre ése. Si no, en el ordenador sale el Léeme con el
-    // proyecto que se movió hace menos detrás; en el móvil, la pantalla de inicio.
+    // Con un enlace a un proyecto se abre ése. Si no, la página de entrada es el Léeme, sola
+    // y centrada; en el móvil ocupa la pantalla, y al cerrarla quedan los iconos.
     var m = /^#\/(.+)$/.exec(location.hash), pedido = m && decodeURIComponent(m[1]);
     if (pedido && proyecto(pedido)) abrir(pedido);
-    else if (!movil.matches) {
-      abrir(d.logros[0] ? d.logros[0].proyecto : d.proyectos[0].id, Math.max(440, innerWidth - 900), 120);
-      abrir('leeme', 260, 64);
-    } else ponerRuta(null);
+    else abrir('leeme', Math.max(140, Math.round((innerWidth - Math.min(640, innerWidth - 160)) / 2)), 72);
   }).catch(function (err) {
     // Abierta con doble clic (file://), el navegador no deja leer los JSON de al lado.
     document.getElementById('pista').textContent = location.protocol === 'file:'
