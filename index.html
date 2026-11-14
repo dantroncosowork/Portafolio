@@ -37,11 +37,16 @@
   * { box-sizing: border-box; }
   html, body { height: 100%; }
   body { margin: 0; background: var(--mesa); color: var(--negro); font: 400 16px/1.5 'Atkinson Hyperlegible', system-ui, sans-serif; overflow: hidden; }
+  /* La pantalla escala entera, como al cambiar la escala en Windows: el escritorio está dibujado para
+     1440 × 800 y crece o encoge con la ventana del navegador, con su letra y sus imágenes. --z, --ancho
+     y --alto los pone el script «pantalla». En el móvil no: allí manda su propia disposición. */
+  @media (min-width: 761px) { html { overflow: hidden; } body { width: var(--ancho, 100%); height: var(--alto, 100%); transform: scale(var(--z, 1)); transform-origin: 0 0; } }
   :focus-visible { outline: 3px solid var(--mira); outline-offset: 2px; }
   a { color: var(--negro); text-decoration-thickness: 2px; text-underline-offset: 3px; }
 
-  /* El fondo vive debajo de todo: sólo se ve en el escritorio vacío. */
-  #fondo { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+  /* El fondo vive debajo de todo: sólo se ve en el escritorio vacío. Son dos capas: la placa, que no
+     se mueve, y encima los fragmentos que levanta el puntero. */
+  #placa, #fondo { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
 
   /* La barra de tareas, abajo como en un ordenador: «Daniel OS» abre el Léeme, cada ventana
      abierta tiene su botón (la de delante, en el color de acento), y a la derecha la hora y la fecha. */
@@ -92,7 +97,9 @@
   .centro .tarjeta { flex-shrink: 0; overflow: hidden; background: var(--panel); border: var(--panel-borde); border-radius: var(--panel-radio); box-shadow: var(--panel-sombra); -webkit-backdrop-filter: var(--panel-niebla); backdrop-filter: var(--panel-niebla); }
   .centro .lamina { aspect-ratio: 16 / 9; flex-shrink: 1; min-height: 0; display: grid; place-items: center; overflow: hidden; background: var(--c); border-bottom: var(--panel-borde); font-weight: 700; font-size: 64px; color: var(--negro); }
   .centro .lamina img { width: 100%; height: 100%; object-fit: cover; object-position: top left; display: block; }
-  .centro .lamina.foto img { object-position: center 20%; }
+  /* Una foto de persona no se recorta a lo ancho: va entera, redonda, como la de una cuenta de usuario. */
+  .centro .lamina.foto { position: relative; }
+  .centro .lamina.foto img { position: absolute; top: 8%; left: 50%; width: auto; height: 84%; aspect-ratio: 1; transform: translateX(-50%); border-radius: 50%; border: 3px solid var(--papel); object-position: center; }
   .centro .lamina svg { width: 110px; height: 100px; }
   .centro .texto { flex-shrink: 0; padding: 14px 16px 16px; }
   .centro .corta { display: -webkit-box; -webkit-box-orient: vertical; -webkit-line-clamp: 5; overflow: hidden; }
@@ -111,12 +118,12 @@
   .centro .dias .letra { color: var(--panel-gris); }
   .centro .dias .hoy { background: var(--activa); color: var(--negro); font-weight: 700; }
   /* En una pantalla baja el calendario se pliega a la fecha, como se puede plegar el de Windows. */
-  @media (max-height: 760px) { .centro .mes, .centro .dias { display: none; } }
+  .baja .centro .mes, .baja .centro .dias { display: none; }
 
   .iconos { position: absolute; z-index: 1; top: 16px; left: 16px; bottom: 60px; display: grid; grid-auto-flow: column; grid-template-rows: repeat(auto-fill, 112px); gap: 8px 12px; align-content: start; }
   /* Cada icono lleva una mira: cuatro esquinas que se cierran sobre él al pasar el ratón
      o al llegar con el teclado, y que se quedan puestas en el de la ventana que tienes delante. */
-  .icono { width: 104px; display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: 0; padding: 4px 2px; cursor: pointer; color: var(--sobre-mesa); font: inherit; }
+  .icono { width: 116px; display: flex; flex-direction: column; align-items: center; gap: 4px; background: none; border: 0; padding: 4px 2px; cursor: pointer; color: var(--sobre-mesa); font: inherit; }
   .icono:focus-visible { outline: none; }
   .icono .mira { position: relative; display: block; padding: 7px; }
   .icono .esquinas { position: absolute; inset: 0; pointer-events: none; opacity: 0; transform: scale(1.18); transition: opacity 120ms ease-out, transform 160ms ease-out; }
@@ -141,7 +148,7 @@
   .cert .medalla { fill: var(--activa); stroke: var(--negro); }
   .cert .visto { stroke: var(--papel); }
 
-  .ventana { position: absolute; z-index: 2; background: var(--papel); border: 2px solid var(--negro); box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.35); display: flex; flex-direction: column; max-height: calc(100vh - 60px); min-width: 320px; }
+  .ventana { position: absolute; z-index: 2; background: var(--papel); border: 2px solid var(--negro); box-shadow: 6px 6px 0 rgba(0, 0, 0, 0.35); display: flex; flex-direction: column; max-height: calc(var(--alto, 100vh) - 60px); min-width: 320px; }
   .ventana .titulo { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 6px 8px 6px 14px; background: var(--inactiva); border-bottom: 2px solid var(--negro); cursor: grab; user-select: none; touch-action: none; }
   .ventana.activa .titulo { background: var(--activa); }
   .ventana .titulo h2 { margin: 0; font-size: 16px; }
@@ -225,6 +232,7 @@
 </style>
 </head>
 <body>
+<canvas id="placa" aria-hidden="true"></canvas>
 <canvas id="fondo" aria-hidden="true"></canvas>
 <nav class="iconos" id="iconos" aria-label="Proyectos y documentos"></nav>
 <p class="pista" id="pista"></p>
@@ -244,6 +252,92 @@
 <noscript><p>Este portafolio abre cada proyecto en su ventana, y para eso necesita JavaScript. Todo lo que enseña está también en <a href="proyectos.json">proyectos.json</a> y <a href="logros.json">logros.json</a>.</p></noscript>
 
 <script>
+/* La pantalla: cuánto escala el escritorio (z) y cuánto mide por dentro, ya a escala. El resto de la
+   página pregunta aquí en vez de mirar innerWidth, que va en píxeles de verdad. Entre 0,7 y 2: por
+   debajo la letra no se lee, y por encima las capturas se emborronan. */
+var pantalla = (function () {
+  var movil = matchMedia('(max-width: 760px)'), yo = { z: 1, ancho: innerWidth, alto: innerHeight };
+  function medir() {
+    yo.z = movil.matches ? 1 : Math.max(0.7, Math.min(2, innerWidth / 1440, innerHeight / 800));
+    yo.ancho = innerWidth / yo.z; yo.alto = innerHeight / yo.z;
+    var raiz = document.documentElement;
+    raiz.style.setProperty('--z', yo.z); raiz.style.setProperty('--ancho', yo.ancho + 'px'); raiz.style.setProperty('--alto', yo.alto + 'px');
+    raiz.classList.toggle('baja', yo.alto < 760); // sin alto para el mes entero, el calendario se pliega a la fecha
+  }
+  addEventListener('resize', medir); // el primero en enterarse: los demás ya leen la escala nueva
+  medir();
+  return yo;
+})();
+
+/* La placa: un trazado de circuito impreso, muy tenue, para que el escritorio no quede vacío. No se
+   mueve: se dibuja una vez por tamaño. Sale de una semilla, así que es el mismo dibujo en cada visita,
+   y de una rejilla que escala con la pantalla. Su color es el de --fragmento. */
+(function () {
+  var lienzo = document.getElementById('placa'), ctx = lienzo.getContext('2d');
+  var DIR = [[1, 0], [1, 1], [0, 1], [-1, 1], [-1, 0], [-1, -1], [0, -1], [1, -1]];
+  // Los integrados, en partes de la pantalla y en celdas: el procesador, la memoria y dos pequeños.
+  var CHIPS = [[0.62, 0.42, 7, 7], [0.84, 0.16, 1, 8], [0.87, 0.16, 1, 8], [0.90, 0.16, 1, 8], [0.26, 0.70, 5, 2], [0.42, 0.12, 3, 3]];
+  function pintar() {
+    var r = Math.min(window.devicePixelRatio || 1, 2), g = 24 * pantalla.z; // g: la celda de la rejilla
+    lienzo.width = Math.floor(innerWidth * r); lienzo.height = Math.floor(innerHeight * r);
+    ctx.setTransform(r, 0, 0, r, 0, 0);
+    var color = getComputedStyle(document.documentElement).getPropertyValue('--fragmento').trim() || '40, 40, 40';
+    var cols = Math.ceil(innerWidth / g), filas = Math.ceil(innerHeight / g), ocupada = {}, cruce = {}, semilla = 20261114;
+    function azar(n) { semilla = (semilla * 1664525 + 1013904223) >>> 0; return Math.floor(semilla / 4294967296 * n); }
+    function tinta(a) { return 'rgba(' + color + ', ' + a + ')'; }
+    ctx.lineWidth = Math.max(1, pantalla.z); ctx.lineJoin = 'round'; ctx.lineCap = 'round';
+
+    // Una pista sale de (x, y), sigue su plan —recto, un quiebro a 45°, recto— y acaba en un punto de soldadura.
+    // Se para antes de pisar otra pista o un integrado.
+    function pista(x, y, d, plan) {
+      var camino = [[x, y]], tramo = 0, quedan = plan[0];
+      while (tramo < 3) {
+        if (quedan-- <= 0) { tramo++; quedan = plan[tramo * 2] || 0; continue; }
+        var dd = DIR[(d + (tramo === 1 ? plan[1] : 0) + 8) % 8], nx = x + dd[0], ny = y + dd[1];
+        var cuadro = Math.min(x, nx) + ',' + Math.min(y, ny), lado = dd[0] * dd[1];
+        if (nx < 0 || ny < 0 || nx > cols || ny > filas || ocupada[nx + ',' + ny] || (lado && cruce[cuadro] === -lado)) break;
+        if (lado) cruce[cuadro] = lado;
+        ocupada[nx + ',' + ny] = 1; x = nx; y = ny; camino.push([x, y]);
+      }
+      if (camino.length < 3) return;
+      ctx.strokeStyle = tinta(0.085);
+      ctx.beginPath(); camino.forEach(function (c, i) { ctx[i ? 'lineTo' : 'moveTo'](c[0] * g, c[1] * g); }); ctx.stroke();
+      ctx.fillStyle = tinta(0.16);
+      ctx.beginPath(); ctx.arc(x * g, y * g, g * 0.14, 0, Math.PI * 2); ctx.fill();
+    }
+    // Un mazo: varias pistas vecinas con el mismo plan, que por eso van paralelas, como un bus.
+    function mazo(x, y, d, n) {
+      var plan = [2 + azar(5), azar(3) - 1, 1 + azar(5), 0, 3 + azar(14)], paso = d % 4 === 2 ? [1, 0] : [0, 1];
+      for (var i = 0; i < n; i++) ocupada[(x + paso[0] * i) + ',' + (y + paso[1] * i)] = 1;
+      for (i = 0; i < n; i++) pista(x + paso[0] * i, y + paso[1] * i, d, [plan[0], plan[1], plan[2], 0, plan[4] + azar(5)]);
+    }
+    function entre(n) { return 3 + azar(Math.max(1, n - 8)); }
+
+    CHIPS.forEach(function (c) {
+      var x0 = Math.round(cols * c[0]), y0 = Math.round(filas * c[1]), w = c[2], h = c[3], x, y;
+      for (x = x0; x <= x0 + w; x++) for (y = y0; y <= y0 + h; y++) ocupada[x + ',' + y] = 1;
+      ctx.strokeStyle = tinta(0.15); ctx.fillStyle = tinta(0.025);
+      ctx.beginPath(); ctx.rect(x0 * g, y0 * g, w * g, h * g); ctx.fill(); ctx.stroke();
+      if (w > 2 && h > 2) { ctx.strokeStyle = tinta(0.09); ctx.strokeRect((x0 + 1) * g, (y0 + 1) * g, (w - 2) * g, (h - 2) * g); }
+      ctx.fillStyle = tinta(0.16); ctx.beginPath(); ctx.arc((x0 + 0.5) * g, (y0 + 0.5) * g, g * 0.1, 0, Math.PI * 2); ctx.fill();
+      // De cada lado salen mazos de dos a cuatro patas; los integrados grandes no llevan patas en las esquinas,
+      // y los estrechos (la memoria) sólo por arriba y por abajo.
+      var e = w > 2 ? 1 : 0, n;
+      for (x = x0 + e; x <= x0 + w - e; x += n + azar(2)) { n = Math.min(2 + azar(3), x0 + w - e - x + 1); mazo(x, y0, 6, n); mazo(x, y0 + h, 2, n); }
+      if (w > 2) for (y = y0 + 1; y <= y0 + h - 1; y += n + azar(2)) { n = Math.min(2 + azar(3), y0 + h - y); mazo(x0, y, 4, n); mazo(x0 + w, y, 0, n); }
+    });
+    // Y unos mazos sueltos que entran por los bordes, para que el trazado no se quede alrededor de los integrados.
+    for (var i = 0; i < 8; i++) {
+      if (i % 4 === 0) mazo(0, entre(filas), 0, 2 + azar(3));
+      else if (i % 4 === 1) mazo(cols, entre(filas), 4, 2 + azar(3));
+      else if (i % 4 === 2) mazo(entre(cols), 0, 2, 2 + azar(3));
+      else mazo(entre(cols), filas, 6, 2 + azar(3));
+    }
+  }
+  addEventListener('resize', pintar);
+  pintar();
+})();
+
 /* El fondo: triángulos finos que salen por donde pasa el puntero, se alejan girando y se apagan.
    Viene de una prueba hecha con Gemini (fondo 09). Su color sale de --fragmento, así que una paleta
    nueva lo cambia sin tocar esto. Con «reducir movimiento» no sale ninguno; en reposo no gasta. */
@@ -255,7 +349,7 @@
 
   function azar(n) { return (Math.random() - 0.5) * n; }
   function soltar(x, y, vx, vy) {
-    var giro = Math.random() * Math.PI * 2, lado = 20 + Math.random() * 34;
+    var giro = Math.random() * Math.PI * 2, lado = (20 + Math.random() * 34) * pantalla.z;
     var pts = [0, 1, 2].map(function (i) {
       var a = giro + i * (Math.PI * 2 / 3) + azar(0.45), r = lado * (0.65 + Math.random() * 0.5);
       return { x: Math.cos(a) * r, y: Math.sin(a) * r };
@@ -267,7 +361,7 @@
   // Mueve y pinta cada fragmento; el que se queda sin vida, fuera. Cuando no queda ninguno, deja de pedir fotogramas.
   function paso() {
     ctx.clearRect(0, 0, ancho, alto);
-    ctx.lineWidth = 0.9;
+    ctx.lineWidth = 0.9 * pantalla.z;
     for (var i = trozos.length - 1; i >= 0; i--) {
       var t = trozos[i];
       t.x += t.vx; t.y += t.vy; t.vx *= 0.97; t.vy *= 0.97; t.giro += t.vGiro; t.vida -= t.gasto;
@@ -296,7 +390,7 @@
   addEventListener('pointermove', function (e) {
     if (quieta.matches) return;
     var dx = antes ? e.clientX - antes.x : 0, dy = antes ? e.clientY - antes.y : 0;
-    if (antes && Math.hypot(dx, dy) <= PASO) return;
+    if (antes && Math.hypot(dx, dy) <= PASO * pantalla.z) return;
     antes = { x: e.clientX, y: e.clientY };
     // Al volver a entrar por otro lado el salto es enorme: se recorta para que el fragmento no salga disparado.
     soltar(e.clientX, e.clientY, Math.max(-40, Math.min(40, dx)), Math.max(-40, Math.min(40, dy)));
@@ -564,12 +658,12 @@
     var v = document.createElement('section');
     v.className = 'ventana nueva'; v.dataset.v = id;
     v.setAttribute('role', 'dialog'); v.setAttribute('aria-label', c.titulo);
-    var ancho = Math.min(c.ancho, innerWidth - 160);
+    var ancho = Math.min(c.ancho, pantalla.ancho - 160);
     v.style.width = ancho + 'px';
-    v.style.left = (x != null ? x : Math.max(140, Math.min(150 + n * 36, innerWidth - ancho - 20))) + 'px';
+    v.style.left = (x != null ? x : Math.max(140, Math.min(150 + n * 36, pantalla.ancho - ancho - 20))) + 'px';
     var arriba = y != null ? y : 20 + n * 32;
     v.style.top = arriba + 'px';
-    if (!movil.matches) v.style.maxHeight = (innerHeight - arriba - BARRA - 16) + 'px'; // que no se meta bajo la barra de tareas
+    if (!movil.matches) v.style.maxHeight = (pantalla.alto - arriba - BARRA - 16) + 'px'; // que no se meta bajo la barra de tareas
     v.innerHTML = '<div class="titulo"><h2>' + esc(c.titulo) + '</h2><button class="cerrar" type="button" aria-label="Cerrar ' + esc(c.titulo) + '">✕</button></div><div class="cuerpo">' + c.html + '</div>';
     document.getElementById('ventanas').appendChild(v);
     abiertas[id] = v;
@@ -630,11 +724,11 @@
     if (!v.classList.contains('activa')) { alFrente(v); ponerRuta(v.dataset.v); }
     var t = e.target.closest('.titulo');
     if (!t || e.target.closest('.cerrar') || movil.matches) return;
-    var dx = e.clientX - v.offsetLeft, dy = e.clientY - v.offsetTop;
+    var z = pantalla.z, dx = e.clientX / z - v.offsetLeft, dy = e.clientY / z - v.offsetTop; // el ratón va en píxeles de verdad; la ventana, en los de la pantalla a escala
     t.setPointerCapture(e.pointerId);
     function mover(ev) {
-      v.style.left = Math.max(-v.offsetWidth + 80, Math.min(innerWidth - 80, ev.clientX - dx)) + 'px';
-      v.style.top = Math.max(0, Math.min(innerHeight - BARRA - 40, ev.clientY - dy)) + 'px';
+      v.style.left = Math.max(-v.offsetWidth + 80, Math.min(pantalla.ancho - 80, ev.clientX / z - dx)) + 'px';
+      v.style.top = Math.max(0, Math.min(pantalla.alto - BARRA - 40, ev.clientY / z - dy)) + 'px';
     }
     function soltar() { t.removeEventListener('pointermove', mover); t.removeEventListener('pointerup', soltar); }
     t.addEventListener('pointermove', mover); t.addEventListener('pointerup', soltar);
@@ -651,7 +745,7 @@
     // y centrada; en el móvil ocupa la pantalla, y al cerrarla quedan los iconos.
     var m = /^#\/(.+)$/.exec(location.hash), pedido = m && decodeURIComponent(m[1]);
     if (pedido && proyecto(pedido)) abrir(pedido);
-    else abrir('leeme', Math.max(140, Math.round((innerWidth - Math.min(640, innerWidth - 160)) / 2)), 40);
+    else abrir('leeme', Math.max(140, Math.round((pantalla.ancho - Math.min(640, pantalla.ancho - 160)) / 2)), 40);
   }).catch(function (err) {
     // Abierta con doble clic (file://), el navegador no deja leer los JSON de al lado.
     document.getElementById('pista').textContent = location.protocol === 'file:'
