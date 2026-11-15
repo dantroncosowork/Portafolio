@@ -1,5 +1,37 @@
 [
   {
+    "id": "2026-11-15-pipi-detective-pistas-secretas-baile",
+    "fecha": "2026-11-15",
+    "proyecto": "tamagotchi",
+    "titulo": "Pipi Detective: pistas secretas, baile disco y retos diarios",
+    "texto": "Ahora puedes buscar tres pistas escondidas por la habitación con una lupa dibujada en el lienzo, bailar al ritmo de un sintetizador disco en Pipi Dance, completar tres misiones diarias del morral y subir cinco niveles de amistad mientras el loro estornuda o se acicala solo. Todo salió del bucle nocturno autónomo, donde subagentes diseñan cada mejora, Gemini Vision audita las capturas en móvil y escritorio y 24 pruebas automatizadas verifican el juego antes de publicarlo en Vercel.",
+    "hito": true,
+    "etapa": "Nueva función",
+    "ia": [
+      "Antigravity",
+      "Gemini"
+    ],
+    "capturas": [
+      "capturas/tamagotchi/2026-11-15-pipi-detective-pistas-secretas-baile-1-detective-1440.png",
+      "capturas/tamagotchi/2026-11-15-pipi-detective-pistas-secretas-baile-2-modal-detective-1440.png",
+      "capturas/tamagotchi/2026-11-15-pipi-detective-pistas-secretas-baile-3-detective-390.png",
+      "capturas/tamagotchi/2026-11-15-pipi-detective-pistas-secretas-baile-4-modal-detective-390.png"
+    ]
+  },
+  {
+    "id": "2026-11-15-auto-deteccion-de-nuevos-modelos-de",
+    "fecha": "2026-11-15",
+    "proyecto": "agent-monitor",
+    "titulo": "Auto-detección de nuevos modelos de Google y cuotas dinámicas",
+    "texto": "El monitor detecta solo en segundo plano los modelos nuevos que va sacando Google (como Gemini Hydrogen), les asigna cuota y los añade a quota_config.json sin tocar código. La barra de combustible ahora es completamente dinámica y pinta cada modelo con su icono, porcentaje y tiempo de recuperación en tiempo real.",
+    "hito": true,
+    "etapa": "Nueva función",
+    "ia": [
+      "Antigravity"
+    ],
+    "capturas": []
+  },
+  {
     "id": "2026-11-14-retest-indicator-una-alerta-vigila-hasta",
     "fecha": "2026-11-14",
     "proyecto": "indicadores-tradingview",

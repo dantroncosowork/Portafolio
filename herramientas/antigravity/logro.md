@@ -35,10 +35,12 @@ que entra en un commit queda para siempre en el historial. Todo lo hace
    no sirven. No borres nada.
 
 4. Corre el script sin commit. Con `--url` va la dirección de Vercel o la ruta
-   del `.html`; si no lo pones, usa la fuente de `herramientas/capturar.json`:
+   del `.html`; si no lo pones, usa la fuente de `herramientas/capturar.json`
+   (por ejemplo, `tamagotchi` toma automáticamente las capturas de la última
+   función en `auto_dev/capturas/ultimo_logro/`):
 
    ```
-   node C:/Users/dantr/Portafolio/herramientas/logro.js <id> --titulo "…" --texto "…" --ia "Antigravity" --url <url> [--hito --etapa "…"] --sin-commit
+   node C:/Users/dantr/Portafolio/herramientas/logro.js <id> --titulo "…" --texto "…" --ia "Antigravity" [--url <url>] [--hito --etapa "…"] --sin-commit
    ```
 
 5. Abre cada captura que imprimió. Si alguna enseña un nombre, un correo, un

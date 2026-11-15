@@ -18,6 +18,7 @@ const RUTAS_CONOCIDAS = {
   'finance-os': 'C:/Users/dantr/Finance-OS',
   'trading-os': 'C:/Users/dantr/Trading-OS',
   'life-os': 'C:/Users/dantr/Life-OS',
+  'tamagotchi': "C:/Users/dantr/Marcela's perril",
   'teleoperador': 'C:/Users/dantr/Teleoperador-practica',
   'buscador-empleo': 'C:/Users/dantr/Buscador de empleo',
   'trello-gemini': 'C:/Users/dantr/.gemini/antigravity/scratch/trello-idea-researcher',
@@ -101,14 +102,39 @@ function main() {
     const modificados = obtenerModificadosRecientes(dir, horas);
     if (modificados.length > 0) {
       const p = mapaProyectos.get(id) || { id, nombre: id, tipo: 'app' };
-      proyectosActivos.push({
+      const entrada = {
         id,
         nombre: p.nombre,
         tipo: p.tipo,
         directorio: dir,
         archivos: modificados.map(m => m.archivo),
         ultimaModificacion: modificados[0].mtime
-      });
+      };
+      const estadoPath = path.join(dir, 'auto_dev', 'estado.json');
+      if (fs.existsSync(estadoPath)) {
+        try {
+          const est = JSON.parse(fs.readFileSync(estadoPath, 'utf8'));
+          entrada.ultimoAvance = {
+            dia: est.dia,
+            version: est.version,
+            ultimaMejora: est.ultima_mejora,
+            totalTests: est.total_tests
+          };
+        } catch (e) {}
+      }
+      const ultimoLogroDir = path.join(dir, 'auto_dev', 'capturas', 'ultimo_logro');
+      if (fs.existsSync(ultimoLogroDir)) {
+        try {
+          const imgs = fs.readdirSync(ultimoLogroDir).filter(f => /\.png$/i.test(f)).sort();
+          if (imgs.length > 0) {
+            entrada.capturasEspecificas = {
+              carpeta: ultimoLogroDir.replace(/\\/g, '/'),
+              archivos: imgs
+            };
+          }
+        } catch (e) {}
+      }
+      proyectosActivos.push(entrada);
     }
   }
 
@@ -158,6 +184,12 @@ function main() {
       console.log(`\n ${idx + 1}. [${p.tipo.toUpperCase()}] ${p.nombre} (${p.id})`);
       console.log(`    Directorio: ${p.directorio}`);
       console.log(`    Archivos tocados: ${p.archivos.slice(0, 3).join(', ')}`);
+      if (p.ultimoAvance) {
+        console.log(`    Última mejora (Día ${p.ultimoAvance.dia}, v${p.ultimoAvance.version}): ${p.ultimoAvance.ultimaMejora}`);
+      }
+      if (p.capturasEspecificas) {
+        console.log(`    Capturas listas de la función (${p.capturasEspecificas.archivos.length}): ${p.capturasEspecificas.archivos.join(', ')}`);
+      }
     });
   }
 

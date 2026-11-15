@@ -116,8 +116,11 @@ async function apuntar(a) {
     const url = typeof a.url === 'string' ? a.url : null;
     const desde = typeof a.desde === 'string' ? a.desde : null;
     if (url && fuente.nunca) salir('«' + id + '» enseña datos reales: no se captura por url. Usa --desde con una carpeta revisada, o --sin-captura.');
+    const desdeFijo = fuente.desde && !fuente.desde.includes('<') && fs.existsSync(fuente.desde) &&
+      fs.readdirSync(fuente.desde).some(f => /\.png$/i.test(f)) ? fuente.desde : null;
     fs.mkdirSync(destino, { recursive: true });
     if (desde) nombres = copiarCarpeta(destino, desde, base);
+    else if (desdeFijo) nombres = copiarCarpeta(destino, desdeFijo, base);
     else if (url) nombres = await capturarURL(destino, url, base);
     else if (fuente.url && !fuente.nunca) nombres = await capturarURL(destino, fuente.url, base);
     else if (fuente.desde) salir('«' + id + '» copia sus capturas de ' + fuente.desde + ': pásala con --desde y el hueco relleno.');
