@@ -84,14 +84,22 @@
   .tareas .hora { height: 36px; padding: 0 8px; font: inherit; color: var(--negro); background: none; border: 0; border-radius: 4px; cursor: pointer; }
   .tareas .hora:hover { background: rgba(0, 0, 0, 0.07); }
   .tareas .hora[aria-expanded="true"] { background: rgba(0, 0, 0, 0.12); }
+  /* La hora insinúa que ahí hay algo: con agenda, un calendario con su punto de aviso, como los de Windows.
+     El punto se apaga en cuanto se abre el centro. */
+  .tareas .hora { display: flex; align-items: center; gap: 8px; }
+  .tareas .hora .cita { position: relative; display: none; }
+  .tareas .hora.con-cita .cita { display: block; }
+  .tareas .hora .cita svg { display: block; }
+  .tareas .hora .cita::after { content: ''; position: absolute; top: -4px; right: -5px; width: 10px; height: 10px; border-radius: 50%; background: var(--activa); border: 2px solid var(--negro); }
+  .tareas .hora.visto .cita::after { display: none; }
 
   /* El centro de avisos, a la derecha como en Windows. Al pasar por un icono asoma con un vistazo
-     del proyecto y se va solo; con un clic en la hora se queda puesto. Abajo, el calendario del mes.
+     del proyecto y se va solo; con un clic en la hora se queda puesto. Abajo, reservar una llamada.
      Va en la letra del sistema, como la barra. Su aspecto sale de las variables --panel-*. */
   .centro { position: fixed; z-index: 9998; top: 16px; right: 16px; bottom: 60px; width: 360px; display: flex; flex-direction: column; justify-content: space-between; gap: 12px; pointer-events: none; opacity: 0; visibility: hidden; transform: translateX(calc(100% + 24px)); transition: transform 280ms cubic-bezier(0.16, 1, 0.3, 1), opacity 180ms ease-out, visibility 0s 280ms; font: 400 14px/1.4 'Segoe UI', system-ui, -apple-system, sans-serif; color: var(--panel-tinta); }
   .centro.abierto { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
   .centro.fijo { pointer-events: auto; }
-  /* Lo que cede cuando falta alto es la lámina: el texto y el calendario se leen siempre enteros. */
+  /* Lo que cede cuando falta alto es la lámina: el texto y lo de abajo se leen siempre enteros. */
   .centro .pila { display: flex; flex-direction: column; gap: 12px; min-height: 0; }
   .centro .pila .tarjeta:first-child { display: flex; flex-direction: column; flex-shrink: 1; min-height: 0; }
   .centro .tarjeta { flex-shrink: 0; overflow: hidden; background: var(--panel); border: var(--panel-borde); border-radius: var(--panel-radio); box-shadow: var(--panel-sombra); -webkit-backdrop-filter: var(--panel-niebla); backdrop-filter: var(--panel-niebla); }
@@ -110,20 +118,10 @@
   .centro .nota { color: var(--panel-gris); font-size: 13px; }
   .centro .abrir { display: none; margin-top: 12px; }
   .centro.fijo .abrir { display: inline-block; }
-  .centro .calendario { padding: 14px 16px 12px; }
-  .centro .dia { font-size: 15px; font-weight: 600; }
-  .centro .mes { color: var(--panel-gris); font-size: 13px; margin-bottom: 8px; }
-  .centro .dias { display: grid; grid-template-columns: repeat(7, 1fr); justify-items: center; row-gap: 2px; font-size: 13px; }
-  .centro .dias span { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; }
-  .centro .dias .letra { color: var(--panel-gris); }
-  .centro .dias .hoy { background: var(--activa); color: var(--negro); font-weight: 700; }
-  /* En una pantalla baja cede la imagen, no el calendario: es donde se reserva. Y si ni así cabe todo,
-     el centro puesto se recorre con la rueda, como en el móvil. */
-  .baja .centro .lamina { display: none; }
-  .baja .centro { overflow-y: auto; justify-content: flex-start; }
-  .baja .centro .pila, .baja .centro .pila .tarjeta:first-child { flex-shrink: 0; }
-  /* Reservar una llamada: sólo si el perfil tiene su agenda de Google. No se pliega con el mes: es lo que sirve. */
-  .centro .reservar { display: block; width: 100%; margin-top: 12px; text-align: center; }
+  /* Abajo, «Reservar una llamada»: sólo si el perfil tiene su agenda de Google. */
+  .centro .llamada { padding: 14px 16px 16px; }
+  .centro .llamada[hidden] { display: none; }
+  .centro .reservar { display: block; width: 100%; margin-top: 10px; text-align: center; }
   .reservas iframe { display: block; width: 100%; height: clamp(320px, calc(var(--alto, 100vh) - 240px), 640px); border: 0; background: #fff; }
   .reservas .pie { margin: 10px 0 0; color: var(--gris); font-size: 14px; }
 
@@ -232,6 +230,8 @@
   @media (prefers-reduced-motion: no-preference) {
     .ventana.nueva { animation: abrir 140ms ease-out; }
     @keyframes abrir { from { transform: scale(0.96); opacity: 0; } }
+    .tareas .hora.con-cita:not(.visto) .cita::after { animation: latido 1.4s ease-in-out 1s 3; }
+    @keyframes latido { 50% { transform: scale(1.4); } }
   }
   @media (prefers-reduced-motion: reduce) {
     .icono .esquinas, .centro { transition: none; }
@@ -252,10 +252,10 @@
       <svg width="20" height="18" viewBox="0 0 20 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round"><rect x="6" y="1.5" width="12.5" height="9" rx="1"/><path d="M12.25 10.5v3.5M9.5 14h5.5M1 4.5h3V15h5"/></svg>
       <svg width="20" height="18" viewBox="0 0 20 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><path d="M2 6.5h3.2L9.5 3v12L5.2 11.5H2z"/><path d="M13 6.2a3.6 3.6 0 0 1 0 5.6M15.6 3.8a7 7 0 0 1 0 10.4"/></svg>
     </span>
-    <button class="hora" id="hora" type="button" aria-expanded="false" aria-controls="centro" aria-label="Centro de avisos y calendario"><time id="reloj"></time></button></div>
+    <button class="hora" id="hora" type="button" aria-expanded="false" aria-controls="centro" aria-label="Centro de avisos"><span class="cita" aria-hidden="true"><svg width="18" height="18" viewBox="0 0 18 18" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linejoin="round" stroke-linecap="round"><rect x="1.5" y="3" width="15" height="13.5" rx="1.5"/><path d="M1.5 7.5h15M5.5 1.5v3M12.5 1.5v3"/></svg></span><time id="reloj"></time></button></div>
 </footer>
 <div class="menu" id="menu" role="dialog" aria-label="Inicio" hidden></div>
-<aside class="centro" id="centro" aria-label="Centro de avisos" inert><div class="pila" id="pila"></div><div class="tarjeta calendario" id="calendario"></div></aside>
+<aside class="centro" id="centro" aria-label="Centro de avisos" inert><div class="pila" id="pila"></div><div class="tarjeta llamada" id="llamada" hidden></div></aside>
 <noscript><p>Este portafolio abre cada proyecto en su ventana, y para eso necesita JavaScript. Todo lo que enseña está también en <a href="proyectos.json">proyectos.json</a> y <a href="logros.json">logros.json</a>.</p></noscript>
 
 <script>
@@ -269,7 +269,6 @@ var pantalla = (function () {
     yo.ancho = innerWidth / yo.z; yo.alto = innerHeight / yo.z;
     var raiz = document.documentElement;
     raiz.style.setProperty('--z', yo.z); raiz.style.setProperty('--ancho', yo.ancho + 'px'); raiz.style.setProperty('--alto', yo.alto + 'px');
-    raiz.classList.toggle('baja', yo.alto < 760); // sin alto para el mes entero, el calendario se pliega a la fecha
   }
   addEventListener('resize', medir); // el primero en enterarse: los demás ya leen la escala nueva
   medir();
@@ -423,7 +422,7 @@ var pantalla = (function () {
   var TIPO = { app: 'App', juego: 'Juego', automatizacion: 'Automatización', flujo: 'Flujo de trabajo' };
   var DIPLOMA = '<svg width="44" height="40" viewBox="0 0 44 40"><rect class="papel" x="3" y="5" width="32" height="24" rx="1.5"/><path class="linea" d="M8 12h22M8 17h15M8 22h10" stroke-width="2.4" stroke-linecap="round"/>' +
     '<path class="medalla" d="M28 28l-3 10 6-3.2 6 3.2-3-10z" stroke-width="2"/><circle class="medalla" cx="31" cy="25" r="8" stroke-width="2"/><path class="visto" d="M27.4 25.2l2.6 2.6 4.6-5" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" fill="none"/></svg>';
-  var fijo = false, adios = null, diaPintado = '';
+  var fijo = false, adios = null;
   var capa = 10, abiertas = {}, verTodos = {};
   var d = { perfil: {}, certificaciones: [], proyectos: [], logros: [] };
 
@@ -522,17 +521,17 @@ var pantalla = (function () {
     centro.classList.toggle('fijo', si); centro.classList.toggle('abierto', si);
     centro.inert = !si;
     hora.setAttribute('aria-expanded', String(si));
+    if (si) hora.classList.add('visto'); // ya lo ha visto: el punto de aviso se apaga
   }
-  // El mes en curso, con la semana empezando en lunes y el día de hoy marcado.
-  function pintarCalendario(a) {
-    var hueco = (new Date(a.getFullYear(), a.getMonth(), 1).getDay() + 6) % 7, total = new Date(a.getFullYear(), a.getMonth() + 1, 0).getDate();
-    var dia = a.toLocaleDateString('es-ES', { weekday: 'long', day: 'numeric', month: 'long' }), celdas = '';
-    'LMXJVSD'.split('').forEach(function (c) { celdas += '<span class="letra" aria-hidden="true">' + c + '</span>'; });
-    for (var i = 0; i < hueco; i++) celdas += '<span></span>';
-    for (var n = 1; n <= total; n++) celdas += '<span' + (n === a.getDate() ? ' class="hoy" aria-current="date"' : '') + '>' + n + '</span>';
-    document.getElementById('calendario').innerHTML = '<p class="dia">' + dia.charAt(0).toUpperCase() + dia.slice(1) + '</p>' +
-      '<p class="mes">' + a.toLocaleDateString('es-ES', { month: 'long', year: 'numeric' }) + '</p><div class="dias">' + celdas + '</div>' +
-      (agenda() ? '<button class="boton principal reservar" type="button" data-abrir="reservar">Reservar una llamada</button>' : '');
+  // Abajo del centro, «Reservar una llamada»; y en la hora, el aviso de que está ahí. Sin agenda, nada.
+  function pintarLlamada() {
+    var t = document.getElementById('llamada'), si = !!agenda();
+    t.hidden = !si;
+    t.innerHTML = si ? '<p class="nota">¿Hablamos? Elige una hora libre en mi agenda.</p>' +
+      '<button class="boton principal reservar" type="button" data-abrir="reservar">Reservar una llamada</button>' : '';
+    hora.classList.toggle('con-cita', si);
+    hora.setAttribute('aria-label', si ? 'Centro de avisos: reservar una llamada' : 'Centro de avisos');
+    hora.title = si ? 'Reservar una llamada' : '';
   }
   // La agenda de citas de Google Calendar del perfil («reservas»), lista para ir dentro de una ventana.
   // Sólo https; a una de calendar.google.com le añade gv=true, que es lo que Google pide para incrustarla.
@@ -661,7 +660,6 @@ var pantalla = (function () {
     var a = new Date(), r = document.getElementById('reloj');
     r.dateTime = a.toISOString();
     r.innerHTML = '<b>' + a.toLocaleTimeString('es-ES', { hour: '2-digit', minute: '2-digit' }) + '</b>' + a.toLocaleDateString('es-ES');
-    if (a.toDateString() !== diaPintado) { diaPintado = a.toDateString(); pintarCalendario(a); } // el calendario sólo cambia al cambiar de día
   }
   reloj(); setInterval(reloj, 15000);
 
@@ -764,7 +762,7 @@ var pantalla = (function () {
     d.proyectos = r[0].proyectos || [];
     d.logros = (r[1] || []).slice().sort(function (a, b) { return a.fecha < b.fecha ? 1 : a.fecha > b.fecha ? -1 : 0; });
     pintarEscritorio();
-    pintarCalendario(new Date()); // ya con el perfil: si tiene agenda, sale su botón
+    pintarLlamada(); // ya con el perfil: si tiene agenda, sale su botón
     // Con un enlace a un proyecto (o a la agenda) se abre ése. Si no, la página de entrada es el Léeme, sola
     // y centrada; en el móvil ocupa la pantalla, y al cerrarla quedan los iconos.
     var m = /^#\/(.+)$/.exec(location.hash), pedido = m && decodeURIComponent(m[1]);
