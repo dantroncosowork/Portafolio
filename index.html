@@ -117,8 +117,11 @@
   .centro .dias span { width: 26px; height: 26px; display: grid; place-items: center; border-radius: 50%; }
   .centro .dias .letra { color: var(--panel-gris); }
   .centro .dias .hoy { background: var(--activa); color: var(--negro); font-weight: 700; }
-  /* En una pantalla baja el calendario se pliega a la fecha, como se puede plegar el de Windows. */
-  .baja .centro .mes, .baja .centro .dias { display: none; }
+  /* En una pantalla baja cede la imagen, no el calendario: es donde se reserva. Y si ni así cabe todo,
+     el centro puesto se recorre con la rueda, como en el móvil. */
+  .baja .centro .lamina { display: none; }
+  .baja .centro { overflow-y: auto; justify-content: flex-start; }
+  .baja .centro .pila, .baja .centro .pila .tarjeta:first-child { flex-shrink: 0; }
   /* Reservar una llamada: sólo si el perfil tiene su agenda de Google. No se pliega con el mes: es lo que sirve. */
   .centro .reservar { display: block; width: 100%; margin-top: 12px; text-align: center; }
   .reservas iframe { display: block; width: 100%; height: clamp(320px, calc(var(--alto, 100vh) - 240px), 640px); border: 0; background: #fff; }
