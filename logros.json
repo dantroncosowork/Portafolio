@@ -1,5 +1,22 @@
 [
   {
+    "id": "2026-11-20-life-os-te-ensena-donde-va-tu-atencion",
+    "fecha": "2026-11-20",
+    "proyecto": "life-os",
+    "titulo": "Life OS te enseña dónde va tu atención, área por área",
+    "texto": "En Áreas de vida, cada área pone frente a frente lo que te propones (metas y objetivos de la semana) y lo que de verdad haces en las últimas cuatro semanas (pasos cerrados y días de diario), con una frase que lo resume. Cada meta dice además a qué ritmo va y cuánto le queda a ese ritmo. Construido por fases con Claude Code, con pruebas automáticas que demuestran que el resto de la app no se movió.",
+    "hito": true,
+    "etapa": "Nueva función",
+    "ia": [
+      "Claude Code"
+    ],
+    "capturas": [
+      "capturas/life-os/2026-11-20-life-os-te-ensena-donde-va-tu-atencion-1-donde-va-tu-atencion-1280.png",
+      "capturas/life-os/2026-11-20-life-os-te-ensena-donde-va-tu-atencion-2-el-ritmo-de-cada-meta-1280.png",
+      "capturas/life-os/2026-11-20-life-os-te-ensena-donde-va-tu-atencion-3-en-el-movil-390.png"
+    ]
+  },
+  {
     "id": "2026-11-15-pipi-detective-pistas-secretas-baile",
     "fecha": "2026-11-15",
     "proyecto": "tamagotchi",
